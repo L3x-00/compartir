@@ -23,7 +23,7 @@ export type DatosRevelacion =
   | { revelado: false; cerrado: false; fechaLimite: string }
   | { revelado: true; cerrado: true; emparejamientos: Emparejamiento[] };
 
-export type MiRegalo = { necesidad: NecesidadRegalo; regalador: { participanteId: string; nombre: string } };
+export type MiRegalo = { necesidad: NecesidadRegalo; regalador: { participanteId: string; nombre: string; fotoUrl: string | null } };
 
 export type ParticipantePanel = {
   id: string;

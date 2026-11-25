@@ -87,12 +87,14 @@
 .mi-panel-tarjeta .boton { justify-self: start; }
 .mi-panel-persona { display: flex; align-items: center; gap: .7rem; }
 .mi-panel-lista { margin: .2rem 0 .35rem; padding-left: 1.2rem; color: var(--texto-suave); font-size: .9rem; }
+.mi-panel-cambiar { display: grid; gap: .3rem; font-size: .85rem; font-weight: 750; }
+.mi-panel-cambiar select { width: 100%; max-width: 100%; min-width: 0; min-height: 44px; padding: .45rem .6rem; color: var(--texto); background: var(--fondo); border: 1px solid var(--linea); border-radius: var(--radius-control); font: inherit; }
 .estado-participante p { color: var(--texto-suave); max-width: 54ch; }
 .estado-participante > svg { color: var(--color-navidad-dorado-claro); }
 .regalo-vacio { width: 8rem; margin-top: -1.5rem; }
 .continuar-necesidades { display: flex; flex-wrap: wrap; align-items: center; justify-content: end; gap: .5rem 1rem; margin-top: 1.15rem; }
 .continuar-necesidades p { margin: 0; }
-@media (max-width: 47.99rem) {
+@media (max-width: 48rem) {
   .continuar-necesidades {
     position: sticky; z-index: 5; bottom: 0; display: grid; justify-content: stretch; text-align: center;
     padding: .8rem 0 max(.8rem, env(safe-area-inset-bottom));
@@ -210,6 +212,6 @@
   .etapas-pistas li { font-size: .76rem; }
   .puzzle-tablero { text-align: center; }
 }
-@media (max-width: 47.99rem) {
+@media (max-width: 48rem) {
   html:has(.continuar-necesidades) { scroll-padding-bottom: 8rem; }
 }

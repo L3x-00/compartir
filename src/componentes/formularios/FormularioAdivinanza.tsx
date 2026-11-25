@@ -9,6 +9,7 @@ import { toast } from "sonner";
 import { Navegacion } from "@/componentes/layout/Navegacion";
 import { BolaNieve } from "@/componentes/navideno/BolaNieve";
 import { Rompecabezas } from "@/componentes/navideno/Rompecabezas";
+import { AvatarPersona } from "@/componentes/ui/AvatarPersona";
 import { AvanceAutomatico } from "@/componentes/ui/AvanceAutomatico";
 import { Boton } from "@/componentes/ui/Boton";
 import { ContadorAnimado } from "@/componentes/ui/ContadorAnimado";
@@ -39,6 +40,7 @@ export function FormularioAdivinanza({ cantidadInicial, fechaLimite }: { cantida
   const [dialogo, cambiarDialogo] = useState<"confirmar" | "reintentar" | null>(null);
   const [seleccionado, elegir] = useState<ResultadoCoincidencia | null>(null);
   const [confirmado, confirmarEleccion] = useState(false);
+  const [revelado, cambiarRevelado] = useState<{ nombre: string; fotoUrl: string | null } | null>(null);
   const [buscando, cambiarBusqueda] = useState(false);
   const [confirmando, cambiarConfirmacion] = useState(false);
   const [error, cambiarError] = useState("");
@@ -108,8 +110,11 @@ export function FormularioAdivinanza({ cantidadInicial, fechaLimite }: { cantida
     cambiarConfirmacion(true);
     cambiarErrorDialogo("");
     try {
-      await pedir("/api/adivinanza/confirmar", conJSON("POST", { candidatoId: seleccionado.participanteId }));
+      const datos = await pedir<{ personaSecreta?: { nombre: string; fotoUrl: string | null } }>(
+        "/api/adivinanza/confirmar", conJSON("POST", { candidatoId: seleccionado.participanteId }),
+      );
       if (!montado.current) return;
+      if (datos.personaSecreta) cambiarRevelado(datos.personaSecreta);
       confirmarEleccion(true);
       celebrarPareja.current = true;
       cambiarDialogo(null);
@@ -176,6 +181,13 @@ export function FormularioAdivinanza({ cantidadInicial, fechaLimite }: { cantida
         <h2 id="titulo-coincidencias" tabIndex={-1} ref={(nodo) => { if (nodo && focoResultados.current) { focoResultados.current = false; nodo.focus(); } }}>
           {confirmado ? "¡Persona secreta elegida!" : "Tus mejores coincidencias"}
         </h2>
+        {confirmado && revelado && <motion.div className="revelacion-persona" role="status"
+          initial={reducido ? false : { opacity: 0, scale: .82, y: 14 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          transition={reducido ? { duration: 0 } : { type: "spring", stiffness: 170, damping: 18 }}>
+          <AvatarPersona nombre={revelado.nombre} fotoUrl={revelado.fotoUrl} grande />
+          <div><span>Tu persona secreta es</span><strong>{revelado.nombre}</strong></div>
+        </motion.div>}
         {confirmado ? <p role="status">Sabrás a quién le toca tu regalo cuando confirmes qué vas a llevar.</p>
           : <p>El porcentaje mide qué tan parecidas son las pistas. Dos perfiles pueden tener el mismo puntaje.</p>}
         {!confirmado && resultados.every(({ participanteId }) => ocupados.includes(participanteId)) &&

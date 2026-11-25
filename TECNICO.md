@@ -96,8 +96,9 @@ Semilla: `npm run db:seed` crea un evento con fecha futura, 5–8 participantes 
 | `POST /api/necesidades/subir-foto`, `GET /api/fotos/[archivo]` | Subida y servicio de imágenes. |
 | `GET/POST /api/pistas`, `GET /api/pistas/[participanteId]` | Guardado y consulta de pistas. |
 | `GET /api/adivinanza/candidatos`, `POST /api/adivinanza/coincidencias` | Top anónimo. |
-| `POST /api/adivinanza/confirmar`, `POST /api/adivinanza/reintentar` | Asignación única y liberación. |
-| `GET /api/regalos/necesidades-persona-secreta`, `POST /api/regalos/seleccionar`, `GET /api/regalos/mi-regalo` | Lista anónima, elección y resumen. |
+| `POST /api/adivinanza/confirmar`, `POST /api/adivinanza/reintentar` | Asignación única y liberación. La confirmación devuelve nombre y foto de la persona secreta para revelarla con animación. |
+| `GET /api/regalos/necesidades-persona-secreta`, `POST /api/regalos/seleccionar`, `GET /api/regalos/mi-regalo` | Lista de necesidades, elección y resumen. |
+| `POST /api/regalos/cambiar`, `DELETE /api/regalos/cambiar` | Cambiar o quitar el regalo elegido desde el panel, solo con evento abierto. |
 | `GET /api/revelacion` | Estado del evento y emparejamientos tras el cierre. |
 | `GET /api/admin/resumen`, `POST /api/admin/evento`, `POST /api/admin/cerrar` | Panel y configuración. Los totales excluyen al administrador. |
 | `GET /api/admin/pistas`, `POST /api/admin/pistas` | Consulta y corrección de las 14 pistas; solo participantes, no el administrador. |
@@ -149,7 +150,9 @@ Efectos destacados: regalo nevado con halo e inclinación de ratón; piezas que 
 
 Los toasts de éxito son verdes y los de error rojos; el foco visible cubre también `select`, `textarea` y `[tabindex]`; la tarjeta de regalo completa es un `label` que selecciona el radio. La fila de renos se desplaza en un carrusel continuo y el regalo de la portada es un botón que suelta chispas animadas; ambos se detienen con movimiento reducido.
 
-`/participar/mi-panel` presenta en una rejilla el perfil, necesidades, pistas, persona secreta, regalo elegido, DNI y lo recibido, con enlaces directos a los formularios de edición.
+`/participar/mi-panel` presenta en una rejilla el perfil, necesidades, pistas, persona secreta con foto, regalo elegido (con selector para cambiarlo y botón para quitarlo), DNI y lo recibido, con enlaces directos a los formularios de edición.
+
+La responsividad se apoya en breakpoints unificados (1024/768/375 px), grillas `minmax(min(100%,…),1fr)`, tablas convertidas a fichas por container query, imágenes `fill` con `aspect-ratio`, `overflow-wrap:anywhere` y áreas táctiles mínimas de 44 px, incluidos los controles de música y el deslizador de volumen.
 
 `src/lib/reglas.ts`, `src/lib/firmaSesion.ts` y `DELETE /api/fotos/[archivo]` completan la robustez: reglas en servidor, formato de cookie compartido entre Node y Edge y limpieza de fotos huérfanas. Los enlaces se validan con protocolo `http/https` y los límites salen de `LIMITES`.
 

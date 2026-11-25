@@ -52,8 +52,8 @@ Seguridad avanzada, email/SMS, recordatorios, exportación de datos, pantalla p�
 2. Se comparte el enlace; cada persona elige su nombre y confirma su PIN.
 3. Sube al menos tres necesidades (foto y enlace opcionales).
 4. Completa las 14 pistas en cuatro secciones; al terminar cada sección su pieza encaja con un chasquido y un destello.
-5. ARM el rompecabezas de pistas: selecciona rasgos, ve el top 3 anónimo con porcentajes y confirma a su persona secreta, o reintenta.
-6. Ve las necesidades de esa persona sin su nombre y elige una. Al confirmar, la tarjeta se envuelve y se convierte en la caja de la pantalla de espera.
+5. ARM el rompecabezas de pistas: selecciona rasgos, ve el top 3 anónimo con porcentajes y confirma a su persona secreta, o reintenta. Al confirmar, la identidad y la foto se revelan con una animación suave.
+6. Ve las necesidades de esa persona y elige una. Al confirmar, la tarjeta se envuelve y se convierte en la caja de la pantalla de espera. Después puede cambiarla o quitarla desde su panel mientras el evento esté abierto.
 7. Recibe un resumen con **a quién regalar** y **qué llevar**. Puede agitar la bola de nieve mientras espera; el reloj sigue visible.
 8. Al vencer el plazo o cerrar el admin, se calculan los emparejamientos y se abre la revelación: carta personal, listado familiar y despedida.
 9. La entrega y la apertura se hacen en persona.
@@ -70,7 +70,7 @@ Seguridad avanzada, email/SMS, recordatorios, exportación de datos, pantalla p�
 | `/participar/pistas` | Editor de 14 pistas en 4 pasos, borrador local, piezas del rompecabezas y contador. |
 | `/participar/adivinar` | Rompecabezas, comparación anónima, top 3, confirmación y reintento. |
 | `/participar/regalar` | Lista anónima de necesidades con foto/enlace, selección única, confirmación y envoltura animada. |
-| `/participar/mi-panel` | Resumen editable del participante: perfil y foto, necesidades, 14 características, persona secreta, regalo elegido, DNI configurado y lo que recibe tras el cierre. |
+| `/participar/mi-panel` | Resumen editable del participante: perfil y foto, necesidades, 14 características, persona secreta con foto, regalo elegido (cambiar/quitar), DNI configurado y lo que recibe tras el cierre. |
 | `/participar/revelacion` | Antes del cierre: resumen personal, caja, bola de nieve agitables y cuenta regresiva. Después: ceremonia personal para el participante (quién lo eligió y qué recibe) y emparejamientos completos solo para el administrador. |
 | `/panel` | Totales, pendientes, tabla adaptable con foto de cada persona, búsqueda, filtros, emparejamientos y pestaña **Pistas** para corregir sus 14 características. |
 | `/panel/evento` | Cambio de nombre y fecha en hora de Lima, vista previa y cierre con doble confirmación. |
@@ -87,7 +87,8 @@ Seguridad avanzada, email/SMS, recordatorios, exportación de datos, pantalla p�
 - **Reglas en servidor**: adivinar, confirmar y elegir regalo exigen al menos tres necesidades y las 14 pistas completas, aunque se llame a la API directamente.
 - **Reasignación del organizador**: si el reparto libre deja personas sin candidato, el panel permite asignarlas manualmente.
 - **Seguridad mínima**: PIN del administrador y DNI del participante hasheados; revelación completa restringida al panel; cada participante ve solo su propia ceremonia.
-- **Detalles visuales**: los renos del cierre desfilan en un carrusel continuo y el regalo grande suelta chispas navideñas al tocarlo, con respeto a movimiento reducido.
+- **Detalles visuales**: los renos del cierre desfilan en un carrusel continuo, el regalo grande suelta chispas navideñas al tocarlo y la persona secreta se revela con foto y animación suave al confirmarla. Todo respeta movimiento reducido.
+- **Responsividad**: diseño mobile-first de 320 px en adelante; tablas que se convierten en fichas, grillas adaptativas, controles táctiles de al menos 44 px y breakpoints unificados en 1024/768/375 px.
 - **Corrección de pistas en el panel**: el administrador ve y edita las 14 pistas de cada familiar con controles nativos y guarda el cambio sin salir del panel.
 - **Necesidades**: CRUD propio con validación Zod, subida JPG/PNG/WebP de hasta 10 MB, nombre de archivo generado, bloqueo de borrado si ya fue regalada.
 - **Pistas**: 14 campos (físico, personalidad, gustos, dato curioso), guardado como JSON y validado en servidor.

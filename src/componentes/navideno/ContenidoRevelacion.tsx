@@ -7,6 +7,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { ArrowLeft, ArrowRight, Gift, Heart, List, Sparkles, TreePine, Volume2 } from "lucide-react";
 import { Navegacion } from "@/componentes/layout/Navegacion";
 import { AvatarInicial } from "@/componentes/ui/AvatarInicial";
+import { AvatarPersona } from "@/componentes/ui/AvatarPersona";
 import { Boton } from "@/componentes/ui/Boton";
 import { usarConfeti } from "@/hooks/usarConfeti";
 import { usarReducirMovimiento } from "@/hooks/usarReducirMovimiento";
@@ -139,7 +140,7 @@ export function ContenidoRevelacion({ emparejamientos, participanteId, regaloEle
             animate={{ opacity: 1, y: 0, rotate: 0, scale: 1 }}
             transition={reducido ? { duration: 0 } : { delay: animar ? .48 : 0, type: "spring", stiffness: 170, damping: 19 }}>
             {nombre ? <>
-              <AvatarInicial nombre={nombre} grande />
+              <AvatarPersona nombre={nombre} fotoUrl={regalo?.regalador.fotoUrl} grande />
               <h2>{nombre}</h2>
               {regalo ? <div className="detalle-regalo-revelado">
                 {foto && <div className="foto-necesidad"><Image src={foto} alt="" fill unoptimized sizes="(max-width: 650px) 75vw, 290px" /></div>}

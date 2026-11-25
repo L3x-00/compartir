@@ -16,10 +16,16 @@ export async function POST(peticion: Request) {
     const datos = await prisma.$transaction(async (transaccion) => {
       const jugador = await transaccion.participante.findUniqueOrThrow({ where: { id: sesion.participanteId } });
       // Repetir la misma confirmación no duplica intentos; cambiarla exige reintentar.
-      if (jugador.personaSecretaId === candidatoId) return { personaSecretaId: candidatoId };
+      if (jugador.personaSecretaId === candidatoId) {
+        const yaElegido = await transaccion.participante.findUniqueOrThrow({
+          where: { id: candidatoId }, select: { nombre: true, fotoUrl: true },
+        });
+        return { personaSecretaId: candidatoId, personaSecreta: { id: candidatoId, ...yaElegido } };
+      }
       if (jugador.personaSecretaId) throw NextResponse.json({ ok: false, error: "Ya confirmaste una persona secreta. Usa Reintentar para cambiarla." }, { status: 409 });
       const candidato = await transaccion.participante.findFirst({
-        where: { id: candidatoId, eventoId: sesion.eventoId }, select: { pistas: { select: { datos: true } } },
+        where: { id: candidatoId, eventoId: sesion.eventoId },
+        select: { nombre: true, fotoUrl: true, pistas: { select: { datos: true } } },
       });
       if (!candidato?.pistas || !leerPistasCompletas(candidato.pistas.datos)) throw NextResponse.json({ ok: false, error: "No encontramos a ese participante con pistas completas." }, { status: 404 });
       const elegido = await transaccion.participante.findFirst({ where: { eventoId: sesion.eventoId, personaSecretaId: candidatoId } });
@@ -30,7 +36,10 @@ export async function POST(peticion: Request) {
       });
       if (!actualizado.count) throw NextResponse.json({ ok: false, error: MENSAJES.EVENTO_CERRADO }, { status: 403 });
       await transaccion.intentoAdivinanza.create({ data: { participanteId: sesion.participanteId, candidatoId, acierto: true } });
-      return { personaSecretaId: candidatoId };
+      return {
+        personaSecretaId: candidatoId,
+        personaSecreta: { id: candidatoId, nombre: candidato.nombre, fotoUrl: candidato.fotoUrl },
+      };
     });
     return NextResponse.json({ ok: true, datos });
   } catch (error) {
