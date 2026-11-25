@@ -18,6 +18,7 @@ import { usarSesion } from "@/hooks/usarSesion";
 import { usarSonido } from "@/hooks/usarSonido";
 import { usarConfeti } from "@/hooks/usarConfeti";
 import { usarReducirMovimiento } from "@/hooks/usarReducirMovimiento";
+import { MENSAJES } from "@/lib/constantes";
 import "../participar/participante.css";
 
 function destino(admin: boolean, cerrado: boolean, regaloElegido: boolean) {
@@ -143,6 +144,7 @@ export default function PaginaIngreso() {
         { ...opciones, signal: solicitud.signal },
       );
       cambiarExito(true);
+      cambiarEnvio(false);
       reproducir("acierto");
       void lanzarConfeti({ particleCount: 30 });
       if (!admin && datos.esReingreso) cambiarIrAPanel(true);
@@ -158,6 +160,8 @@ export default function PaginaIngreso() {
         cambiarErrorDni(fallo.message);
         entradaDni.current?.focus();
         entradaDni.current?.select();
+      } else if (!admin && fallo instanceof ErrorParticipante && fallo.estado === 403 && fallo.message === MENSAJES.EVENTO_CERRADO) {
+        cambiarError("La elección ya cerró. Si ya eras participante, ingresa con tu DNI para ver tu panel.");
       } else {
         cambiarError(fallo instanceof ErrorParticipante ? fallo.message : "No pudimos ingresar. Intenta otra vez.");
       }
@@ -187,7 +191,12 @@ export default function PaginaIngreso() {
       <p>{admin ? "Escribe tu nombre y PIN para abrir el panel." : fotoOpcional
         ? "Tu nombre ya está registrado y tienes una foto guardada. Ingresa con tu DNI para abrir tu panel del participante."
         : "Escribe tu nombre, tu DNI de 8 números y agrega una foto tuya. El DNI será tu clave para volver a entrar."}</p>
-      {!enviando && sesion ? <div className="estado-ingreso" role="status"><Cargador tamano="lg" etiqueta="Preparando el ingreso" /></div> :
+      {!enviando && (sesion || exito) ? <div className="estado-ingreso" role="status">
+        <Cargador tamano="lg" etiqueta="Preparando tu ingreso" />
+        {exito && <Link className="boton boton-dorado" href={irAPanel ? "/participar/mi-panel" : admin ? "/panel" : "/participar/necesidades"}>
+          Continuar <ArrowRight size={18} aria-hidden="true" />
+        </Link>}
+      </div> :
         <form className="ingreso-formulario" onSubmit={(formulario) => void ingresar(formulario)} noValidate>
           <Entrada ref={entradaNombre} etiqueta={admin ? "Nombre del administrador" : "Tu nombre completo"} name="nombre"
             autoComplete={admin ? "username" : "name"} maxLength={50} icono={UserRound} value={nombre} disabled={enviando}

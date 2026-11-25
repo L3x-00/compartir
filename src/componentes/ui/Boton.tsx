@@ -46,6 +46,12 @@ export function Boton({ variante = "primario", cargando = false, icono: Icono, c
     }
     cambiarPulsado(true);
     reloj.current = setTimeout(() => { reloj.current = null; cambiarPulsado(false); }, VENTANA_DOBLE_TOQUE);
+    if (type === "submit" && !onClick) {
+      // El submit explícito evita que el cambio de disabled cancele la acción por defecto.
+      evento.preventDefault();
+      evento.currentTarget.form?.requestSubmit();
+      return;
+    }
     onClick?.(evento);
   }
 
