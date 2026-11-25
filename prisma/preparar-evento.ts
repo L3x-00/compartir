@@ -2,7 +2,7 @@ import { existsSync } from "node:fs";
 import { loadEnvFile } from "node:process";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
-import { esquemaIngresoAdmin, esquemaRegistroParticipante, normalizarNombre } from "@/lib/validaciones/participante";
+import { esquemaIngresoAdmin, esquemaNombreParticipante, normalizarNombre } from "@/lib/validaciones/participante";
 import { hashPin } from "@/lib/pin";
 
 if (existsSync(".env")) loadEnvFile(".env");
@@ -17,7 +17,7 @@ async function preparar() {
   const configurada = process.env.FECHA_LIMITE;
   const fechaLimite = configurada ? new Date(configurada) : new Date(Date.now() + 7 * 86400_000);
   const entrada = JSON.parse(process.env.PARTICIPANTES_JSON || "[]") as unknown;
-  const invitados = z.array(esquemaRegistroParticipante).parse(entrada);
+  const invitados = z.array(esquemaNombreParticipante).parse(entrada);
   const claveNombre = (valor: string) => normalizarNombre(valor).toLocaleLowerCase("es");
   if (new Set(invitados.map((p) => claveNombre(p.nombre))).size !== invitados.length) {
     throw new Error("PARTICIPANTES_JSON contiene nombres repetidos.");

@@ -90,7 +90,7 @@ Semilla: `npm run db:seed` crea un evento con fecha futura, 5–8 participantes 
 |---|---|
 | `POST /api/auth/ingresar`, `GET /api/auth/sesion`, `POST /api/auth/salir` | Sesión por nombre y PIN. |
 | `GET /api/participantes` | Evento activo y su fecha límite. |
-| `POST /api/participantes` | Registro o reingreso por `FormData` con `nombre` y `foto`. La foto es obligatoria solo si no existe o no tiene imagen; al reingresar se conserva. |
+| `POST /api/participantes` | Registro o reingreso por `FormData` con `nombre`, `dni` y `foto`. Valida el DNI con hash; si el nombre ya existe y el DNI no coincide devuelve 401 con mensaje amigable. La foto es obligatoria solo en el registro nuevo. |
 | `GET /api/participantes/existe?nombre=` | Consulta ligera para saber si el nombre ya está registrado y tiene foto, sin crear sesión. |
 | `GET/POST /api/necesidades`, `GET/PATCH/DELETE /api/necesidades/[id]` | CRUD de necesidades. |
 | `POST /api/necesidades/subir-foto`, `GET /api/fotos/[archivo]` | Subida y servicio de imágenes. |
@@ -110,7 +110,7 @@ Cada handler verifica sesión, valida el cuerpo con Zod y delega la lógica a `s
 
 ## 5. Autenticación, sesión y evento
 
-- Sin email: el participante elige su nombre y confirma un PIN de 4 dígitos. El admin usa nombre y PIN propios (`PIN_ADMIN`).
+- Sin email: el participante se registra con nombre, **DNI de 8 dígitos** y foto; el DNI se guarda hasheado en el campo `pin` y se pide al reingresar. El admin usa nombre y PIN de 4 dígitos (`PIN_ADMIN`).
 - El PIN del administrador se guarda como `sal:hash` con `scrypt` (`src/lib/pin.ts`); la comparación usa `timingSafeEqual`. Si existe un PIN antiguo en texto, el primer ingreso lo acepta y lo migra a hash automáticamente.
 - `/api/revelacion` exige administrador: los participantes reciben su ceremonia personal desde `/api/regalos/mi-regalo` y nunca el listado completo.
 - La cookie firmada con `SECRETO_SESION` es `HttpOnly`, `SameSite=Lax` y `Secure` en producción; contiene el id del participante o el rol de administrador.
@@ -147,7 +147,9 @@ Efectos destacados: regalo nevado con halo e inclinación de ratón; piezas que 
 
 `Boton` centraliza la protección contra doble toque: ignora clics repetidos durante 400 ms, deshabilita el control mientras se procesa y libera el bloqueo en cuanto `cargando` vuelve a `false`. `AvanceAutomatico` sustituye las redirecciones silenciosas por una cuenta visible y cancelable; se usa al guardar pistas, elegir regalo, confirmar candidato, cerrar evento y guardar ajustes.
 
-Los toasts de éxito son verdes y los de error rojos; el foco visible cubre también `select`, `textarea` y `[tabindex]`; la tarjeta de regalo completa es un `label` que selecciona el radio.
+Los toasts de éxito son verdes y los de error rojos; el foco visible cubre también `select`, `textarea` y `[tabindex]`; la tarjeta de regalo completa es un `label` que selecciona el radio. La fila de renos se desplaza en un carrusel continuo y el regalo de la portada es un botón que suelta chispas animadas; ambos se detienen con movimiento reducido.
+
+`/participar/mi-panel` presenta en una rejilla el perfil, necesidades, pistas, persona secreta, regalo elegido, DNI y lo recibido, con enlaces directos a los formularios de edición.
 
 `src/lib/reglas.ts`, `src/lib/firmaSesion.ts` y `DELETE /api/fotos/[archivo]` completan la robustez: reglas en servidor, formato de cookie compartido entre Node y Edge y limpieza de fotos huérfanas. Los enlaces se validan con protocolo `http/https` y los límites salen de `LIMITES`.
 

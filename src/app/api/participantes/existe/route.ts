@@ -1,14 +1,14 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { obtenerEventoActivo } from "@/lib/evento";
-import { esquemaRegistroParticipante, normalizarNombre } from "@/lib/validaciones/participante";
+import { esquemaNombreParticipante, normalizarNombre } from "@/lib/validaciones/participante";
 import { responderError } from "@/lib/auth";
 
 /** Comprobación ligera para no exigir una foto nueva a quien ya está registrado. */
 export async function GET(peticion: Request) {
   try {
     const nombre = new URL(peticion.url).searchParams.get("nombre") ?? "";
-    const valido = esquemaRegistroParticipante.safeParse({ nombre });
+    const valido = esquemaNombreParticipante.safeParse({ nombre });
     if (!valido.success) return NextResponse.json({ ok: true, datos: { existe: false, tieneFoto: false, esAdmin: false } });
     const evento = await obtenerEventoActivo();
     if (!evento) return NextResponse.json({ ok: true, datos: { existe: false, tieneFoto: false, esAdmin: false } });

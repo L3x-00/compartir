@@ -5,6 +5,9 @@ import { obtenerEventoActivo, verificarCierreAutomatico } from "@/lib/evento";
 import { esquemaRegistroParticipante, normalizarNombre } from "@/lib/validaciones/participante";
 import { eliminarFoto, guardarFoto } from "@/lib/archivos";
 import { MENSAJES } from "@/lib/constantes";
+import { hashPin, verificarPin } from "@/lib/pin";
+
+const DNI_INCORRECTO = "Ese nombre ya está registrado. Ingresa con tu DNI para abrir tu panel.";
 
 export async function GET() {
   try {
@@ -25,19 +28,22 @@ export async function POST(peticion: Request) {
   try {
     let nombre: unknown;
     let foto: unknown;
+    let dni: unknown;
     const tipo = peticion.headers.get("content-type") ?? "";
     if (tipo.includes("multipart/form-data")) {
       let formulario: FormData;
       try { formulario = await peticion.formData(); }
-      catch { return NextResponse.json({ ok: false, error: "Envía tu nombre y tu foto como un formulario." }, { status: 400 }); }
+      catch { return NextResponse.json({ ok: false, error: "Envía tu nombre, tu foto y tu DNI como un formulario." }, { status: 400 }); }
       nombre = formulario.get("nombre");
       foto = formulario.get("foto");
+      dni = formulario.get("dni");
     } else {
-      const cuerpo = await leerJSON(peticion) as { nombre?: unknown };
+      const cuerpo = await leerJSON(peticion) as { nombre?: unknown; dni?: unknown };
       nombre = cuerpo.nombre;
+      dni = cuerpo.dni;
       foto = null;
     }
-    const { nombre: nombreLimpio } = esquemaRegistroParticipante.parse({ nombre });
+    const { nombre: nombreLimpio, dni: dniLimpio } = esquemaRegistroParticipante.parse({ nombre, dni });
 
     const encontrado = await obtenerEventoActivo();
     if (!encontrado) return NextResponse.json({ ok: false, error: "Aún no hay un evento creado. Pídele al organizador que lo prepare." }, { status: 404 });
@@ -45,7 +51,7 @@ export async function POST(peticion: Request) {
     const nombreBuscado = nombreLimpio.toLocaleLowerCase("es");
     const existentes = await prisma.participante.findMany({
       where: { eventoId: evento.id },
-      select: { id: true, nombre: true, esAdmin: true, fotoUrl: true, regaloSeleccionado: { select: { id: true } } },
+      select: { id: true, nombre: true, esAdmin: true, fotoUrl: true, pin: true, regaloSeleccionado: { select: { id: true } } },
     });
     const anterior = existentes.find((p) => normalizarNombre(p.nombre).toLocaleLowerCase("es") === nombreBuscado) ?? null;
 
@@ -55,6 +61,10 @@ export async function POST(peticion: Request) {
     if (!anterior && (evento.cerrado || evento.fechaLimite.getTime() <= Date.now())) {
       return NextResponse.json({ ok: false, error: MENSAJES.EVENTO_CERRADO }, { status: 403 });
     }
+    if (anterior?.pin && !verificarPin(anterior.pin, dniLimpio)) {
+      return NextResponse.json({ ok: false, error: DNI_INCORRECTO }, { status: 401 });
+    }
+    const pinInicial = anterior?.pin ? null : hashPin(dniLimpio);
 
     const usaFoto = foto instanceof File;
     if ((!anterior || !anterior.fotoUrl) && !usaFoto) {
@@ -67,10 +77,12 @@ export async function POST(peticion: Request) {
     try {
       const participante = anterior
         ? await prisma.participante.update({
-          where: { id: anterior.id }, data: usaFoto ? { fotoUrl: urlFoto } : {}, select: { id: true, nombre: true, fotoUrl: true },
+          where: { id: anterior.id },
+          data: { ...(usaFoto ? { fotoUrl: urlFoto } : {}), ...(pinInicial ? { pin: pinInicial } : {}) },
+          select: { id: true, nombre: true, fotoUrl: true },
         })
         : await prisma.participante.create({
-          data: { nombre: nombreLimpio, eventoId: evento.id, esAdmin: false, pin: "", fotoUrl: urlFoto },
+          data: { nombre: nombreLimpio, eventoId: evento.id, esAdmin: false, pin: pinInicial ?? hashPin(dniLimpio), fotoUrl: urlFoto },
           select: { id: true, nombre: true, fotoUrl: true },
         });
       confirmada = true;
@@ -78,7 +90,7 @@ export async function POST(peticion: Request) {
       await crearSesion(participante.id, evento.id, false);
       return NextResponse.json({ ok: true, datos: {
         participanteId: participante.id, nombre: participante.nombre, cerrado: evento.cerrado,
-        tieneRegaloSeleccionado: Boolean(anterior?.regaloSeleccionado),
+        tieneRegaloSeleccionado: Boolean(anterior?.regaloSeleccionado), esReingreso: !!anterior,
       } }, { status: anterior ? 200 : 201 });
     } catch (error) {
       if (!confirmada && guardado?.ok) await eliminarFoto(guardado.url).catch(() => undefined);

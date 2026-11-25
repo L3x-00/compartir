@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { LogOut, Volume2, VolumeX, Pause, Play, ArrowUpRight, Crown } from "lucide-react";
+import { LogOut, Volume2, VolumeX, Pause, Play, ArrowUpRight, Crown, IdCard } from "lucide-react";
 import { toast } from "sonner";
 import { usarSesion } from "@/hooks/usarSesion";
 import { usarSonido } from "@/hooks/usarSonido";
@@ -26,7 +26,9 @@ export function Encabezado() {
         {sesion?.esAdmin && <Link className="control-icono" href="/panel" aria-label="Panel de administrador"><Crown size={18} aria-hidden="true" /></Link>}
         <button className="control-icono" type="button" aria-label={silenciado ? "Activar sonido" : "Silenciar sonido"} onClick={silenciar}>{silenciado ? <VolumeX size={18} aria-hidden="true" /> : <Volume2 size={18} aria-hidden="true" />}</button>
         <button className="control-icono" type="button" aria-label={pausado ? "Reanudar efectos" : "Pausar efectos"} onClick={pausar}>{pausado ? <Play size={17} aria-hidden="true" /> : <Pause size={17} aria-hidden="true" />}</button>
-        {sesion ? <><span className="nombre-sesion">{sesion.nombre}</span><button type="button" className="control-icono" disabled={saliendo} aria-label="Cerrar sesión" onClick={() => void salir()}><LogOut size={19} aria-hidden="true" /></button></> : <Link href="/ingresar" className="enlace-ingresar">Ingresar <ArrowUpRight size={15} aria-hidden="true" /></Link>}
+        {sesion ? <><span className="nombre-sesion">{sesion.nombre}</span>
+          {!sesion.esAdmin && <Link className="control-icono" href="/participar/mi-panel" aria-label="Mi panel"><IdCard size={18} aria-hidden="true" /></Link>}
+          <button type="button" className="control-icono" disabled={saliendo} aria-label="Cerrar sesión" onClick={() => void salir()}><LogOut size={19} aria-hidden="true" /></button></> : <Link href="/ingresar" className="enlace-ingresar">Ingresar <ArrowUpRight size={15} aria-hidden="true" /></Link>}
       </nav>
     </div>
   </motion.header>;

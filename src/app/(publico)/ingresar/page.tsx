@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { motion, useAnimationControls } from "framer-motion";
-import { ArrowLeft, ArrowRight, Check, LockKeyhole, UserRound } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, IdCard, LockKeyhole, UserRound } from "lucide-react";
 import { Encabezado } from "@/componentes/layout/Encabezado";
 import { PiePagina } from "@/componentes/layout/PiePagina";
 import { Boton } from "@/componentes/ui/Boton";
@@ -35,25 +35,29 @@ export default function PaginaIngreso() {
   const [admin, cambiarAdmin] = useState(false);
   const [nombre, cambiarNombre] = useState("");
   const [pin, cambiarPin] = useState("");
+  const [dni, cambiarDni] = useState("");
   const [foto, cambiarFoto] = useState<File | null>(null);
   const [reingreso, cambiarReingreso] = useState<{ existe: boolean; tieneFoto: boolean; esAdmin: boolean } | null>(null);
   const [errorFoto, cambiarErrorFoto] = useState("");
   const [errorNombre, cambiarErrorNombre] = useState("");
   const [errorPin, cambiarErrorPin] = useState("");
+  const [errorDni, cambiarErrorDni] = useState("");
   const [error, cambiarError] = useState("");
   const [enviando, cambiarEnvio] = useState(false);
   const [exito, cambiarExito] = useState(false);
+  const [irAPanel, cambiarIrAPanel] = useState(false);
   const entradaNombre = useRef<HTMLInputElement>(null);
   const entradaPin = useRef<HTMLInputElement>(null);
+  const entradaDni = useRef<HTMLInputElement>(null);
   const entradaFoto = useRef<HTMLInputElement>(null);
   const peticion = useRef<AbortController | null>(null);
 
   useEffect(() => () => peticion.current?.abort(), []);
   useEffect(() => {
     if (sesion && !cargando && !enviando) {
-      router.replace(destino(sesion.esAdmin, sesion.evento.cerrado, sesion.tieneRegaloSeleccionado));
+      router.replace(irAPanel ? "/participar/mi-panel" : destino(sesion.esAdmin, sesion.evento.cerrado, sesion.tieneRegaloSeleccionado));
     }
-  }, [sesion, cargando, enviando, router]);
+  }, [sesion, cargando, enviando, router, irAPanel]);
 
   useEffect(() => {
     if (admin || nombre.trim().length < 2) { cambiarReingreso(null); return; }
@@ -72,11 +76,14 @@ export default function PaginaIngreso() {
   function alternarModo() {
     cambiarAdmin(!admin);
     cambiarPin("");
+    cambiarDni("");
     cambiarFoto(null);
     cambiarReingreso(null);
+    cambiarIrAPanel(false);
     cambiarErrorFoto("");
     cambiarErrorNombre("");
     cambiarErrorPin("");
+    cambiarErrorDni("");
     cambiarError("");
     reproducir("click");
     entradaNombre.current?.focus();
@@ -88,6 +95,7 @@ export default function PaginaIngreso() {
     cambiarError("");
     cambiarErrorNombre("");
     cambiarErrorPin("");
+    cambiarErrorDni("");
     cambiarErrorFoto("");
     const limpio = nombre.trim();
     if (limpio.length < 2 || limpio.length > 50) {
@@ -99,6 +107,12 @@ export default function PaginaIngreso() {
     if (admin && !/^\d{4}$/.test(pin)) {
       cambiarErrorPin("Escribe los cuatro números del PIN.");
       entradaPin.current?.focus();
+      reproducir("error");
+      return;
+    }
+    if (!admin && !/^\d{8}$/.test(dni)) {
+      cambiarErrorDni("Escribe tu DNI de 8 números.");
+      entradaDni.current?.focus();
       reproducir("error");
       return;
     }
@@ -120,22 +134,30 @@ export default function PaginaIngreso() {
       } else {
         const cuerpo = new FormData();
         cuerpo.append("nombre", limpio);
+        cuerpo.append("dni", dni);
         if (foto) cuerpo.append("foto", foto);
         opciones = { method: "POST", body: cuerpo };
       }
-      const datos = await pedir<{ cerrado?: boolean; tieneRegaloSeleccionado?: boolean }>(
+      const datos = await pedir<{ cerrado?: boolean; tieneRegaloSeleccionado?: boolean; esReingreso?: boolean }>(
         admin ? "/api/auth/ingresar" : "/api/participantes",
         { ...opciones, signal: solicitud.signal },
       );
       cambiarExito(true);
       reproducir("acierto");
       void lanzarConfeti({ particleCount: 30 });
+      if (!admin && datos.esReingreso) cambiarIrAPanel(true);
       await refrescar();
-      if (!solicitud.signal.aborted) router.replace(destino(admin, !!datos.cerrado, !!datos.tieneRegaloSeleccionado));
+      if (!solicitud.signal.aborted) {
+        router.replace(!admin && datos.esReingreso ? "/participar/mi-panel" : destino(admin, !!datos.cerrado, !!datos.tieneRegaloSeleccionado));
+      }
     } catch (fallo) {
       if (solicitud.signal.aborted) return;
       if (admin && fallo instanceof ErrorParticipante && fallo.estado === 401) {
         cambiarErrorPin("Revisa el nombre del administrador y su PIN.");
+      } else if (!admin && fallo instanceof ErrorParticipante && fallo.estado === 401) {
+        cambiarErrorDni(fallo.message);
+        entradaDni.current?.focus();
+        entradaDni.current?.select();
       } else {
         cambiarError(fallo instanceof ErrorParticipante ? fallo.message : "No pudimos ingresar. Intenta otra vez.");
       }
@@ -149,6 +171,9 @@ export default function PaginaIngreso() {
   useEffect(() => {
     if (errorPin && !enviando) { entradaPin.current?.focus(); entradaPin.current?.select(); }
   }, [errorPin, enviando]);
+  useEffect(() => {
+    if (errorDni && !enviando) { entradaDni.current?.focus(); entradaDni.current?.select(); }
+  }, [errorDni, enviando]);
 
   const fotoOpcional = !admin && !!reingreso?.existe && reingreso.tieneFoto && !reingreso.esAdmin;
   return <><Encabezado /><main id="contenido" className="pagina-ingreso"><div className="contenedor ingreso-rejilla">
@@ -160,8 +185,8 @@ export default function PaginaIngreso() {
     <motion.section className="ingreso-tarjeta" initial={false} animate={controles} aria-labelledby="titulo-ingreso">
       <h1 id="titulo-ingreso">{admin ? "Acceso del administrador" : "¿Cómo te llamas?"}</h1>
       <p>{admin ? "Escribe tu nombre y PIN para abrir el panel." : fotoOpcional
-        ? "Tu nombre ya está registrado y tienes una foto guardada. Puedes continuar o elegir una nueva."
-        : "Escribe tu nombre completo y agrega una foto tuya. Si ya participas, usa el mismo nombre para continuar."}</p>
+        ? "Tu nombre ya está registrado y tienes una foto guardada. Ingresa con tu DNI para abrir tu panel del participante."
+        : "Escribe tu nombre, tu DNI de 8 números y agrega una foto tuya. El DNI será tu clave para volver a entrar."}</p>
       {!enviando && sesion ? <div className="estado-ingreso" role="status"><Cargador tamano="lg" etiqueta="Preparando el ingreso" /></div> :
         <form className="ingreso-formulario" onSubmit={(formulario) => void ingresar(formulario)} noValidate>
           <Entrada ref={entradaNombre} etiqueta={admin ? "Nombre del administrador" : "Tu nombre completo"} name="nombre"
@@ -170,6 +195,10 @@ export default function PaginaIngreso() {
           {admin && <Entrada ref={entradaPin} etiqueta="PIN del administrador" name="pin" variante="pin" inputMode="numeric"
             autoComplete="current-password" maxLength={4} value={pin} disabled={enviando}
             onChange={(e) => { cambiarPin(e.target.value.replace(/\D/g, "")); cambiarErrorPin(""); cambiarError(""); }} error={errorPin} required />}
+          {!admin && <Entrada ref={entradaDni} etiqueta="Tu DNI" name="dni" icono={IdCard} inputMode="numeric"
+            autoComplete="off" maxLength={8} value={dni} disabled={enviando}
+            ayuda="Ocho números de tu documento. Te servirá para volver a entrar y editar tus datos."
+            onChange={(e) => { cambiarDni(e.target.value.replace(/\D/g, "")); cambiarErrorDni(""); cambiarError(""); }} error={errorDni} required />}
           {!admin && <div className="ingreso-foto">
             <SubidorFoto ref={entradaFoto} archivo={foto} requerida={!fotoOpcional} deshabilitado={enviando}
               alElegir={(archivo) => { cambiarFoto(archivo); cambiarErrorFoto(""); reproducir("click"); }}
@@ -178,7 +207,7 @@ export default function PaginaIngreso() {
           </div>}
           {error && <p className="campo-error" role="alert">{error}</p>}
           <Boton type="submit" variante="dorado" icono={exito ? Check : ArrowRight} cargando={enviando && !exito} disabled={exito}>
-            {exito ? "¡Ya estás dentro!" : admin ? "Abrir panel" : "Entrar al juego"}
+            {exito ? "¡Ya estás dentro!" : admin ? "Abrir panel" : reingreso?.existe ? "Abrir mi panel" : "Entrar al juego"}
           </Boton>
         </form>}
       <div className="ingreso-volver ingreso-enlaces">

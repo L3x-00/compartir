@@ -79,6 +79,14 @@
 .acciones-necesidad .boton { flex: 1 1 auto; padding-inline: .65rem; }
 .estado-participante { display: grid; justify-items: center; text-align: center; gap: .85rem; padding-block: clamp(1.5rem, 5vw, 3rem); }
 .estado-participante h2, .estado-participante p { margin: 0; }
+.mi-panel-rejilla { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr)); gap: .85rem; margin-top: 1rem; }
+.mi-panel-tarjeta { display: grid; align-content: start; gap: .55rem; }
+.mi-panel-tarjeta h2 { display: flex; align-items: center; gap: .45rem; font-size: 1.35rem; margin: 0; }
+.mi-panel-tarjeta h2 svg { color: var(--color-navidad-dorado-claro); }
+.mi-panel-tarjeta p { margin: 0; color: var(--texto-suave); }
+.mi-panel-tarjeta .boton { justify-self: start; }
+.mi-panel-persona { display: flex; align-items: center; gap: .7rem; }
+.mi-panel-lista { margin: .2rem 0 .35rem; padding-left: 1.2rem; color: var(--texto-suave); font-size: .9rem; }
 .estado-participante p { color: var(--texto-suave); max-width: 54ch; }
 .estado-participante > svg { color: var(--color-navidad-dorado-claro); }
 .regalo-vacio { width: 8rem; margin-top: -1.5rem; }

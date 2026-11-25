@@ -21,7 +21,7 @@ La entrega y la apertura de los regalos **son presenciales**: el sistema entrega
 Hacer que el intercambio sea divertido y anónimo durante el juego, con fricción mínima para familiares no técnicos y sin infraestructura adicional.
 
 ### Incluido
-- Registro por nombre **con foto obligatoria**; el reingreso con el mismo nombre conserva la foto existente y permite cambiarla si se desea. PIN de 4 dígitos para el administrador.
+- Registro por **nombre + DNI de 8 dígitos + foto obligatoria**. El DNI es la clave del participante; al reingresar se pide el DNI, se conserva la foto y se abre su panel personal. PIN de 4 dígitos para el administrador.
 - Acceso administrativo separado con nombre y PIN propios.
 - Necesidades (mínimo 3 por persona) con nombre, descripción, foto opcional y enlace opcional.
 - Pistas fijas e idénticas para todos: 14 campos en 4 secciones, 100 % selección.
@@ -65,11 +65,12 @@ Seguridad avanzada, email/SMS, recordatorios, exportación de datos, pantalla p�
 | Ruta | Contenido |
 |---|---|
 | `/` | Portada: regalo SVG nevado con halo cálido e inclinación al cursor en escritorio, nieve, estrellas, reglas, fecha real del evento y acceso. |
-| `/ingresar` | Registro o reingreso por nombre con foto obligatoria (JPG/PNG/WebP, hasta 10 MB); acceso administrativo separado con PIN. |
+| `/ingresar` | Registro por nombre, DNI de 8 dígitos y foto obligatoria (JPG/PNG/WebP, hasta 10 MB). Si el nombre ya existe, pide el DNI y abre el panel del participante; acceso administrativo aparte con PIN. |
 | `/participar/necesidades` | Alta, edición y borrado de necesidades (mínimo 3), foto y enlace, progreso y vista previa. |
 | `/participar/pistas` | Editor de 14 pistas en 4 pasos, borrador local, piezas del rompecabezas y contador. |
 | `/participar/adivinar` | Rompecabezas, comparación anónima, top 3, confirmación y reintento. |
 | `/participar/regalar` | Lista anónima de necesidades con foto/enlace, selección única, confirmación y envoltura animada. |
+| `/participar/mi-panel` | Resumen editable del participante: perfil y foto, necesidades, 14 características, persona secreta, regalo elegido, DNI configurado y lo que recibe tras el cierre. |
 | `/participar/revelacion` | Antes del cierre: resumen personal, caja, bola de nieve agitables y cuenta regresiva. Después: ceremonia personal para el participante (quién lo eligió y qué recibe) y emparejamientos completos solo para el administrador. |
 | `/panel` | Totales, pendientes, tabla adaptable con foto de cada persona, búsqueda, filtros, emparejamientos y pestaña **Pistas** para corregir sus 14 características. |
 | `/panel/evento` | Cambio de nombre y fecha en hora de Lima, vista previa y cierre con doble confirmación. |
@@ -85,7 +86,8 @@ Seguridad avanzada, email/SMS, recordatorios, exportación de datos, pantalla p�
 - **Ayudas concretas**: las pistas dicen qué campo falta, la adivinanza y el regalo muestran motivo y fecha límite cuando no hay opciones.
 - **Reglas en servidor**: adivinar, confirmar y elegir regalo exigen al menos tres necesidades y las 14 pistas completas, aunque se llame a la API directamente.
 - **Reasignación del organizador**: si el reparto libre deja personas sin candidato, el panel permite asignarlas manualmente.
-- **Seguridad mínima**: PIN del administrador hasheado con migración automática del PIN antiguo, y revelación completa restringida al panel; cada participante ve solo su propia ceremonia.
+- **Seguridad mínima**: PIN del administrador y DNI del participante hasheados; revelación completa restringida al panel; cada participante ve solo su propia ceremonia.
+- **Detalles visuales**: los renos del cierre desfilan en un carrusel continuo y el regalo grande suelta chispas navideñas al tocarlo, con respeto a movimiento reducido.
 - **Corrección de pistas en el panel**: el administrador ve y edita las 14 pistas de cada familiar con controles nativos y guarda el cambio sin salir del panel.
 - **Necesidades**: CRUD propio con validación Zod, subida JPG/PNG/WebP de hasta 10 MB, nombre de archivo generado, bloqueo de borrado si ya fue regalada.
 - **Pistas**: 14 campos (físico, personalidad, gustos, dato curioso), guardado como JSON y validado en servidor.

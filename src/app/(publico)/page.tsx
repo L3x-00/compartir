@@ -31,6 +31,7 @@ const reglas = [
 export default function PaginaPrincipal() {
   const reducido = usarReducirMovimiento(); const { lanzarConfeti } = usarConfeti(); const { reproducir } = usarSonido();
   const confetiUsado = useRef(false); const [evento, cambiarEvento] = useState<EventoVista | null>(null);
+  const [chispas, cambiarChispas] = useState(0);
   useEffect(() => {
     const controlador = new AbortController();
     void fetch("/api/participantes", { cache: "no-store", signal: controlador.signal }).then(async (respuesta) => {
@@ -39,6 +40,7 @@ export default function PaginaPrincipal() {
     return () => controlador.abort();
   }, []);
   const celebrar = () => { reproducir("click"); if (!confetiUsado.current) { confetiUsado.current = true; void lanzarConfeti({ particleCount: 30 }); } };
+  const soltarChispas = () => { reproducir("click"); cambiarChispas((valor) => valor + 1); };
   const entrada = reducido ? { opacity: 1, y: 0 } : { opacity: [0.5, 1], y: [18, 0] };
   return <><Encabezado /><main id="contenido">
     <section className="hero contenedor" aria-labelledby="titulo-principal">
@@ -52,7 +54,19 @@ export default function PaginaPrincipal() {
           </motion.div>
         </div>
         <motion.div className="escena-regalo revelar" initial={false} animate={reducido ? { opacity: 1 } : { opacity: [0.3, 1], scale: [0.95, 1] }} transition={{ duration: reducido ? 0 : 0.8 }}>
-          <div className="orbita" /><div className="orbita orbita-dos" /><Regalo nevado />
+          <div className="orbita" /><div className="orbita orbita-dos" />
+          <button type="button" className="regalo-interactivo" onClick={soltarChispas} aria-label="Toca el regalo para desprender chispas navideñas">
+            <Regalo nevado />
+          </button>
+          {chispas > 0 && !reducido && <div className="chispas-regalo" key={chispas} aria-hidden="true">
+            {Array.from({ length: 18 }).map((_, indice) => {
+              const angulo = (indice / 18) * Math.PI * 2;
+              const distancia = 80 + (indice % 5) * 18;
+              return <motion.span key={indice} initial={{ opacity: 1, x: 0, y: 0, scale: 1 }}
+                animate={{ opacity: 0, x: Math.cos(angulo) * distancia, y: Math.sin(angulo) * distancia - 20, scale: 0 }}
+                transition={{ duration: .85, delay: (indice % 6) * .03, ease: "easeOut" }} />;
+            })}
+          </div>}
           <Estrella className="estrella-uno" tamano={28} /><Estrella className="estrella-dos" tamano={16} demora={1} /><Estrella className="estrella-tres" tamano={22} demora={2} /><Estrella className="estrella-cuatro" tamano={12} demora={3} />
           <span className="escena-nota">La magia está en compartir.</span>
         </motion.div>
@@ -70,7 +84,9 @@ export default function PaginaPrincipal() {
       <ul className="lista-reglas">{reglas.map(([titulo, texto], indice) => <motion.li key={titulo} initial={false} whileInView={entrada} viewport={{ once: true }} transition={{ delay: reducido ? 0 : indice * 0.06 }}><motion.span initial={false} whileInView={{ scale: reducido ? 1 : [0.8, 1] }} viewport={{ once: true }}><Check size={20} aria-hidden="true" /></motion.span><div><strong>{titulo}</strong><p>{texto}</p></div></motion.li>)}</ul>
     </div></section>
     <section className="cta-final contenedor" aria-labelledby="titulo-final"><Estrella tamano={27} /><motion.h2 id="titulo-final" className="revelar" initial={false} whileInView={entrada} viewport={{ once: true }}>Hay una sonrisa<br />esperando por ti.</motion.h2><p>Que empiece nuestro amigo secreto.</p><motion.div initial={false} whileInView={reducido ? undefined : { scale: [1, 1.025, 1] }} viewport={{ once: true }} transition={{ duration: 1.2 }}><Link href="/ingresar" className="boton boton-primario boton-grande" onClick={() => reproducir("click")}>Ingresar al juego <ArrowRight size={19} aria-hidden="true" /></Link></motion.div>
-      <svg className="renos" viewBox="0 0 210 60" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="m20 37 13-5 20 2 8-14 9-4 5 5-9 8-3 12-10 1-6 13m-14-14-4 13m29-13 7 12m-5-31-2-13m2 6-7-5m10 9 5-11m-39 26-7-4m90 5 13-5 20 2 8-14 9-4 5 5-9 8-3 12-10 1-6 13m-14-14-4 13m29-13 7 12m-5-31-2-13m2 6-7-5m10 9 5-11m-39 26-7-4" /><path d="M3 57h204" opacity=".3" /></svg>
+      <div className="renos-carrusel" aria-hidden="true"><div className="renos-pista">
+        {[0, 1, 2, 3].map((indice) => <svg key={indice} className="renos" viewBox="0 0 210 60" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="m20 37 13-5 20 2 8-14 9-4 5 5-9 8-3 12-10 1-6 13m-14-14-4 13m29-13 7 12m-5-31-2-13m2 6-7-5m10 9 5-11m-39 26-7-4m90 5 13-5 20 2 8-14 9-4 5 5-9 8-3 12-10 1-6 13m-14-14-4 13m29-13 7 12m-5-31-2-13m2 6-7-5m10 9 5-11m-39 26-7-4" /><path d="M3 57h204" opacity=".3" /></svg>)}
+      </div></div>
     </section>
   </main><PiePagina /></>;
 }
