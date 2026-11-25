@@ -1,0 +1,207 @@
+/* Estructura de las tres etapas del participante. */
+.participante {
+  min-height: 70vh;
+  max-width: 68rem;
+  padding-block: clamp(1rem, 4vw, 3rem) clamp(3rem, 7vw, 5rem);
+  overflow-wrap: anywhere;
+}
+.participante .pasos-navegacion { margin-block: .4rem clamp(2rem, 6vw, 3.5rem); }
+.participante .paso-alcanzado:not([aria-current]) .paso-icono {
+  color: var(--color-navidad-nieve);
+  background: var(--color-navidad-verde);
+  border-color: var(--color-navidad-verde-claro);
+}
+.participante .pasos-navegacion [aria-current] .paso-icono {
+  color: var(--color-navidad-carbon);
+  background: var(--color-navidad-dorado);
+  border-color: var(--color-navidad-dorado-claro);
+}
+.escena-participante { min-width: 0; }
+.titulo-participante { margin-bottom: 1.65rem; }
+.titulo-participante h1 {
+  font-size: clamp(2.4rem, 5vw, 3.7rem);
+  line-height: 1;
+  margin-bottom: .7rem;
+  color: var(--color-navidad-dorado-claro);
+}
+.titulo-participante p { max-width: 54ch; color: var(--texto-suave); margin: 0; }
+.titulo-con-accion { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 1rem; }
+.panel-participante {
+  min-width: 0;
+  background: var(--superficie);
+  border: 1px solid var(--linea);
+  border-radius: var(--radius-card);
+  padding: clamp(1rem, 3vw, 1.75rem);
+}
+.progreso-necesidades { margin-bottom: 1rem; }
+.progreso-cabecera {
+  display: flex; justify-content: space-between; align-items: baseline;
+  flex-wrap: wrap; gap: .4rem 1rem; margin-bottom: .65rem;
+}
+.progreso-cabecera [role="status"] { display: inline-flex; gap: .5rem; align-items: center; }
+.progreso-cabecera strong { color: var(--color-navidad-dorado-claro); font-variant-numeric: tabular-nums; }
+.barra-participante { height: .5rem; background: var(--fondo); border-radius: 1rem; overflow: hidden; }
+.barra-participante > span {
+  display: block; width: 100%; height: 100%; transform-origin: left;
+  background: linear-gradient(90deg, var(--color-navidad-verde-claro), var(--color-navidad-dorado));
+}
+.contenedor-necesidades { container: necesidades / inline-size; }
+.grid-necesidades, .resultados-coincidencias {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 17.5rem), 1fr)); gap: 1rem;
+}
+@container necesidades (width < 38rem) { .grid-necesidades { grid-template-columns: minmax(0, 1fr); } }
+@container necesidades (38rem <= width < 57rem) { .grid-necesidades { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@container necesidades (width >= 57rem) { .grid-necesidades { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.tarjeta-necesidad .tarjeta { display: flex; flex-direction: column; gap: .55rem; padding: 1rem; }
+.tarjeta-necesidad h2 { font-size: 1.25rem; margin: .35rem 0 0; }
+.foto-necesidad, .preview-foto {
+  position: relative; aspect-ratio: 16 / 10; overflow: hidden;
+  background: var(--fondo); border-radius: var(--radius-control);
+}
+.foto-necesidad img, .preview-foto img { object-fit: cover; }
+.foto-necesidad img { transition: transform var(--transicion); }
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  html:not([data-movimiento="pausado"]) .foto-necesidad:hover img { transform: scale(1.045); }
+}
+.descripcion-necesidad, .descripcion-necesidad p { color: var(--texto-suave); margin: 0; }
+.descripcion-necesidad summary { list-style: none; cursor: pointer; }
+.descripcion-necesidad summary::-webkit-details-marker { display: none; }
+.ver-descripcion, .enlace-necesidad, .volver-participante {
+  color: var(--color-navidad-dorado-claro); display: inline-flex; align-items: center; gap: .45rem;
+  font-weight: 700; min-height: 44px;
+}
+.descripcion-corta { display: block; }
+.descripcion-necesidad[open] .descripcion-corta { display: none; }
+.descripcion-necesidad[open] .ver-descripcion svg { transform: rotate(180deg); }
+.enlace-necesidad:hover, .volver-participante:hover, .ver-descripcion:hover { text-decoration: underline; }
+.acciones-participante { display: flex; align-items: center; flex-wrap: wrap; gap: .65rem; }
+.acciones-necesidad { margin-top: auto; padding-top: .75rem; }
+.acciones-necesidad .boton { flex: 1 1 auto; padding-inline: .65rem; }
+.estado-participante { display: grid; justify-items: center; text-align: center; gap: .85rem; padding-block: clamp(1.5rem, 5vw, 3rem); }
+.estado-participante h2, .estado-participante p { margin: 0; }
+.estado-participante p { color: var(--texto-suave); max-width: 54ch; }
+.estado-participante > svg { color: var(--color-navidad-dorado-claro); }
+.regalo-vacio { width: 8rem; margin-top: -1.5rem; }
+.continuar-necesidades { display: flex; flex-wrap: wrap; align-items: center; justify-content: end; gap: .5rem 1rem; margin-top: 1.15rem; }
+.continuar-necesidades p { margin: 0; }
+@media (max-width: 47.99rem) {
+  .continuar-necesidades {
+    position: sticky; z-index: 5; bottom: 0; display: grid; justify-content: stretch; text-align: center;
+    padding: .8rem 0 max(.8rem, env(safe-area-inset-bottom));
+    background: var(--fondo);
+  }
+}
+.modal { margin: auto; overscroll-behavior: contain; }
+.form-necesidad { display: grid; gap: 1rem; }
+.etiqueta-participante { display: block; font-weight: 750; margin-bottom: .45rem; }
+.form-necesidad textarea {
+  display: block; width: 100%; padding: .75rem; color: var(--texto);
+  border: 1px solid color-mix(in srgb, var(--texto) 38%, transparent);
+  background: var(--fondo); border-radius: var(--radius-control); resize: vertical; font: inherit;
+}
+.participante :is(summary, textarea):focus-visible, .modal textarea:focus-visible, .chip-pista:has(:focus-visible) {
+  outline: 2px solid var(--color-navidad-dorado-claro); outline-offset: 4px;
+}
+.contador-participante, .ayuda-participante { font-size: .875rem; color: var(--texto-suave); }
+.contador-participante { margin: .35rem 0 .9rem; text-align: end; font-variant-numeric: tabular-nums; }
+.error-participante { padding: .65rem .8rem; border-radius: .6rem; background: var(--color-navidad-rojo-oscuro); color: var(--color-navidad-nieve); margin: .6rem 0; }
+.zona-foto { display: grid; gap: .7rem; border: 1px dashed color-mix(in srgb, var(--texto) 45%, transparent); border-radius: var(--radius-control); padding: .75rem; }
+.zona-foto-activa { border-color: var(--color-navidad-dorado); background: var(--superficie-clara); }
+.zona-foto p { margin: 0; }
+.preview-foto { aspect-ratio: 16 / 8; }
+.preview-foto img { object-fit: contain; }
+.zona-foto .boton:focus-visible { outline-offset: 4px; }
+.texto-largo { overflow-wrap: anywhere; }
+.volver-participante { margin-top: .8rem; }
+
+/* Misma familia de controles en pistas y en el juego de deducción. */
+.editor-pistas { max-width: 50rem; margin-inline: auto; }
+.etapas-pistas {
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .6rem;
+  padding: 0; margin: 0 0 1.25rem; list-style: none; text-align: center;
+}
+.etapas-pistas li { display: grid; justify-items: center; align-content: start; gap: .35rem; color: var(--texto-suave); font-size: .84rem; line-height: 1.2; }
+.etapas-pistas li[aria-current] { color: var(--color-navidad-dorado-claro); font-weight: 800; }
+.etapas-pistas li span {
+  display: grid; place-items: center; width: 2rem; height: 2rem;
+  border: 1px solid var(--linea); border-radius: 50%; color: var(--texto);
+}
+.etapas-pistas li .etapa-completa { background: var(--color-navidad-verde); border-color: var(--color-navidad-verde-claro); }
+.etapas-pistas li[aria-current] span { border-color: var(--color-navidad-dorado); }
+.campos-etapa, .campo-pista { min-width: 0; padding: 0; margin: 0; border: 0; }
+.etapa-titulo { margin: 1.35rem 0 1rem; font-size: clamp(1.8rem, 4vw, 2.45rem); display: flex; align-items: center; gap: .55rem; }
+.etapa-titulo svg { color: var(--color-navidad-dorado-claro); }
+.campo-pista { margin-bottom: 1rem; }
+.campo-pista legend { font-weight: 750; margin-bottom: .4rem; }
+.dato-curioso-pista { position: relative; }
+.sugerencia-recibida {
+  position: absolute; inset: 0 0 auto; height: 59px; border-radius: var(--radius-control);
+  border: 1px solid var(--color-navidad-dorado); pointer-events: none;
+}
+.chips-pistas { display: flex; flex-wrap: wrap; align-items: start; gap: .5rem; }
+.chip-pista {
+  display: inline-flex; align-items: center; gap: .5rem; min-height: 44px; max-width: 100%;
+  padding: .48rem .82rem; border: 1px solid color-mix(in srgb, var(--texto) 34%, transparent);
+  border-radius: .75rem; position: relative; background: var(--fondo); color: var(--texto);
+  font: inherit; text-align: start; transition: border-color var(--transicion), background-color var(--transicion);
+}
+.chip-pista-dorado { border-color: color-mix(in srgb, var(--color-navidad-dorado) 53%, transparent); }
+.chip-pista:hover { border-color: var(--color-navidad-dorado); }
+.chip-pista-activo {
+  color: var(--color-navidad-nieve);
+  background: color-mix(in srgb, var(--color-navidad-verde-claro) 32%, var(--color-navidad-verde));
+  border-color: var(--color-navidad-verde-claro);
+}
+.chip-pista-activo svg, .casilla-marca svg { color: var(--color-navidad-dorado-claro); }
+.casilla input:checked+.casilla-marca svg { color: var(--color-navidad-carbon); }
+.edicion-navegacion { justify-content: flex-end; margin-top: 1.3rem; }
+.editor-pistas .ayuda-participante { text-align: end; margin: .5rem 0 0; }
+
+/* La mesa del rompecabezas y sus resultados comparten el dorado de la pista activa. */
+.candidatos-disponibles { display: inline-flex; align-items: center; gap: .45rem; margin-top: .7rem !important; }
+.candidatos-disponibles svg { color: var(--color-navidad-dorado-claro); }
+.editor-puzzle { border-color: color-mix(in srgb, var(--color-navidad-dorado) 31%, transparent); }
+.puzzle-tablero {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: .8rem 1.5rem;
+  margin-bottom: 1.4rem; padding: .8rem; border-radius: var(--radius-control);
+  background: radial-gradient(ellipse, var(--superficie-clara), var(--fondo));
+  border: 1px solid var(--linea);
+}
+.puzzle-tablero p { margin: 0; color: var(--texto-suave); }
+.puzzle-tablero strong { color: var(--color-navidad-dorado-claro); }
+.puzzle-piezas { width: clamp(6rem, 21vw, 9rem); height: auto; color: var(--color-navidad-dorado-claro); overflow: visible; }
+.pieza-pendiente > path { fill: var(--superficie); stroke: var(--color-navidad-dorado); }
+.pieza-pendiente text { fill: var(--color-navidad-dorado-claro); font-size: .95rem; }
+.pieza-completa > path:first-child { fill: var(--color-navidad-verde); stroke: var(--color-navidad-dorado); }
+.puzzle-listo .puzzle-piezas { filter: drop-shadow(0 0 .75rem color-mix(in srgb, var(--color-navidad-dorado) 40%, transparent)); }
+.bola-nieve { position: relative; width: 90px; height: 90px; display: grid; place-items: center; color: var(--color-navidad-dorado-claro); }
+.bola-nieve > span { margin-top: -.6rem; color: var(--color-navidad-nieve); }
+.bola-nieve-fondo { position: absolute; inset: 0; }
+.carga-coincidencias { padding-block: 1rem; }
+.panel-resultados > h2 { margin-bottom: .5rem; }
+.panel-resultados > p { color: var(--texto-suave); }
+.resultados-coincidencias { grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); }
+.resultados-coincidencias .tarjeta { text-align: center; padding: 1.2rem; }
+.resultados-coincidencias h3 { margin: .5rem 0 .7rem; font-size: 1.15rem; }
+.resultados-coincidencias p { color: var(--texto-suave); margin: .65rem 0 .9rem; }
+.rango-coincidencia { min-height: 34px; display: flex; align-items: center; justify-content: space-between; color: var(--color-navidad-dorado-claro); }
+.anillo-coincidencia { width: 8rem; aspect-ratio: 1; display: grid; place-items: center; position: relative; margin-inline: auto; }
+.anillo-coincidencia svg { position: absolute; inset: 0; width: 100%; rotate: -90deg; }
+.anillo-coincidencia circle:first-child { stroke: var(--linea); }
+.anillo-coincidencia circle:last-child { stroke: var(--color-navidad-dorado); stroke-linecap: round; }
+.anillo-coincidencia strong { font-size: 1.55rem; font-variant-numeric: tabular-nums; }
+.coincidencia-elegida .tarjeta { box-shadow: 0 .7rem 3rem color-mix(in srgb, var(--color-navidad-dorado) 30%, transparent); }
+@media (prefers-reduced-motion: no-preference) {
+  html:not([data-movimiento="pausado"]) .pulso-participante { animation: pulso-participante 1.2s ease-out 2; }
+}
+@keyframes pulso-participante {
+  50% { box-shadow: 0 .5rem 1.5rem color-mix(in srgb, var(--color-navidad-dorado) 30%, transparent); }
+}
+@media (max-width: 28rem) {
+  .etapas-pistas { gap: .35rem; }
+  .etapas-pistas li { font-size: .76rem; }
+  .puzzle-tablero { text-align: center; }
+}
+@media (max-width: 47.99rem) {
+  html:has(.continuar-necesidades) { scroll-padding-bottom: 8rem; }
+}

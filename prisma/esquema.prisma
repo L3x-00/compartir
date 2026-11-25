@@ -1,0 +1,92 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Evento {
+  id            String   @id @default(cuid())
+  nombre        String   @default("Compartir Navideño")
+  fechaLimite   DateTime
+  cerrado       Boolean  @default(false)
+  creadoEn      DateTime @default(now())
+  actualizadoEn DateTime @updatedAt
+
+  participantes Participante[]
+}
+
+model Participante {
+  id            String   @id @default(cuid())
+  eventoId      String
+  nombre        String
+  pin           String
+  fotoUrl       String?
+  esAdmin       Boolean  @default(false)
+  creadoEn      DateTime @default(now())
+  actualizadoEn DateTime @updatedAt
+
+  evento                Evento              @relation(fields: [eventoId], references: [id], onDelete: Cascade)
+  necesidades           Necesidad[]
+  pistas                Pistas?
+  personaSecretaId      String?             @unique
+  personaSecreta        Participante?       @relation("Emparejamiento", fields: [personaSecretaId], references: [id], onDelete: SetNull)
+  esPersonaSecretaDe    Participante?       @relation("Emparejamiento")
+  regaloSeleccionado    RegaloSeleccionado?
+  intentos              IntentoAdivinanza[] @relation("IntentosParticipante")
+  intentosComoCandidato IntentoAdivinanza[] @relation("IntentosCandidato")
+
+  @@unique([eventoId, nombre])
+  @@index([eventoId])
+}
+
+model Necesidad {
+  id             String   @id @default(cuid())
+  participanteId String
+  nombre         String
+  descripcion    String?
+  fotoUrl        String?
+  linkReferencia String?
+  creadoEn       DateTime @default(now())
+  actualizadoEn  DateTime @updatedAt
+
+  participante Participante        @relation(fields: [participanteId], references: [id], onDelete: Cascade)
+  regalo       RegaloSeleccionado?
+
+  @@index([participanteId])
+}
+
+model Pistas {
+  id             String   @id @default(cuid())
+  participanteId String   @unique
+  datos          String
+  creadoEn       DateTime @default(now())
+  actualizadoEn  DateTime @updatedAt
+
+  participante Participante @relation(fields: [participanteId], references: [id], onDelete: Cascade)
+}
+
+model RegaloSeleccionado {
+  id             String   @id @default(cuid())
+  participanteId String   @unique
+  necesidadId    String   @unique
+  creadoEn       DateTime @default(now())
+
+  participante Participante @relation(fields: [participanteId], references: [id], onDelete: Cascade)
+  necesidad    Necesidad    @relation(fields: [necesidadId], references: [id], onDelete: Cascade)
+}
+
+model IntentoAdivinanza {
+  id             String   @id @default(cuid())
+  participanteId String
+  candidatoId    String
+  acierto        Boolean
+  creadoEn       DateTime @default(now())
+
+  participante Participante @relation("IntentosParticipante", fields: [participanteId], references: [id], onDelete: Cascade)
+  candidato    Participante @relation("IntentosCandidato", fields: [candidatoId], references: [id], onDelete: Cascade)
+
+  @@index([participanteId])
+}

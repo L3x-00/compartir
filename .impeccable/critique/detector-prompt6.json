@@ -1,0 +1,720 @@
+[
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "D:\\compartir-1\\src\\app\\(administrador)\\panel\\panel.css",
+    "line": 22,
+    "snippet": "font-size: 2.2rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "2.2rem",
+    "importedBy": [
+      "layout.tsx"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "D:\\compartir-1\\src\\app\\(administrador)\\panel\\panel.css",
+    "line": 27,
+    "snippet": "font-size: clamp(1.65rem, 4vw, 2.35rem) has fluid endpoints 1.65rem and 2.35rem off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "1.65rem",
+    "importedBy": [
+      "layout.tsx"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "D:\\compartir-1\\src\\app\\(publico)\\participar\\final.css",
+    "line": 14,
+    "snippet": "font-size: 1.5rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "1.5rem",
+    "importedBy": [
+      "layout.tsx",
+      "layout.tsx"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "D:\\compartir-1\\src\\app\\(publico)\\participar\\final.css",
+    "line": 59,
+    "snippet": "font-size: clamp(.73rem, 2.8vw, .95rem) has fluid endpoint .73rem off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".73rem",
+    "importedBy": [
+      "layout.tsx",
+      "layout.tsx"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "D:\\compartir-1\\src\\app\\(publico)\\participar\\final.css",
+    "line": 61,
+    "snippet": "font-size: clamp(1.23rem, 6vw, 2.4rem) has fluid endpoint 1.23rem off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "1.23rem",
+    "importedBy": [
+      "layout.tsx",
+      "layout.tsx"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "D:\\compartir-1\\src\\app\\(publico)\\participar\\final.css",
+    "line": 65,
+    "snippet": "font-size: 1.25rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "1.25rem",
+    "importedBy": [
+      "layout.tsx",
+      "layout.tsx"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "D:\\compartir-1\\src\\app\\(publico)\\participar\\final.css",
+    "line": 77,
+    "snippet": "font-size: clamp(2.4rem, 7vw, 5.4rem) has fluid endpoint 5.4rem off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "5.4rem",
+    "importedBy": [
+      "layout.tsx",
+      "layout.tsx"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "D:\\compartir-1\\src\\app\\(publico)\\participar\\final.css",
+    "line": 116,
+    "snippet": "font-size: 1.5rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "1.5rem",
+    "importedBy": [
+      "layout.tsx",
+      "layout.tsx"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "D:\\compartir-1\\src\\app\\(publico)\\participar\\participante.css",
+    "line": 56,
+    "snippet": "font-size: 1.25rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "1.25rem",
+    "importedBy": [
+      "layout.tsx",
+      "layout.tsx"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "D:\\compartir-1\\src\\app\\(publico)\\participar\\participante.css",
+    "line": 105,
+    "snippet": "font-size: .875rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".875rem",
+    "importedBy": [
+      "layout.tsx",
+      "layout.tsx"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "D:\\compartir-1\\src\\app\\(publico)\\participar\\participante.css",
+    "line": 123,
+    "snippet": "font-size: .84rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".84rem",
+    "importedBy": [
+      "layout.tsx",
+      "layout.tsx"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "D:\\compartir-1\\src\\app\\(publico)\\participar\\participante.css",
+    "line": 132,
+    "snippet": "font-size: clamp(1.8rem, 4vw, 2.45rem) has fluid endpoints 1.8rem and 2.45rem off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "1.8rem",
+    "importedBy": [
+      "layout.tsx",
+      "layout.tsx"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "D:\\compartir-1\\src\\app\\(publico)\\participar\\participante.css",
+    "line": 185,
+    "snippet": "font-size: 1.15rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "1.15rem",
+    "importedBy": [
+      "layout.tsx",
+      "layout.tsx"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "D:\\compartir-1\\src\\app\\(publico)\\participar\\participante.css",
+    "line": 192,
+    "snippet": "font-size: 1.55rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "1.55rem",
+    "importedBy": [
+      "layout.tsx",
+      "layout.tsx"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "D:\\compartir-1\\src\\app\\(publico)\\participar\\participante.css",
+    "line": 202,
+    "snippet": "font-size: .76rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".76rem",
+    "importedBy": [
+      "layout.tsx",
+      "layout.tsx"
+    ]
+  },
+  {
+    "antipattern": "design-system-radius",
+    "name": "Radius outside DESIGN.md",
+    "description": "A border-radius value is outside the DESIGN.md rounded scale. Use a documented radius token or update the design system if the new shape is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "D:\\compartir-1\\src\\app\\globals.css",
+    "line": 38,
+    "snippet": "border-radius: .5rem is outside the DESIGN.md rounded scale",
+    "advisory": true,
+    "ignoreValue": ".5rem",
+    "importedBy": [
+      "layout.tsx"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "D:\\compartir-1\\src\\app\\globals.css",
+    "line": 62,
+    "snippet": "font-size: .85rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".85rem",
+    "importedBy": [
+      "layout.tsx"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "D:\\compartir-1\\src\\app\\globals.css",
+    "line": 63,
+    "snippet": "font-size: 1.8rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "1.8rem",
+    "importedBy": [
+      "layout.tsx"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "D:\\compartir-1\\src\\app\\globals.css",
+    "line": 73,
+    "snippet": "font-size: 1.25rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "1.25rem",
+    "importedBy": [
+      "layout.tsx"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "D:\\compartir-1\\src\\app\\globals.css",
+    "line": 77,
+    "snippet": "font-size: .85rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".85rem",
+    "importedBy": [
+      "layout.tsx"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "D:\\compartir-1\\src\\app\\globals.css",
+    "line": 93,
+    "snippet": "font-size: .85rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".85rem",
+    "importedBy": [
+      "layout.tsx"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "D:\\compartir-1\\src\\app\\globals.css",
+    "line": 96,
+    "snippet": "font-size: .8rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".8rem",
+    "importedBy": [
+      "layout.tsx"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "D:\\compartir-1\\src\\app\\globals.css",
+    "line": 99,
+    "snippet": "font-size: .75rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".75rem",
+    "importedBy": [
+      "layout.tsx"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "D:\\compartir-1\\src\\app\\globals.css",
+    "line": 104,
+    "snippet": "font-size: clamp(1.1rem,1.6vw,1.25rem) has fluid endpoints 1.1rem and 1.25rem off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "1.1rem",
+    "importedBy": [
+      "layout.tsx"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "D:\\compartir-1\\src\\app\\globals.css",
+    "line": 105,
+    "snippet": "font-size: .8rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".8rem",
+    "importedBy": [
+      "layout.tsx"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "D:\\compartir-1\\src\\app\\globals.css",
+    "line": 112,
+    "snippet": "font-size: 1.35rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "1.35rem",
+    "importedBy": [
+      "layout.tsx"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "D:\\compartir-1\\src\\app\\globals.css",
+    "line": 113,
+    "snippet": "font-size: .75rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".75rem",
+    "importedBy": [
+      "layout.tsx"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "D:\\compartir-1\\src\\app\\globals.css",
+    "line": 116,
+    "snippet": "font-size: .75rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".75rem",
+    "importedBy": [
+      "layout.tsx"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "D:\\compartir-1\\src\\app\\globals.css",
+    "line": 117,
+    "snippet": "font-size: .88rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".88rem",
+    "importedBy": [
+      "layout.tsx"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "D:\\compartir-1\\src\\app\\globals.css",
+    "line": 120,
+    "snippet": "font-size: .85rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".85rem",
+    "importedBy": [
+      "layout.tsx"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "D:\\compartir-1\\src\\app\\globals.css",
+    "line": 126,
+    "snippet": "font-size: clamp(3.2rem,5vw,4.7rem) has fluid endpoints 3.2rem and 4.7rem off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "3.2rem",
+    "importedBy": [
+      "layout.tsx"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "D:\\compartir-1\\src\\app\\globals.css",
+    "line": 128,
+    "snippet": "font-size: clamp(2.6rem,4vw,3.6rem) has fluid endpoints 2.6rem and 3.6rem off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "2.6rem",
+    "importedBy": [
+      "layout.tsx"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "D:\\compartir-1\\src\\app\\globals.css",
+    "line": 129,
+    "snippet": "font-size: .75rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".75rem",
+    "importedBy": [
+      "layout.tsx"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "D:\\compartir-1\\src\\app\\globals.css",
+    "line": 131,
+    "snippet": "font-size: .9rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".9rem",
+    "importedBy": [
+      "layout.tsx"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "D:\\compartir-1\\src\\app\\globals.css",
+    "line": 135,
+    "snippet": "font-size: 1.5rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "1.5rem",
+    "importedBy": [
+      "layout.tsx"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "D:\\compartir-1\\src\\app\\globals.css",
+    "line": 136,
+    "snippet": "font-size: clamp(2.2rem,4vw,3rem) has fluid endpoints 2.2rem and 3rem off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "2.2rem",
+    "importedBy": [
+      "layout.tsx"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "D:\\compartir-1\\src\\app\\globals.css",
+    "line": 137,
+    "snippet": "font-size: .78rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".78rem",
+    "importedBy": [
+      "layout.tsx"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "D:\\compartir-1\\src\\app\\globals.css",
+    "line": 138,
+    "snippet": "font-size: .85rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".85rem",
+    "importedBy": [
+      "layout.tsx"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "D:\\compartir-1\\src\\app\\globals.css",
+    "line": 141,
+    "snippet": "font-size: .75rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".75rem",
+    "importedBy": [
+      "layout.tsx"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "D:\\compartir-1\\src\\app\\globals.css",
+    "line": 157,
+    "snippet": "font-size: clamp(3.8rem,8vw,5.5rem) has fluid endpoints 3.8rem and 5.5rem off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "3.8rem",
+    "importedBy": [
+      "layout.tsx"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "D:\\compartir-1\\src\\app\\globals.css",
+    "line": 160,
+    "snippet": "font-size: clamp(3.7rem,12.5vw,5.5rem) has fluid endpoint 5.5rem off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "5.5rem",
+    "importedBy": [
+      "layout.tsx"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "D:\\compartir-1\\src\\app\\globals.css",
+    "line": 160,
+    "snippet": "font-size: .75rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".75rem",
+    "importedBy": [
+      "layout.tsx"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "D:\\compartir-1\\src\\app\\globals.css",
+    "line": 163,
+    "snippet": "font-size: .8rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".8rem",
+    "importedBy": [
+      "layout.tsx"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "D:\\compartir-1\\src\\app\\globals.css",
+    "line": 167,
+    "snippet": "font-size: 3.65rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": "3.65rem",
+    "importedBy": [
+      "layout.tsx"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "D:\\compartir-1\\src\\app\\globals.css",
+    "line": 168,
+    "snippet": "font-size: .75rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".75rem",
+    "importedBy": [
+      "layout.tsx"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "D:\\compartir-1\\src\\app\\globals.css",
+    "line": 168,
+    "snippet": "font-size: .8rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".8rem",
+    "importedBy": [
+      "layout.tsx"
+    ]
+  },
+  {
+    "antipattern": "design-system-font-size",
+    "name": "Font size outside DESIGN.md",
+    "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+    "severity": "advisory",
+    "category": "quality",
+    "file": "D:\\compartir-1\\src\\app\\globals.css",
+    "line": 168,
+    "snippet": "font-size: .6rem is off the DESIGN.md type ramp",
+    "advisory": true,
+    "ignoreValue": ".6rem",
+    "importedBy": [
+      "layout.tsx"
+    ]
+  }
+]

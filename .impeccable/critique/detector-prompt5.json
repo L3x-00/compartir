@@ -1,0 +1,821 @@
+{
+  "assessment": "B",
+  "target": "D:\\compartir-1\\src",
+  "independence": "Assessment B did not read Assessment A or use browser UI. Files and results remained local for synthesis after Assessment A.",
+  "detector_engine": "0.1.27",
+  "offline_npx": {
+    "command": "npx.cmd --offline impeccable detect src/ --json",
+    "exit_code": 1,
+    "output": "npm error code ENOTCACHED\nnpm error request to https://registry.npmjs.org/impeccable failed: cache mode is 'only-if-cached' but no cached response is available.\nnpm error Log files were not written due to an error writing to the directory: D:\\Caches\\npm\\_logs\nnpm error You can rerun the command with `--loglevel=verbose` to see the logs in your terminal"
+  },
+  "bundled_cli": {
+    "command": ".agents/skills/impeccable/scripts/impeccable.cmd detect src/ --json",
+    "exit_code": 1,
+    "result": "El proceso devolvió 1, pero produjo un array JSON completo y analizable. La pasada incluyó resultados aprovechables."
+  },
+  "findings_count": 41,
+  "counts_by_severity": {
+    "advisory": 40,
+    "warning": 1
+  },
+  "counts_by_rule": {
+    "design-system-font-size": 39,
+    "gradient-text": 1,
+    "design-system-radius": 1
+  },
+  "counts_by_file": {
+    "D:\\compartir-1\\src\\app\\(publico)\\participar\\participante.css": 8,
+    "D:\\compartir-1\\src\\app\\globals.css": 33
+  },
+  "coverage": {
+    "files_under_scope": {
+      "total": 83,
+      "tsx": 40,
+      "ts": 41,
+      "css": 2
+    },
+    "actual_detector_scan_count": null,
+    "ignore_list_exists": false,
+    "browser_visits_in_B": 0,
+    "browser_viewports_in_B": 0,
+    "overlay_injected_by_B": false,
+    "live_server_started_by_B": false,
+    "limitation": "La entrada CLI no informa el conteo de archivos escaneados. El padre conduce la inspección de navegador en este encargo."
+  },
+  "baseline": {
+    "previous_detector": ".impeccable/critique/detector-prompt4.json",
+    "previous_finding_count": 1,
+    "exact_recurrence_count": 1,
+    "description": "Se usa el archivo de Prompt 4 solo para verificar procedencia del aviso, no como insumo para puntuar el diseño. La hoja global antecede a la hoja y a las pantallas de Prompt 5. Los avisos globales de tipografía surgieron en el resultado comparado después de que se documentase DESIGN.md.",
+    "evidence": {
+      "globals_css_write": "2026-11-24T23:58:13-05:00",
+      "archived_compiled_css_write": "2026-11-24T23:59:33-05:00",
+      "design_md_write": "2026-11-25T00:00:18-05:00",
+      "participant_layout_write": "2026-11-25T00:13:02-05:00",
+      "participant_css_write": "2026-11-25T00:19:13-05:00"
+    }
+  },
+  "non_detector_validation": {
+    "css": {
+      "result": "PostCSS acepta la sintaxis de ambas hojas sin errores. La comprobación no resuelve la visualización ni simula los breakpoints.",
+      "rules": {
+        "globals": 267,
+        "participant": 118
+      }
+    },
+    "typecheck": {
+      "command": ".\\node_modules\\.bin\\tsc.cmd --noEmit --incremental false --pretty false",
+      "exit_code": 1,
+      "result": "Cuatro errores TS2306 del validador generado de Next por páginas vacías preexistentes. Los cuatro archivos pesan cero bytes y su fecha de última escritura antecede al CSS de Prompt 5.",
+      "output": ".next/types/validator.ts(53,39): error TS2306: File 'D:/compartir-1/src/app/(administrador)/panel/evento/page.tsx' is not a module.\r\n.next/types/validator.ts(62,39): error TS2306: File 'D:/compartir-1/src/app/(administrador)/panel/page.tsx' is not a module.\r\n.next/types/validator.ts(116,39): error TS2306: File 'D:/compartir-1/src/app/(publico)/participar/regalar/page.tsx' is not a module.\r\n.next/types/validator.ts(125,39): error TS2306: File 'D:/compartir-1/src/app/(publico)/participar/revelacion/page.tsx' is not a module."
+    }
+  },
+  "findings": [
+    {
+      "antipattern": "design-system-font-size",
+      "name": "Font size outside DESIGN.md",
+      "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+      "severity": "advisory",
+      "category": "quality",
+      "file": "D:\\compartir-1\\src\\app\\(publico)\\participar\\participante.css",
+      "line": 22,
+      "snippet": "font-size: clamp(2.65rem, 7vw, 4.85rem) has fluid endpoints 2.65rem and 4.85rem off the DESIGN.md type ramp",
+      "advisory": true,
+      "ignoreValue": "2.65rem",
+      "importedBy": [
+        "layout.tsx"
+      ],
+      "provenance": "nuevo en el área participante de Prompt 5",
+      "diagnosis": "Señal de coherencia con la escala estructurada. La CLI no mide legibilidad ni contraste.",
+      "selector": ".titulo-participante h1",
+      "source_excerpt": "font-size: clamp(2.65rem, 7vw, 4.85rem);"
+    },
+    {
+      "antipattern": "design-system-font-size",
+      "name": "Font size outside DESIGN.md",
+      "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+      "severity": "advisory",
+      "category": "quality",
+      "file": "D:\\compartir-1\\src\\app\\(publico)\\participar\\participante.css",
+      "line": 56,
+      "snippet": "font-size: clamp(1.65rem, 4vw, 2rem) has fluid endpoints 1.65rem and 2rem off the DESIGN.md type ramp",
+      "advisory": true,
+      "ignoreValue": "1.65rem",
+      "importedBy": [
+        "layout.tsx"
+      ],
+      "provenance": "nuevo en el área participante de Prompt 5",
+      "diagnosis": "Señal de coherencia con la escala estructurada. La CLI no mide legibilidad ni contraste.",
+      "selector": ".tarjeta-necesidad h2",
+      "source_excerpt": ".tarjeta-necesidad h2 { font-size: clamp(1.65rem, 4vw, 2rem); margin: .35rem 0 0; }"
+    },
+    {
+      "antipattern": "design-system-font-size",
+      "name": "Font size outside DESIGN.md",
+      "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+      "severity": "advisory",
+      "category": "quality",
+      "file": "D:\\compartir-1\\src\\app\\(publico)\\participar\\participante.css",
+      "line": 105,
+      "snippet": "font-size: .875rem is off the DESIGN.md type ramp",
+      "advisory": true,
+      "ignoreValue": ".875rem",
+      "importedBy": [
+        "layout.tsx"
+      ],
+      "provenance": "nuevo en el área participante de Prompt 5",
+      "diagnosis": "El tamaño cabe en el rango genérico de apoyo de DESIGN.md:165. El selector aún puede requerir una comprobación visual de su función como etiqueta, ayuda o contador.",
+      "selector": ".contador-participante, .ayuda-participante",
+      "source_excerpt": ".contador-participante, .ayuda-participante { font-size: .875rem; color: var(--texto-suave); }"
+    },
+    {
+      "antipattern": "design-system-font-size",
+      "name": "Font size outside DESIGN.md",
+      "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+      "severity": "advisory",
+      "category": "quality",
+      "file": "D:\\compartir-1\\src\\app\\(publico)\\participar\\participante.css",
+      "line": 122,
+      "snippet": "font-size: .84rem is off the DESIGN.md type ramp",
+      "advisory": true,
+      "ignoreValue": ".84rem",
+      "importedBy": [
+        "layout.tsx"
+      ],
+      "provenance": "nuevo en el área participante de Prompt 5",
+      "diagnosis": "El tamaño cabe en el rango genérico de apoyo de DESIGN.md:165. El selector aún puede requerir una comprobación visual de su función como etiqueta, ayuda o contador.",
+      "selector": ".etapas-pistas li",
+      "source_excerpt": ".etapas-pistas li { display: grid; justify-items: center; align-content: start; gap: .35rem; color: var(--texto-suave); font-size: .84rem; line-height: 1.2; }"
+    },
+    {
+      "antipattern": "design-system-font-size",
+      "name": "Font size outside DESIGN.md",
+      "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+      "severity": "advisory",
+      "category": "quality",
+      "file": "D:\\compartir-1\\src\\app\\(publico)\\participar\\participante.css",
+      "line": 131,
+      "snippet": "font-size: clamp(1.8rem, 4vw, 2.45rem) has fluid endpoints 1.8rem and 2.45rem off the DESIGN.md type ramp",
+      "advisory": true,
+      "ignoreValue": "1.8rem",
+      "importedBy": [
+        "layout.tsx"
+      ],
+      "provenance": "nuevo en el área participante de Prompt 5",
+      "diagnosis": "Señal de coherencia con la escala estructurada. La CLI no mide legibilidad ni contraste.",
+      "selector": ".etapa-titulo",
+      "source_excerpt": ".etapa-titulo { margin: 1.35rem 0 1rem; font-size: clamp(1.8rem, 4vw, 2.45rem); display: flex; align-items: center; gap: .55rem; }"
+    },
+    {
+      "antipattern": "design-system-font-size",
+      "name": "Font size outside DESIGN.md",
+      "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+      "severity": "advisory",
+      "category": "quality",
+      "file": "D:\\compartir-1\\src\\app\\(publico)\\participar\\participante.css",
+      "line": 184,
+      "snippet": "font-size: 1.15rem is off the DESIGN.md type ramp",
+      "advisory": true,
+      "ignoreValue": "1.15rem",
+      "importedBy": [
+        "layout.tsx"
+      ],
+      "provenance": "nuevo en el área participante de Prompt 5",
+      "diagnosis": "Señal de coherencia con la escala estructurada. La CLI no mide legibilidad ni contraste.",
+      "selector": ".resultados-coincidencias h3",
+      "source_excerpt": ".resultados-coincidencias h3 { margin: .5rem 0 .7rem; font-size: 1.15rem; }"
+    },
+    {
+      "antipattern": "design-system-font-size",
+      "name": "Font size outside DESIGN.md",
+      "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+      "severity": "advisory",
+      "category": "quality",
+      "file": "D:\\compartir-1\\src\\app\\(publico)\\participar\\participante.css",
+      "line": 191,
+      "snippet": "font-size: 1.55rem is off the DESIGN.md type ramp",
+      "advisory": true,
+      "ignoreValue": "1.55rem",
+      "importedBy": [
+        "layout.tsx"
+      ],
+      "provenance": "nuevo en el área participante de Prompt 5",
+      "diagnosis": "Señal de coherencia con la escala estructurada. La CLI no mide legibilidad ni contraste.",
+      "selector": ".anillo-coincidencia strong",
+      "source_excerpt": ".anillo-coincidencia strong { font-size: 1.55rem; font-variant-numeric: tabular-nums; }"
+    },
+    {
+      "antipattern": "design-system-font-size",
+      "name": "Font size outside DESIGN.md",
+      "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+      "severity": "advisory",
+      "category": "quality",
+      "file": "D:\\compartir-1\\src\\app\\(publico)\\participar\\participante.css",
+      "line": 201,
+      "snippet": "font-size: .76rem is off the DESIGN.md type ramp",
+      "advisory": true,
+      "ignoreValue": ".76rem",
+      "importedBy": [
+        "layout.tsx"
+      ],
+      "provenance": "nuevo en el área participante de Prompt 5",
+      "diagnosis": "El tamaño cabe en el rango genérico de apoyo de DESIGN.md:165. El selector aún puede requerir una comprobación visual de su función como etiqueta, ayuda o contador.",
+      "selector": ".etapas-pistas li en max-width: 28rem",
+      "source_excerpt": ".etapas-pistas li { font-size: .76rem; }"
+    },
+    {
+      "antipattern": "gradient-text",
+      "name": "Gradient text",
+      "description": "Gradient text is decorative rather than meaningful — a common AI tell, especially on headings and metrics. Use solid colors for text.",
+      "severity": "warning",
+      "category": "slop",
+      "file": "D:\\compartir-1\\src\\app\\globals.css",
+      "line": 34,
+      "snippet": "background-clip: text + gradient",
+      "importedBy": [
+        "layout.tsx"
+      ],
+      "provenance": "recurrente. Mismo aviso, archivo y línea en Prompt 4",
+      "diagnosis": "La declaración heredada existe, pero una búsqueda literal de texto-degradado-navideno en todo src/ solo devuelve su definición. No demuestra un degradado visible en estas pantallas.",
+      "selector": ".texto-degradado-navideno",
+      "source_excerpt": ".texto-degradado-navideno{color:var(--color-navidad-dorado-claro);background:linear-gradient(110deg,var(--color-navidad-nieve),var(--color-navidad-dorado-claro));background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent}"
+    },
+    {
+      "antipattern": "design-system-radius",
+      "name": "Radius outside DESIGN.md",
+      "description": "A border-radius value is outside the DESIGN.md rounded scale. Use a documented radius token or update the design system if the new shape is intentional.",
+      "severity": "advisory",
+      "category": "quality",
+      "file": "D:\\compartir-1\\src\\app\\globals.css",
+      "line": 37,
+      "snippet": "border-radius: .5rem is outside the DESIGN.md rounded scale",
+      "advisory": true,
+      "ignoreValue": ".5rem",
+      "importedBy": [
+        "layout.tsx"
+      ],
+      "provenance": "regla CSS anterior a Prompt 5, aviso nuevo en el detector comparado con el archivo de Prompt 4",
+      "diagnosis": "La regla es del enlace de salto visible al enfocar. Es una diferencia de token de 0.5rem sin impacto de usabilidad demostrado.",
+      "selector": ".saltar-contenido",
+      "source_excerpt": ".saltar-contenido{position:fixed;inset:.5rem auto auto .5rem;z-index:200;padding:.75rem 1.2rem;color:var(--color-navidad-carbon);background:var(--color-navidad-dorado);border-radius:.5rem;transform:translateY(-200%)}"
+    },
+    {
+      "antipattern": "design-system-font-size",
+      "name": "Font size outside DESIGN.md",
+      "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+      "severity": "advisory",
+      "category": "quality",
+      "file": "D:\\compartir-1\\src\\app\\globals.css",
+      "line": 61,
+      "snippet": "font-size: .85rem is off the DESIGN.md type ramp",
+      "advisory": true,
+      "ignoreValue": ".85rem",
+      "importedBy": [
+        "layout.tsx"
+      ],
+      "provenance": "regla CSS anterior a Prompt 5, aviso nuevo en el detector comparado con el archivo de Prompt 4",
+      "diagnosis": "Señal de coherencia con la escala estructurada. La CLI no mide legibilidad ni contraste.",
+      "source_excerpt": ".campo-ayuda,.campo-error{margin:.5rem 0 0;font-size:.85rem;line-height:1.5}.campo-ayuda{color:var(--texto-suave)}.campo-error{color:var(--color-navidad-dorado-claro)}.campo-invalido input{border-color:var(--color-navidad-rojo)}"
+    },
+    {
+      "antipattern": "design-system-font-size",
+      "name": "Font size outside DESIGN.md",
+      "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+      "severity": "advisory",
+      "category": "quality",
+      "file": "D:\\compartir-1\\src\\app\\globals.css",
+      "line": 62,
+      "snippet": "font-size: 1.8rem is off the DESIGN.md type ramp",
+      "advisory": true,
+      "ignoreValue": "1.8rem",
+      "importedBy": [
+        "layout.tsx"
+      ],
+      "provenance": "regla CSS anterior a Prompt 5, aviso nuevo en el detector comparado con el archivo de Prompt 4",
+      "diagnosis": "Falso positivo respecto a la especificación escrita. DESIGN.md:220 documenta el PIN de 1.8rem.",
+      "source_excerpt": ".campo-pin input{min-height:82px;padding:1.7rem .75rem .5rem 1.85rem;text-align:center;font-size:1.8rem;letter-spacing:1.05rem;font-variant-numeric:tabular-nums}"
+    },
+    {
+      "antipattern": "design-system-font-size",
+      "name": "Font size outside DESIGN.md",
+      "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+      "severity": "advisory",
+      "category": "quality",
+      "file": "D:\\compartir-1\\src\\app\\globals.css",
+      "line": 72,
+      "snippet": "font-size: 1.25rem is off the DESIGN.md type ramp",
+      "advisory": true,
+      "ignoreValue": "1.25rem",
+      "importedBy": [
+        "layout.tsx"
+      ],
+      "provenance": "regla CSS anterior a Prompt 5, aviso nuevo en el detector comparado con el archivo de Prompt 4",
+      "diagnosis": "Falso positivo respecto a la especificación escrita. DESIGN.md:167 documenta el título del modal de 1.25rem.",
+      "source_excerpt": ".modal-cabecera{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:1rem}.modal-cabecera h2{font-family:var(--font-nunito),sans-serif;font-size:1.25rem;margin:0}"
+    },
+    {
+      "antipattern": "design-system-font-size",
+      "name": "Font size outside DESIGN.md",
+      "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+      "severity": "advisory",
+      "category": "quality",
+      "file": "D:\\compartir-1\\src\\app\\globals.css",
+      "line": 76,
+      "snippet": "font-size: .85rem is off the DESIGN.md type ramp",
+      "advisory": true,
+      "ignoreValue": ".85rem",
+      "importedBy": [
+        "layout.tsx"
+      ],
+      "provenance": "regla CSS anterior a Prompt 5, aviso nuevo en el detector comparado con el archivo de Prompt 4",
+      "diagnosis": "Señal de coherencia con la escala estructurada. La CLI no mide legibilidad ni contraste.",
+      "source_excerpt": ".casilla input:checked+.casilla-marca{background:var(--color-navidad-dorado);border-color:var(--color-navidad-dorado)}.casilla small{display:block;font-size:.85rem;color:var(--texto-suave)}.casilla-deshabilitada{opacity:.5;cursor:not-allowed}"
+    },
+    {
+      "antipattern": "design-system-font-size",
+      "name": "Font size outside DESIGN.md",
+      "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+      "severity": "advisory",
+      "category": "quality",
+      "file": "D:\\compartir-1\\src\\app\\globals.css",
+      "line": 92,
+      "snippet": "font-size: .85rem is off the DESIGN.md type ramp",
+      "advisory": true,
+      "ignoreValue": ".85rem",
+      "importedBy": [
+        "layout.tsx"
+      ],
+      "provenance": "regla CSS anterior a Prompt 5, aviso nuevo en el detector comparado con el archivo de Prompt 4",
+      "diagnosis": "Señal de coherencia con la escala estructurada. La CLI no mide legibilidad ni contraste.",
+      "source_excerpt": ".enlace-como{font-size:.85rem;margin-right:1.5rem;color:var(--texto-suave)}"
+    },
+    {
+      "antipattern": "design-system-font-size",
+      "name": "Font size outside DESIGN.md",
+      "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+      "severity": "advisory",
+      "category": "quality",
+      "file": "D:\\compartir-1\\src\\app\\globals.css",
+      "line": 95,
+      "snippet": "font-size: .8rem is off the DESIGN.md type ramp",
+      "advisory": true,
+      "ignoreValue": ".8rem",
+      "importedBy": [
+        "layout.tsx"
+      ],
+      "provenance": "regla CSS anterior a Prompt 5, aviso nuevo en el detector comparado con el archivo de Prompt 4",
+      "diagnosis": "Señal de coherencia con la escala estructurada. La CLI no mide legibilidad ni contraste.",
+      "source_excerpt": ".pie{padding:2rem 0;border-top:1px solid var(--linea);color:var(--texto-suave);font-size:.8rem}.pie-interior{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}"
+    },
+    {
+      "antipattern": "design-system-font-size",
+      "name": "Font size outside DESIGN.md",
+      "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+      "severity": "advisory",
+      "category": "quality",
+      "file": "D:\\compartir-1\\src\\app\\globals.css",
+      "line": 98,
+      "snippet": "font-size: .75rem is off the DESIGN.md type ramp",
+      "advisory": true,
+      "ignoreValue": ".75rem",
+      "importedBy": [
+        "layout.tsx"
+      ],
+      "provenance": "regla CSS anterior a Prompt 5, aviso nuevo en el detector comparado con el archivo de Prompt 4",
+      "diagnosis": "Señal de coherencia con la escala estructurada. La CLI no mide legibilidad ni contraste.",
+      "source_excerpt": ".pasos-navegacion li{display:flex;flex-direction:column;align-items:center;gap:.6rem;font-size:.75rem;position:relative;color:var(--texto-suave)}.paso-icono{display:flex;align-items:center;justify-content:center;width:40px;height:40px;border:1px solid var(--linea);border-radius:50%;background:var(--fondo)}"
+    },
+    {
+      "antipattern": "design-system-font-size",
+      "name": "Font size outside DESIGN.md",
+      "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+      "severity": "advisory",
+      "category": "quality",
+      "file": "D:\\compartir-1\\src\\app\\globals.css",
+      "line": 103,
+      "snippet": "font-size: clamp(1.1rem,1.6vw,1.25rem) has fluid endpoints 1.1rem and 1.25rem off the DESIGN.md type ramp",
+      "advisory": true,
+      "ignoreValue": "1.1rem",
+      "importedBy": [
+        "layout.tsx"
+      ],
+      "provenance": "regla CSS anterior a Prompt 5, aviso nuevo en el detector comparado con el archivo de Prompt 4",
+      "diagnosis": "Falso positivo respecto a la especificación escrita. DESIGN.md:164 documenta este clamp del subtítulo del hero.",
+      "source_excerpt": ".hero-subtitulo{max-width:34ch;font-size:clamp(1.1rem,1.6vw,1.25rem);color:var(--texto-suave);line-height:1.65;margin-bottom:2rem}"
+    },
+    {
+      "antipattern": "design-system-font-size",
+      "name": "Font size outside DESIGN.md",
+      "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+      "severity": "advisory",
+      "category": "quality",
+      "file": "D:\\compartir-1\\src\\app\\globals.css",
+      "line": 104,
+      "snippet": "font-size: .8rem is off the DESIGN.md type ramp",
+      "advisory": true,
+      "ignoreValue": ".8rem",
+      "importedBy": [
+        "layout.tsx"
+      ],
+      "provenance": "regla CSS anterior a Prompt 5, aviso nuevo en el detector comparado con el archivo de Prompt 4",
+      "diagnosis": "Señal de coherencia con la escala estructurada. La CLI no mide legibilidad ni contraste.",
+      "source_excerpt": ".hero-confianza{display:flex;align-items:center;gap:.5rem;margin:1.2rem 0 0;color:var(--texto-suave);font-size:.8rem}.hero-confianza svg{color:var(--color-navidad-dorado-claro)}"
+    },
+    {
+      "antipattern": "design-system-font-size",
+      "name": "Font size outside DESIGN.md",
+      "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+      "severity": "advisory",
+      "category": "quality",
+      "file": "D:\\compartir-1\\src\\app\\globals.css",
+      "line": 111,
+      "snippet": "font-size: 1.35rem is off the DESIGN.md type ramp",
+      "advisory": true,
+      "ignoreValue": "1.35rem",
+      "importedBy": [
+        "layout.tsx"
+      ],
+      "provenance": "regla CSS anterior a Prompt 5, aviso nuevo en el detector comparado con el archivo de Prompt 4",
+      "diagnosis": "Señal de coherencia con la escala estructurada. La CLI no mide legibilidad ni contraste.",
+      "source_excerpt": ".escena-nota{position:absolute;bottom:3%;inset-inline:0;text-align:center;color:var(--color-navidad-dorado-claro);font-family:var(--font-mountains),Georgia,serif;font-size:1.35rem;transform:rotate(-5deg)}"
+    },
+    {
+      "antipattern": "design-system-font-size",
+      "name": "Font size outside DESIGN.md",
+      "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+      "severity": "advisory",
+      "category": "quality",
+      "file": "D:\\compartir-1\\src\\app\\globals.css",
+      "line": 112,
+      "snippet": "font-size: .75rem is off the DESIGN.md type ramp",
+      "advisory": true,
+      "ignoreValue": ".75rem",
+      "importedBy": [
+        "layout.tsx"
+      ],
+      "provenance": "regla CSS anterior a Prompt 5, aviso nuevo en el detector comparado con el archivo de Prompt 4",
+      "diagnosis": "Señal de coherencia con la escala estructurada. La CLI no mide legibilidad ni contraste.",
+      "source_excerpt": ".indicador-scroll{display:flex;align-items:center;justify-content:center;gap:.65rem;margin-top:1.5rem;color:var(--texto-suave);font-size:.75rem}"
+    },
+    {
+      "antipattern": "design-system-font-size",
+      "name": "Font size outside DESIGN.md",
+      "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+      "severity": "advisory",
+      "category": "quality",
+      "file": "D:\\compartir-1\\src\\app\\globals.css",
+      "line": 115,
+      "snippet": "font-size: .75rem is off the DESIGN.md type ramp",
+      "advisory": true,
+      "ignoreValue": ".75rem",
+      "importedBy": [
+        "layout.tsx"
+      ],
+      "provenance": "regla CSS anterior a Prompt 5, aviso nuevo en el detector comparado con el archivo de Prompt 4",
+      "diagnosis": "Señal de coherencia con la escala estructurada. La CLI no mide legibilidad ni contraste.",
+      "source_excerpt": ".paso-encabezado{display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem}.paso-encabezado>span{font-size:.75rem;color:var(--texto-suave);font-variant-numeric:tabular-nums}.paso-encabezado svg{color:var(--color-navidad-dorado-claro)}"
+    },
+    {
+      "antipattern": "design-system-font-size",
+      "name": "Font size outside DESIGN.md",
+      "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+      "severity": "advisory",
+      "category": "quality",
+      "file": "D:\\compartir-1\\src\\app\\globals.css",
+      "line": 116,
+      "snippet": "font-size: .88rem is off the DESIGN.md type ramp",
+      "advisory": true,
+      "ignoreValue": ".88rem",
+      "importedBy": [
+        "layout.tsx"
+      ],
+      "provenance": "regla CSS anterior a Prompt 5, aviso nuevo en el detector comparado con el archivo de Prompt 4",
+      "diagnosis": "Señal de coherencia con la escala estructurada. La CLI no mide legibilidad ni contraste.",
+      "source_excerpt": ".tarjeta-paso h3{font-size:1.05rem;margin-bottom:.7rem}.tarjeta-paso p{margin-bottom:0;font-size:.88rem;color:var(--texto-suave)}"
+    },
+    {
+      "antipattern": "design-system-font-size",
+      "name": "Font size outside DESIGN.md",
+      "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+      "severity": "advisory",
+      "category": "quality",
+      "file": "D:\\compartir-1\\src\\app\\globals.css",
+      "line": 119,
+      "snippet": "font-size: .85rem is off the DESIGN.md type ramp",
+      "advisory": true,
+      "ignoreValue": ".85rem",
+      "importedBy": [
+        "layout.tsx"
+      ],
+      "provenance": "regla CSS anterior a Prompt 5, aviso nuevo en el detector comparado con el archivo de Prompt 4",
+      "diagnosis": "Señal de coherencia con la escala estructurada. La CLI no mide legibilidad ni contraste.",
+      "source_excerpt": ".lista-reglas{list-style:none;padding:0;margin:0}.lista-reglas li{display:flex;align-items:flex-start;gap:.85rem;padding-block:1rem;border-bottom:1px solid var(--linea)}.lista-reglas li:last-child{border-bottom:0}.lista-reglas svg{color:var(--color-navidad-dorado);margin-top:.2rem}.lista-reglas strong{display:block;font-size:.95rem}.lista-reglas p{color:var(--texto-suave);font-size:.85rem;margin:.25rem 0 0}"
+    },
+    {
+      "antipattern": "design-system-font-size",
+      "name": "Font size outside DESIGN.md",
+      "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+      "severity": "advisory",
+      "category": "quality",
+      "file": "D:\\compartir-1\\src\\app\\globals.css",
+      "line": 125,
+      "snippet": "font-size: clamp(3.2rem,5vw,4.7rem) has fluid endpoints 3.2rem and 4.7rem off the DESIGN.md type ramp",
+      "advisory": true,
+      "ignoreValue": "3.2rem",
+      "importedBy": [
+        "layout.tsx"
+      ],
+      "provenance": "regla CSS anterior a Prompt 5, aviso nuevo en el detector comparado con el archivo de Prompt 4",
+      "diagnosis": "Señal de coherencia con la escala estructurada. La CLI no mide legibilidad ni contraste.",
+      "source_excerpt": ".ingreso-ambiente>.display{font-size:clamp(3.2rem,5vw,4.7rem);line-height:1.15;max-width:11ch;margin-bottom:1rem}.ingreso-ambiente>p:not(.display){color:var(--texto-suave);max-width:35ch}.ingreso-ambiente .escena-regalo{width:min(100%,310px);margin:0}"
+    },
+    {
+      "antipattern": "design-system-font-size",
+      "name": "Font size outside DESIGN.md",
+      "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+      "severity": "advisory",
+      "category": "quality",
+      "file": "D:\\compartir-1\\src\\app\\globals.css",
+      "line": 127,
+      "snippet": "font-size: clamp(2.6rem,4vw,3.6rem) has fluid endpoints 2.6rem and 3.6rem off the DESIGN.md type ramp",
+      "advisory": true,
+      "ignoreValue": "2.6rem",
+      "importedBy": [
+        "layout.tsx"
+      ],
+      "provenance": "regla CSS anterior a Prompt 5, aviso nuevo en el detector comparado con el archivo de Prompt 4",
+      "diagnosis": "Falso positivo respecto a la especificación escrita. DESIGN.md:162 documenta este clamp del título de ingreso.",
+      "source_excerpt": ".ingreso-tarjeta h1{font-size:clamp(2.6rem,4vw,3.6rem);margin:.5rem 0 .75rem}.ingreso-tarjeta p{color:var(--texto-suave)}"
+    },
+    {
+      "antipattern": "design-system-font-size",
+      "name": "Font size outside DESIGN.md",
+      "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+      "severity": "advisory",
+      "category": "quality",
+      "file": "D:\\compartir-1\\src\\app\\globals.css",
+      "line": 128,
+      "snippet": "font-size: .75rem is off the DESIGN.md type ramp",
+      "advisory": true,
+      "ignoreValue": ".75rem",
+      "importedBy": [
+        "layout.tsx"
+      ],
+      "provenance": "regla CSS anterior a Prompt 5, aviso nuevo en el detector comparado con el archivo de Prompt 4",
+      "diagnosis": "Señal de coherencia con la escala estructurada. La CLI no mide legibilidad ni contraste.",
+      "source_excerpt": ".ingreso-progreso{display:flex;align-items:center;gap:.55rem;color:var(--texto-suave);font-size:.75rem;margin-bottom:1.6rem}.ingreso-progreso span[aria-current=\"step\"]{color:var(--color-navidad-dorado-claro)}.ingreso-progreso i{height:1px;width:25px;background:var(--linea)}"
+    },
+    {
+      "antipattern": "design-system-font-size",
+      "name": "Font size outside DESIGN.md",
+      "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+      "severity": "advisory",
+      "category": "quality",
+      "file": "D:\\compartir-1\\src\\app\\globals.css",
+      "line": 130,
+      "snippet": "font-size: .9rem is off the DESIGN.md type ramp",
+      "advisory": true,
+      "ignoreValue": ".9rem",
+      "importedBy": [
+        "layout.tsx"
+      ],
+      "provenance": "regla CSS anterior a Prompt 5, aviso nuevo en el detector comparado con el archivo de Prompt 4",
+      "diagnosis": "Señal de coherencia con la escala estructurada. La CLI no mide legibilidad ni contraste.",
+      "source_excerpt": ".persona{display:flex;gap:.7rem;align-items:center;min-width:0;min-height:78px;text-align:left;padding:.85rem;border:1px solid var(--linea);border-radius:.75rem;background:color-mix(in srgb,var(--superficie-clara) 45%,transparent);color:var(--texto);font-size:.9rem;font-weight:700}"
+    },
+    {
+      "antipattern": "design-system-font-size",
+      "name": "Font size outside DESIGN.md",
+      "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+      "severity": "advisory",
+      "category": "quality",
+      "file": "D:\\compartir-1\\src\\app\\globals.css",
+      "line": 134,
+      "snippet": "font-size: 1.5rem is off the DESIGN.md type ramp",
+      "advisory": true,
+      "ignoreValue": "1.5rem",
+      "importedBy": [
+        "layout.tsx"
+      ],
+      "provenance": "regla CSS anterior a Prompt 5, aviso nuevo en el detector comparado con el archivo de Prompt 4",
+      "diagnosis": "Señal de coherencia con la escala estructurada. La CLI no mide legibilidad ni contraste.",
+      "source_excerpt": ".avatar-seleccionado{display:flex;justify-content:center;margin:1.5rem 0 1rem}.avatar-seleccionado .avatar{width:64px;height:64px;font-size:1.5rem;border:1px solid var(--color-navidad-dorado)}"
+    },
+    {
+      "antipattern": "design-system-font-size",
+      "name": "Font size outside DESIGN.md",
+      "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+      "severity": "advisory",
+      "category": "quality",
+      "file": "D:\\compartir-1\\src\\app\\globals.css",
+      "line": 135,
+      "snippet": "font-size: clamp(2.2rem,4vw,3rem) has fluid endpoints 2.2rem and 3rem off the DESIGN.md type ramp",
+      "advisory": true,
+      "ignoreValue": "2.2rem",
+      "importedBy": [
+        "layout.tsx"
+      ],
+      "provenance": "regla CSS anterior a Prompt 5, aviso nuevo en el detector comparado con el archivo de Prompt 4",
+      "diagnosis": "Falso positivo respecto a la especificación escrita. DESIGN.md:162 documenta este clamp del saludo PIN.",
+      "source_excerpt": ".ingreso-paso-pin{text-align:center}.ingreso-paso-pin h1{margin-bottom:.65rem;font-size:clamp(2.2rem,4vw,3rem);overflow-wrap:anywhere}"
+    },
+    {
+      "antipattern": "design-system-font-size",
+      "name": "Font size outside DESIGN.md",
+      "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+      "severity": "advisory",
+      "category": "quality",
+      "file": "D:\\compartir-1\\src\\app\\globals.css",
+      "line": 136,
+      "snippet": "font-size: .78rem is off the DESIGN.md type ramp",
+      "advisory": true,
+      "ignoreValue": ".78rem",
+      "importedBy": [
+        "layout.tsx"
+      ],
+      "provenance": "regla CSS anterior a Prompt 5, aviso nuevo en el detector comparado con el archivo de Prompt 4",
+      "diagnosis": "Señal de coherencia con la escala estructurada. La CLI no mide legibilidad ni contraste.",
+      "source_excerpt": ".ingreso-formulario{margin-top:1.8rem}.ingreso-formulario .boton{width:100%;margin-top:1.3rem}.ingreso-ayuda{margin:1.3rem 0 0;font-size:.78rem;text-align:center}"
+    },
+    {
+      "antipattern": "design-system-font-size",
+      "name": "Font size outside DESIGN.md",
+      "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+      "severity": "advisory",
+      "category": "quality",
+      "file": "D:\\compartir-1\\src\\app\\globals.css",
+      "line": 137,
+      "snippet": "font-size: .85rem is off the DESIGN.md type ramp",
+      "advisory": true,
+      "ignoreValue": ".85rem",
+      "importedBy": [
+        "layout.tsx"
+      ],
+      "provenance": "regla CSS anterior a Prompt 5, aviso nuevo en el detector comparado con el archivo de Prompt 4",
+      "diagnosis": "Señal de coherencia con la escala estructurada. La CLI no mide legibilidad ni contraste.",
+      "source_excerpt": ".ingreso-volver{margin-top:1.2rem;display:flex;align-items:center;justify-content:center}.ingreso-volver a,.ingreso-volver button{min-height:44px;display:inline-flex;align-items:center;gap:.4rem;color:var(--texto-suave);font-size:.85rem;border:0;background:transparent;padding:.4rem .8rem}"
+    },
+    {
+      "antipattern": "design-system-font-size",
+      "name": "Font size outside DESIGN.md",
+      "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+      "severity": "advisory",
+      "category": "quality",
+      "file": "D:\\compartir-1\\src\\app\\globals.css",
+      "line": 140,
+      "snippet": "font-size: .75rem is off the DESIGN.md type ramp",
+      "advisory": true,
+      "ignoreValue": ".75rem",
+      "importedBy": [
+        "layout.tsx"
+      ],
+      "provenance": "regla CSS anterior a Prompt 5, aviso nuevo en el detector comparado con el archivo de Prompt 4",
+      "diagnosis": "Señal de coherencia con la escala estructurada. La CLI no mide legibilidad ni contraste.",
+      "source_excerpt": ".pin-privado{display:inline-flex;align-items:center;gap:.4rem;margin-top:1rem;color:var(--texto-suave);font-size:.75rem}"
+    },
+    {
+      "antipattern": "design-system-font-size",
+      "name": "Font size outside DESIGN.md",
+      "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+      "severity": "advisory",
+      "category": "quality",
+      "file": "D:\\compartir-1\\src\\app\\globals.css",
+      "line": 156,
+      "snippet": "font-size: clamp(3.8rem,8vw,5.5rem) has fluid endpoints 3.8rem and 5.5rem off the DESIGN.md type ramp",
+      "advisory": true,
+      "ignoreValue": "3.8rem",
+      "importedBy": [
+        "layout.tsx"
+      ],
+      "provenance": "regla CSS anterior a Prompt 5, aviso nuevo en el detector comparado con el archivo de Prompt 4",
+      "diagnosis": "Falso positivo respecto a la especificación escrita. DESIGN.md:161 documenta este clamp del hero a 1023 px.",
+      "source_excerpt": ".hero-rejilla{min-height:460px}.hero h1{font-size:clamp(3.8rem,8vw,5.5rem)}.rejilla-pasos{grid-template-columns:repeat(2,minmax(0,1fr))}.reglas-rejilla{gap:3rem}.ingreso-rejilla{gap:2.5rem}.enlace-como{margin-right:.5rem}"
+    },
+    {
+      "antipattern": "design-system-font-size",
+      "name": "Font size outside DESIGN.md",
+      "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+      "severity": "advisory",
+      "category": "quality",
+      "file": "D:\\compartir-1\\src\\app\\globals.css",
+      "line": 159,
+      "snippet": "font-size: clamp(3.7rem,12.5vw,5.5rem) has fluid endpoint 5.5rem off the DESIGN.md type ramp",
+      "advisory": true,
+      "ignoreValue": "5.5rem",
+      "importedBy": [
+        "layout.tsx"
+      ],
+      "provenance": "regla CSS anterior a Prompt 5, aviso nuevo en el detector comparado con el archivo de Prompt 4",
+      "diagnosis": "Falso positivo respecto a la especificación escrita. DESIGN.md:161 documenta este clamp del hero a 767 px.",
+      "source_excerpt": ".hero{padding-top:2.5rem}.hero-rejilla{grid-template-columns:1fr;text-align:center;min-height:auto}.hero h1{font-size:clamp(3.7rem,12.5vw,5.5rem)}.hero-subtitulo{margin-inline:auto;max-width:30ch}.hero-confianza{justify-content:center;font-size:.75rem}"
+    },
+    {
+      "antipattern": "design-system-font-size",
+      "name": "Font size outside DESIGN.md",
+      "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+      "severity": "advisory",
+      "category": "quality",
+      "file": "D:\\compartir-1\\src\\app\\globals.css",
+      "line": 159,
+      "snippet": "font-size: .75rem is off the DESIGN.md type ramp",
+      "advisory": true,
+      "ignoreValue": ".75rem",
+      "importedBy": [
+        "layout.tsx"
+      ],
+      "provenance": "regla CSS anterior a Prompt 5, aviso nuevo en el detector comparado con el archivo de Prompt 4",
+      "diagnosis": "Señal de coherencia con la escala estructurada. La CLI no mide legibilidad ni contraste.",
+      "source_excerpt": ".hero{padding-top:2.5rem}.hero-rejilla{grid-template-columns:1fr;text-align:center;min-height:auto}.hero h1{font-size:clamp(3.7rem,12.5vw,5.5rem)}.hero-subtitulo{margin-inline:auto;max-width:30ch}.hero-confianza{justify-content:center;font-size:.75rem}"
+    },
+    {
+      "antipattern": "design-system-font-size",
+      "name": "Font size outside DESIGN.md",
+      "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+      "severity": "advisory",
+      "category": "quality",
+      "file": "D:\\compartir-1\\src\\app\\globals.css",
+      "line": 162,
+      "snippet": "font-size: .8rem is off the DESIGN.md type ramp",
+      "advisory": true,
+      "ignoreValue": ".8rem",
+      "importedBy": [
+        "layout.tsx"
+      ],
+      "provenance": "regla CSS anterior a Prompt 5, aviso nuevo en el detector comparado con el archivo de Prompt 4",
+      "diagnosis": "Señal de coherencia con la escala estructurada. La CLI no mide legibilidad ni contraste.",
+      "source_excerpt": ".enlace-como,.nombre-sesion{display:none}.enlace-ingresar{margin:0;padding-inline:.6rem}.encabezado-acciones{gap:.1rem}.marca{font-size:.8rem;gap:.45rem}.marca img{width:33px;height:33px}.control-icono{min-width:44px}"
+    },
+    {
+      "antipattern": "design-system-font-size",
+      "name": "Font size outside DESIGN.md",
+      "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+      "severity": "advisory",
+      "category": "quality",
+      "file": "D:\\compartir-1\\src\\app\\globals.css",
+      "line": 166,
+      "snippet": "font-size: 3.65rem is off the DESIGN.md type ramp",
+      "advisory": true,
+      "ignoreValue": "3.65rem",
+      "importedBy": [
+        "layout.tsx"
+      ],
+      "provenance": "regla CSS anterior a Prompt 5, aviso nuevo en el detector comparado con el archivo de Prompt 4",
+      "diagnosis": "Falso positivo respecto a la especificación escrita. DESIGN.md:161 documenta el tamaño de 3.65rem a 374 px.",
+      "source_excerpt": ".contenedor{width:calc(100% - 2.25rem)}.hero h1{font-size:3.65rem}.rejilla-pasos{grid-template-columns:1fr}.tarjeta-paso .tarjeta{padding:1.5rem}.paso-encabezado{margin-bottom:1.2rem}"
+    },
+    {
+      "antipattern": "design-system-font-size",
+      "name": "Font size outside DESIGN.md",
+      "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+      "severity": "advisory",
+      "category": "quality",
+      "file": "D:\\compartir-1\\src\\app\\globals.css",
+      "line": 167,
+      "snippet": "font-size: .75rem is off the DESIGN.md type ramp",
+      "advisory": true,
+      "ignoreValue": ".75rem",
+      "importedBy": [
+        "layout.tsx"
+      ],
+      "provenance": "regla CSS anterior a Prompt 5, aviso nuevo en el detector comparado con el archivo de Prompt 4",
+      "diagnosis": "Señal de coherencia con la escala estructurada. La CLI no mide legibilidad ni contraste.",
+      "source_excerpt": ".encabezado-acciones{gap:0}.enlace-ingresar{font-size:.75rem;min-height:44px}.marca{font-size:.75rem}.personas{gap:.5rem}.persona{padding:.7rem .6rem;gap:.45rem;font-size:.8rem}.persona .avatar{width:30px;height:30px}.pasos-navegacion li{font-size:.6rem}"
+    },
+    {
+      "antipattern": "design-system-font-size",
+      "name": "Font size outside DESIGN.md",
+      "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+      "severity": "advisory",
+      "category": "quality",
+      "file": "D:\\compartir-1\\src\\app\\globals.css",
+      "line": 167,
+      "snippet": "font-size: .8rem is off the DESIGN.md type ramp",
+      "advisory": true,
+      "ignoreValue": ".8rem",
+      "importedBy": [
+        "layout.tsx"
+      ],
+      "provenance": "regla CSS anterior a Prompt 5, aviso nuevo en el detector comparado con el archivo de Prompt 4",
+      "diagnosis": "Señal de coherencia con la escala estructurada. La CLI no mide legibilidad ni contraste.",
+      "source_excerpt": ".encabezado-acciones{gap:0}.enlace-ingresar{font-size:.75rem;min-height:44px}.marca{font-size:.75rem}.personas{gap:.5rem}.persona{padding:.7rem .6rem;gap:.45rem;font-size:.8rem}.persona .avatar{width:30px;height:30px}.pasos-navegacion li{font-size:.6rem}"
+    },
+    {
+      "antipattern": "design-system-font-size",
+      "name": "Font size outside DESIGN.md",
+      "description": "A literal font-size is off the type ramp documented in DESIGN.md typography. Use a documented size step or update the design system if the new step is intentional.",
+      "severity": "advisory",
+      "category": "quality",
+      "file": "D:\\compartir-1\\src\\app\\globals.css",
+      "line": 167,
+      "snippet": "font-size: .6rem is off the DESIGN.md type ramp",
+      "advisory": true,
+      "ignoreValue": ".6rem",
+      "importedBy": [
+        "layout.tsx"
+      ],
+      "provenance": "regla CSS anterior a Prompt 5, aviso nuevo en el detector comparado con el archivo de Prompt 4",
+      "diagnosis": "Corresponde al texto de navegación de pasos en pantallas de hasta 374px. 0.6rem equivale a unos 9.6px con raíz de 16px, por comprobar en vista renderizada. Es una regla heredada.",
+      "source_excerpt": ".encabezado-acciones{gap:0}.enlace-ingresar{font-size:.75rem;min-height:44px}.marca{font-size:.75rem}.personas{gap:.5rem}.persona{padding:.7rem .6rem;gap:.45rem;font-size:.8rem}.persona .avatar{width:30px;height:30px}.pasos-navegacion li{font-size:.6rem}"
+    }
+  ]
+}

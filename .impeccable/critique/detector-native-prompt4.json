@@ -1,0 +1,5 @@
+{
+  "command": ".agents/skills/impeccable/scripts/impeccable.cmd detect --json src/",
+  "exit_code": 2,
+  "output": "[\r\n  {\r\n    \"antipattern\": \"gradient-text\",\r\n    \"name\": \"Gradient text\",\r\n    \"description\": \"Gradient text is decorative rather than meaningful ÔÇö a common AI tell, especially on headings and metrics. Use solid colors for text.\",\r\n    \"severity\": \"warning\",\r\n    \"category\": \"slop\",\r\n    \"file\": \"D:\\\\compartir-1\\\\src\\\\app\\\\globals.css\",\r\n    \"line\": 34,\r\n    \"snippet\": \"background-clip: text + gradient\",\r\n    \"importedBy\": [\r\n      \"layout.tsx\"\r\n    ]\r\n  }\r\n]\r\n"
+}

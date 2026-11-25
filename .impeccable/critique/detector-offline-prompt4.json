@@ -1,0 +1,5 @@
+{
+  "command": "npx.cmd --offline impeccable detect src/ --json",
+  "exit_code": 1,
+  "output": "npm error code ENOTCACHED\r\nnpm error request to https://registry.npmjs.org/impeccable failed: cache mode is 'only-if-cached' but no cached response is available.\r\nnpm error Log files were not written due to an error writing to the directory: D:\\Caches\\npm\\_logs\r\nnpm error You can rerun the command with `--loglevel=verbose` to see the logs in your terminal\r\n"
+}

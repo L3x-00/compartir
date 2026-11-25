@@ -1,0 +1,506 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-25T04:59:19.192700+00:00",
+  "title": "Design System: Compartir Navideño",
+  "extensions": {
+    "colorMeta": {
+      "rojo": {
+        "role": "primary",
+        "displayName": "Rojo regalo",
+        "tonalRamp": [
+          "oklch(0.150 0.0278 25.94)",
+          "oklch(0.264 0.0692 25.94)",
+          "oklch(0.379 0.1009 25.94)",
+          "oklch(0.493 0.1178 25.94)",
+          "oklch(0.607 0.1178 25.94)",
+          "oklch(0.721 0.1009 25.94)",
+          "oklch(0.836 0.0692 25.94)",
+          "oklch(0.950 0.0278 25.94)"
+        ],
+        "rampPurpose": "Escala OKLCH derivada para inspección; no amplía la paleta aprobada."
+      },
+      "rojo-oscuro": {
+        "role": "primary",
+        "displayName": "Rojo profundo",
+        "tonalRamp": [
+          "oklch(0.150 0.0278 25.76)",
+          "oklch(0.264 0.0692 25.76)",
+          "oklch(0.379 0.1009 25.76)",
+          "oklch(0.493 0.1178 25.76)",
+          "oklch(0.607 0.1178 25.76)",
+          "oklch(0.721 0.1009 25.76)",
+          "oklch(0.836 0.0692 25.76)",
+          "oklch(0.950 0.0278 25.76)"
+        ],
+        "rampPurpose": "Escala OKLCH derivada para inspección; no amplía la paleta aprobada."
+      },
+      "verde": {
+        "role": "secondary",
+        "displayName": "Verde bosque",
+        "tonalRamp": [
+          "oklch(0.150 0.0219 153.31)",
+          "oklch(0.264 0.0546 153.31)",
+          "oklch(0.379 0.0796 153.31)",
+          "oklch(0.493 0.0929 153.31)",
+          "oklch(0.607 0.0929 153.31)",
+          "oklch(0.721 0.0796 153.31)",
+          "oklch(0.836 0.0546 153.31)",
+          "oklch(0.950 0.0219 153.31)"
+        ],
+        "rampPurpose": "Escala OKLCH derivada para inspección; no amplía la paleta aprobada."
+      },
+      "verde-claro": {
+        "role": "secondary",
+        "displayName": "Verde vivo",
+        "tonalRamp": [
+          "oklch(0.150 0.0278 153.64)",
+          "oklch(0.264 0.0692 153.64)",
+          "oklch(0.379 0.1009 153.64)",
+          "oklch(0.493 0.1178 153.64)",
+          "oklch(0.607 0.1178 153.64)",
+          "oklch(0.721 0.1009 153.64)",
+          "oklch(0.836 0.0692 153.64)",
+          "oklch(0.950 0.0278 153.64)"
+        ],
+        "rampPurpose": "Escala OKLCH derivada para inspección; no amplía la paleta aprobada."
+      },
+      "dorado": {
+        "role": "tertiary",
+        "displayName": "Oro cálido",
+        "tonalRamp": [
+          "oklch(0.150 0.0278 89.19)",
+          "oklch(0.264 0.0692 89.19)",
+          "oklch(0.379 0.1009 89.19)",
+          "oklch(0.493 0.1178 89.19)",
+          "oklch(0.607 0.1178 89.19)",
+          "oklch(0.721 0.1009 89.19)",
+          "oklch(0.836 0.0692 89.19)",
+          "oklch(0.950 0.0278 89.19)"
+        ],
+        "rampPurpose": "Escala OKLCH derivada para inspección; no amplía la paleta aprobada."
+      },
+      "dorado-claro": {
+        "role": "tertiary",
+        "displayName": "Oro luminoso",
+        "tonalRamp": [
+          "oklch(0.150 0.0278 91.07)",
+          "oklch(0.264 0.0692 91.07)",
+          "oklch(0.379 0.1009 91.07)",
+          "oklch(0.493 0.1178 91.07)",
+          "oklch(0.607 0.1178 91.07)",
+          "oklch(0.721 0.1009 91.07)",
+          "oklch(0.836 0.0692 91.07)",
+          "oklch(0.950 0.0278 91.07)"
+        ],
+        "rampPurpose": "Escala OKLCH derivada para inspección; no amplía la paleta aprobada."
+      },
+      "nieve": {
+        "role": "neutral",
+        "displayName": "Blanco nieve",
+        "tonalRamp": [
+          "oklch(0.150 0.0010 258.32)",
+          "oklch(0.264 0.0026 258.32)",
+          "oklch(0.379 0.0038 258.32)",
+          "oklch(0.493 0.0044 258.32)",
+          "oklch(0.607 0.0044 258.32)",
+          "oklch(0.721 0.0038 258.32)",
+          "oklch(0.836 0.0026 258.32)",
+          "oklch(0.950 0.0010 258.32)"
+        ],
+        "rampPurpose": "Escala OKLCH derivada para inspección; no amplía la paleta aprobada."
+      },
+      "carbon": {
+        "role": "neutral",
+        "displayName": "Carbón",
+        "tonalRamp": [
+          "oklch(0.150 0.0000 89.88)",
+          "oklch(0.264 0.0000 89.88)",
+          "oklch(0.379 0.0000 89.88)",
+          "oklch(0.493 0.0000 89.88)",
+          "oklch(0.607 0.0000 89.88)",
+          "oklch(0.721 0.0000 89.88)",
+          "oklch(0.836 0.0000 89.88)",
+          "oklch(0.950 0.0000 89.88)"
+        ],
+        "rampPurpose": "Escala OKLCH derivada para inspección; no amplía la paleta aprobada."
+      },
+      "misterio": {
+        "role": "secondary",
+        "displayName": "Violeta misterio",
+        "tonalRamp": [
+          "oklch(0.150 0.0150 306.93)",
+          "oklch(0.264 0.0374 306.93)",
+          "oklch(0.379 0.0545 306.93)",
+          "oklch(0.493 0.0637 306.93)",
+          "oklch(0.607 0.0637 306.93)",
+          "oklch(0.721 0.0545 306.93)",
+          "oklch(0.836 0.0374 306.93)",
+          "oklch(0.950 0.0150 306.93)"
+        ],
+        "rampPurpose": "Escala OKLCH derivada para inspección; no amplía la paleta aprobada."
+      },
+      "misterio-claro": {
+        "role": "secondary",
+        "displayName": "Misterio claro",
+        "tonalRamp": [
+          "oklch(0.150 0.0204 309.94)",
+          "oklch(0.264 0.0508 309.94)",
+          "oklch(0.379 0.0741 309.94)",
+          "oklch(0.493 0.0865 309.94)",
+          "oklch(0.607 0.0865 309.94)",
+          "oklch(0.721 0.0741 309.94)",
+          "oklch(0.836 0.0508 309.94)",
+          "oklch(0.950 0.0204 309.94)"
+        ],
+        "rampPurpose": "Escala OKLCH derivada para inspección; no amplía la paleta aprobada."
+      },
+      "fondo": {
+        "role": "neutral",
+        "displayName": "Fondo bosque oscuro",
+        "tonalRamp": [
+          "oklch(0.150 0.0100 156.99)",
+          "oklch(0.264 0.0248 156.99)",
+          "oklch(0.379 0.0362 156.99)",
+          "oklch(0.493 0.0422 156.99)",
+          "oklch(0.607 0.0422 156.99)",
+          "oklch(0.721 0.0362 156.99)",
+          "oklch(0.836 0.0248 156.99)",
+          "oklch(0.950 0.0100 156.99)"
+        ],
+        "rampPurpose": "Escala OKLCH derivada para inspección; no amplía la paleta aprobada."
+      },
+      "superficie": {
+        "role": "neutral",
+        "displayName": "Superficie bosque",
+        "tonalRamp": [
+          "oklch(0.150 0.0134 155.76)",
+          "oklch(0.264 0.0334 155.76)",
+          "oklch(0.379 0.0487 155.76)",
+          "oklch(0.493 0.0568 155.76)",
+          "oklch(0.607 0.0568 155.76)",
+          "oklch(0.721 0.0487 155.76)",
+          "oklch(0.836 0.0334 155.76)",
+          "oklch(0.950 0.0134 155.76)"
+        ],
+        "rampPurpose": "Escala OKLCH derivada para inspección; no amplía la paleta aprobada."
+      },
+      "superficie-clara": {
+        "role": "neutral",
+        "displayName": "Superficie bosque clara",
+        "tonalRamp": [
+          "oklch(0.150 0.0177 154.43)",
+          "oklch(0.264 0.0440 154.43)",
+          "oklch(0.379 0.0642 154.43)",
+          "oklch(0.493 0.0749 154.43)",
+          "oklch(0.607 0.0749 154.43)",
+          "oklch(0.721 0.0642 154.43)",
+          "oklch(0.836 0.0440 154.43)",
+          "oklch(0.950 0.0177 154.43)"
+        ],
+        "rampPurpose": "Escala OKLCH derivada para inspección; no amplía la paleta aprobada."
+      },
+      "texto-suave": {
+        "role": "neutral",
+        "displayName": "Texto nieve suave",
+        "tonalRamp": [
+          "oklch(0.150 0.0051 169.59)",
+          "oklch(0.264 0.0127 169.59)",
+          "oklch(0.379 0.0184 169.59)",
+          "oklch(0.493 0.0215 169.59)",
+          "oklch(0.607 0.0215 169.59)",
+          "oklch(0.721 0.0184 169.59)",
+          "oklch(0.836 0.0127 169.59)",
+          "oklch(0.950 0.0051 169.59)"
+        ],
+        "rampPurpose": "Escala OKLCH derivada para inspección; no amplía la paleta aprobada."
+      },
+      "linea": {
+        "role": "neutral",
+        "displayName": "Línea nieve translúcida",
+        "tonalRamp": [
+          "oklch(0.150 0.0010 258.32 / 0.18)",
+          "oklch(0.264 0.0026 258.32 / 0.18)",
+          "oklch(0.379 0.0038 258.32 / 0.18)",
+          "oklch(0.493 0.0044 258.32 / 0.18)",
+          "oklch(0.607 0.0044 258.32 / 0.18)",
+          "oklch(0.721 0.0038 258.32 / 0.18)",
+          "oklch(0.836 0.0026 258.32 / 0.18)",
+          "oklch(0.950 0.0010 258.32 / 0.18)"
+        ],
+        "rampPurpose": "Escala OKLCH derivada para inspección; no amplía la paleta aprobada."
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Título festivo",
+        "purpose": "Hero principal; escala responsive documentada en DESIGN.md."
+      },
+      "headline": {
+        "displayName": "Encabezado de sección",
+        "purpose": "H2 de landing y títulos de ingreso, con variantes de tamaño."
+      },
+      "title": {
+        "displayName": "Título de tarjeta",
+        "purpose": "H3 de pasos en Nunito."
+      },
+      "body": {
+        "displayName": "Texto de lectura",
+        "purpose": "Cuerpo y ayudas legibles en Nunito."
+      },
+      "label": {
+        "displayName": "Etiqueta de acción",
+        "purpose": "Botones y controles de interacción."
+      }
+    },
+    "shadows": [
+      {
+        "name": "tarjeta",
+        "value": "0 18px 46px color-mix(in srgb,var(--color-navidad-carbon) 30%,transparent)",
+        "purpose": "Hover de tarjeta y contenedor de ingreso."
+      },
+      {
+        "name": "primario",
+        "value": "0 5px 18px color-mix(in srgb,var(--color-navidad-rojo-oscuro) 35%,transparent)",
+        "purpose": "Botón primario en reposo."
+      },
+      {
+        "name": "primario-hover",
+        "value": "0 8px 24px color-mix(in srgb,var(--color-navidad-rojo) 35%,transparent)",
+        "purpose": "Hover primario."
+      },
+      {
+        "name": "dorado",
+        "value": "0 8px 28px color-mix(in srgb,var(--color-navidad-dorado) 15%,transparent)",
+        "purpose": "CTA dorado en reposo."
+      },
+      {
+        "name": "dorado-hover",
+        "value": "0 12px 36px color-mix(in srgb,var(--color-navidad-dorado) 24%,transparent)",
+        "purpose": "Hover del CTA dorado."
+      },
+      {
+        "name": "input-focus",
+        "value": "0 0 0 3px color-mix(in srgb,var(--color-navidad-dorado) 13%,transparent)",
+        "purpose": "Halo del campo enfocado; complementa borde y outline."
+      }
+    ],
+    "motion": [
+      {
+        "name": "feedback",
+        "value": "150ms",
+        "purpose": "Feedback breve; token exportado --duration-feedback."
+      },
+      {
+        "name": "state",
+        "value": "240ms",
+        "purpose": "Estado; token --duration-state y transición global."
+      },
+      {
+        "name": "ease-state",
+        "value": "cubic-bezier(.16,1,.3,1)",
+        "purpose": "Curva CSS --transicion."
+      },
+      {
+        "name": "entrance",
+        "value": "650ms",
+        "purpose": "Entrada del título hero; token --duration-entrance."
+      },
+      {
+        "name": "step-modal",
+        "value": "200ms",
+        "purpose": "Transición de paso y contenido modal."
+      },
+      {
+        "name": "pin-error",
+        "value": "320ms",
+        "purpose": "Sacudida del PIN en código; excepción al texto general de 300ms."
+      },
+      {
+        "name": "gift-loop",
+        "value": "6s ease-in-out infinite",
+        "purpose": "Declaración de flotación SVG, solo con movimiento permitido, documento activo y viewport visible."
+      },
+      {
+        "name": "snow",
+        "value": "15s–31s linear infinite",
+        "purpose": "72 copos deterministas; CSS pausa con ocultación y preferencia."
+      },
+      {
+        "name": "star",
+        "value": "5s ease-in-out infinite",
+        "purpose": "Centelleo CSS con opacidad y escala."
+      },
+      {
+        "name": "shimmer",
+        "value": "6s ease-in-out infinite",
+        "purpose": "Brillo del botón dorado."
+      },
+      {
+        "name": "reindeer",
+        "value": "8s ease-in-out infinite",
+        "purpose": "Traslación leve de la ilustración del footer de CTA."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "tablet-max",
+        "value": "1023px"
+      },
+      {
+        "name": "mobile-max",
+        "value": "767px"
+      },
+      {
+        "name": "compact-max",
+        "value": "374px"
+      }
+    ],
+    "focus": {
+      "value": "2px solid var(--color-navidad-dorado-claro)",
+      "offset": "5px",
+      "purpose": "Focus-visible global de button, a e input."
+    },
+    "validation": {
+      "method": "Inspección estática de código; sin navegador.",
+      "rendered": false,
+      "motionObserved": false,
+      "notes": [
+        "Las rampas son derivadas, no nuevos tokens aprobados.",
+        "Las muestras HTML/CSS no ejecutan React, eventos de pausa, sesión ni animaciones Framer Motion.",
+        "La escala active de las muestras de botón usa :host-context para respetar la pausa del documento del panel. No se simulan los bucles ni la lógica React.",
+        "Contraste 4.5:1 y área táctil 44px son requisitos, no resultados de auditoría."
+      ]
+    },
+    "sources": [
+      "src/app/globals.css",
+      "src/app/layout.tsx",
+      "src/app/(publico)/page.tsx",
+      "src/app/(publico)/ingresar/page.tsx",
+      "src/componentes/ui",
+      "src/componentes/layout",
+      "src/componentes/navideno",
+      "src/hooks",
+      "design-system/compartir-navidena/tokens.json",
+      "design-system/compartir-navidena/tokens.css",
+      "design-system/compartir-navidena/ANIMACIONES.md",
+      "PRODUCT.md"
+    ]
+  },
+  "components": [
+    {
+      "name": "Botón Primario",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Variante primario de Boton.tsx/globals.css. La muestra CSS representa estados; no ejecuta Framer Motion.",
+      "html": "<button type=\"button\" class=\"ds-btn ds-btn-primary\">Continuar</button>",
+      "css": ".ds-btn{display:inline-flex;gap:.65rem;align-items:center;justify-content:center;min-height:48px;padding:.9rem 1.45rem;border:1px solid transparent;border-radius:var(--button-radius);font-family:var(--font-nunito),sans-serif;font-size:.95rem;font-weight:800;line-height:1.4;cursor:pointer;transition:background-color var(--transicion),box-shadow var(--transicion),border-color var(--transicion)}.ds-btn:focus-visible{outline:2px solid var(--color-navidad-dorado-claro);outline-offset:5px;}.ds-btn:disabled{opacity:.5;box-shadow:none;cursor:not-allowed}@media(prefers-reduced-motion:no-preference){:host-context(html:not([data-movimiento=\"pausado\"])) .ds-btn:active:not(:disabled){transform:scale(.97)}}.ds-btn-primary{background:var(--color-navidad-rojo);color:var(--color-navidad-nieve);box-shadow:0 5px 18px color-mix(in srgb,var(--color-navidad-rojo-oscuro) 35%,transparent);}.ds-btn-primary:hover:not(:disabled){background:var(--color-navidad-rojo-oscuro);box-shadow:0 8px 24px color-mix(in srgb,var(--color-navidad-rojo) 35%,transparent);}"
+    },
+    {
+      "name": "Botón Secundario",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Variante secundario de Boton.tsx/globals.css. La muestra CSS representa estados; no ejecuta Framer Motion.",
+      "html": "<button type=\"button\" class=\"ds-btn ds-btn-secondary\">Continuar</button>",
+      "css": ".ds-btn{display:inline-flex;gap:.65rem;align-items:center;justify-content:center;min-height:48px;padding:.9rem 1.45rem;border:1px solid transparent;border-radius:var(--button-radius);font-family:var(--font-nunito),sans-serif;font-size:.95rem;font-weight:800;line-height:1.4;cursor:pointer;transition:background-color var(--transicion),box-shadow var(--transicion),border-color var(--transicion)}.ds-btn:focus-visible{outline:2px solid var(--color-navidad-dorado-claro);outline-offset:5px;}.ds-btn:disabled{opacity:.5;box-shadow:none;cursor:not-allowed}@media(prefers-reduced-motion:no-preference){:host-context(html:not([data-movimiento=\"pausado\"])) .ds-btn:active:not(:disabled){transform:scale(.97)}}.ds-btn-secondary{background:var(--color-navidad-verde);color:var(--color-navidad-nieve);border-color:var(--color-navidad-verde-claro);}.ds-btn-secondary:hover:not(:disabled){background:color-mix(in srgb,var(--color-navidad-verde) 82%,var(--color-navidad-carbon));}"
+    },
+    {
+      "name": "Botón Dorado",
+      "kind": "button",
+      "refersTo": "button-gold",
+      "description": "Variante dorado de Boton.tsx/globals.css. La muestra CSS representa estados; no ejecuta Framer Motion.",
+      "html": "<button type=\"button\" class=\"ds-btn ds-btn-gold\">Continuar</button>",
+      "css": ".ds-btn{display:inline-flex;gap:.65rem;align-items:center;justify-content:center;min-height:48px;padding:.9rem 1.45rem;border:1px solid transparent;border-radius:var(--button-radius);font-family:var(--font-nunito),sans-serif;font-size:.95rem;font-weight:800;line-height:1.4;cursor:pointer;transition:background-color var(--transicion),box-shadow var(--transicion),border-color var(--transicion)}.ds-btn:focus-visible{outline:2px solid var(--color-navidad-dorado-claro);outline-offset:5px;}.ds-btn:disabled{opacity:.5;box-shadow:none;cursor:not-allowed}@media(prefers-reduced-motion:no-preference){:host-context(html:not([data-movimiento=\"pausado\"])) .ds-btn:active:not(:disabled){transform:scale(.97)}}.ds-btn-gold{background:var(--color-navidad-dorado);color:var(--color-navidad-carbon);box-shadow:0 8px 28px color-mix(in srgb,var(--color-navidad-dorado) 15%,transparent);}.ds-btn-gold:hover:not(:disabled){background:var(--color-navidad-dorado-claro);box-shadow:0 12px 36px color-mix(in srgb,var(--color-navidad-dorado) 24%,transparent);}"
+    },
+    {
+      "name": "Botón Fantasma",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Variante fantasma de Boton.tsx/globals.css. La muestra CSS representa estados; no ejecuta Framer Motion.",
+      "html": "<button type=\"button\" class=\"ds-btn ds-btn-ghost\">Continuar</button>",
+      "css": ".ds-btn{display:inline-flex;gap:.65rem;align-items:center;justify-content:center;min-height:48px;padding:.9rem 1.45rem;border:1px solid transparent;border-radius:var(--button-radius);font-family:var(--font-nunito),sans-serif;font-size:.95rem;font-weight:800;line-height:1.4;cursor:pointer;transition:background-color var(--transicion),box-shadow var(--transicion),border-color var(--transicion)}.ds-btn:focus-visible{outline:2px solid var(--color-navidad-dorado-claro);outline-offset:5px;}.ds-btn:disabled{opacity:.5;box-shadow:none;cursor:not-allowed}@media(prefers-reduced-motion:no-preference){:host-context(html:not([data-movimiento=\"pausado\"])) .ds-btn:active:not(:disabled){transform:scale(.97)}}.ds-btn-ghost{background:transparent;color:var(--color-navidad-nieve);border-color:var(--linea);}.ds-btn-ghost:hover:not(:disabled){background:color-mix(in srgb,var(--color-navidad-nieve) 7%,transparent);border-color:var(--color-navidad-dorado);}"
+    },
+    {
+      "name": "Botón Peligro",
+      "kind": "button",
+      "refersTo": "button-danger",
+      "description": "Variante peligro de Boton.tsx/globals.css. La muestra CSS representa estados; no ejecuta Framer Motion.",
+      "html": "<button type=\"button\" class=\"ds-btn ds-btn-danger\">Cerrar evento</button>",
+      "css": ".ds-btn{display:inline-flex;gap:.65rem;align-items:center;justify-content:center;min-height:48px;padding:.9rem 1.45rem;border:1px solid transparent;border-radius:var(--button-radius);font-family:var(--font-nunito),sans-serif;font-size:.95rem;font-weight:800;line-height:1.4;cursor:pointer;transition:background-color var(--transicion),box-shadow var(--transicion),border-color var(--transicion)}.ds-btn:focus-visible{outline:2px solid var(--color-navidad-dorado-claro);outline-offset:5px;}.ds-btn:disabled{opacity:.5;box-shadow:none;cursor:not-allowed}@media(prefers-reduced-motion:no-preference){:host-context(html:not([data-movimiento=\"pausado\"])) .ds-btn:active:not(:disabled){transform:scale(.97)}}.ds-btn-danger{background:var(--color-navidad-rojo-oscuro);color:var(--color-navidad-nieve);}.ds-btn-danger:hover:not(:disabled){background:var(--color-navidad-rojo-oscuro);}"
+    },
+    {
+      "name": "Entrada con etiqueta flotante",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Campo de texto de Entrada.tsx. La asociación label y el estado CSS se conservan; la validación React no se simula.",
+      "html": "<div class=\"ds-field\"><input id=\"ds-name\" placeholder=\" \" autocomplete=\"name\"><label for=\"ds-name\">Tu nombre</label></div>",
+      "css": ".ds-field{position:relative;font-family:var(--font-nunito),sans-serif;text-align:left}.ds-field input{box-sizing:border-box;width:100%;min-height:59px;padding:1.4rem 1rem .5rem;font:inherit;background:color-mix(in srgb,var(--color-navidad-carbon) 25%,var(--superficie));color:var(--texto);border:1px solid color-mix(in srgb,var(--color-navidad-nieve) 30%,transparent);border-radius:var(--radius-control);transition:border-color var(--transicion),box-shadow var(--transicion)}.ds-field input:focus{border-color:var(--color-navidad-dorado);box-shadow:0 0 0 3px color-mix(in srgb,var(--color-navidad-dorado) 13%,transparent)}.ds-field input:focus-visible{outline:2px solid var(--color-navidad-dorado-claro);outline-offset:5px;}.ds-field label{position:absolute;left:1rem;top:1rem;color:var(--texto-suave);pointer-events:none;transform-origin:left top;transition:transform var(--transicion),color var(--transicion)}.ds-field input:focus+label,.ds-field input:not(:placeholder-shown)+label{transform:translateY(-.55rem) scale(.78);color:var(--color-navidad-dorado-claro)}@media(prefers-reduced-motion:reduce){.ds-field label{transition:color .1s}}"
+    },
+    {
+      "name": "Tarjeta de paso",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Superficie base de Tarjeta.tsx, con padding específico de la landing. Sin inclinación React en esta muestra.",
+      "html": "<article class=\"ds-card\"><span class=\"ds-step\">Paso 1</span><h3>Comparte tus deseos</h3><p>Cuéntanos tres cosas que te harían ilusión recibir.</p></article>",
+      "css": ".ds-card{padding:1.8rem 1.45rem;background:var(--superficie);color:var(--texto);font-family:var(--font-nunito),sans-serif;border:1px solid var(--linea);border-radius:var(--radius-card);transition:border-color var(--transicion),box-shadow var(--transicion)}.ds-card:hover{border-color:color-mix(in srgb,var(--color-navidad-dorado) 50%,transparent);box-shadow:var(--sombra-tarjeta)}.ds-step{font-size:.75rem;color:var(--texto-suave)}.ds-card h3{font-size:1.05rem;line-height:1.35;margin:2rem 0 .7rem}.ds-card p{font-size:.88rem;line-height:1.65;color:var(--texto-suave);margin:0}"
+    },
+    {
+      "name": "Navegación principal",
+      "kind": "nav",
+      "description": "Extracto estático de Encabezado.tsx: enlaces reales y control de pausa ilustrativo. El botón de muestra no modifica preferencias.",
+      "html": "<nav class=\"ds-nav\" aria-label=\"Navegación principal\"><a class=\"ds-brand\" href=\"/\">Compartir<span>Navideño</span></a><div class=\"ds-actions\"><a class=\"ds-how\" href=\"/#como-funciona\">Cómo funciona</a><button class=\"ds-icon\" type=\"button\" aria-label=\"Pausar efectos (muestra)\"><svg width=\"17\" height=\"17\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" aria-hidden=\"true\"><path d=\"M6 4h4v16H6zM14 4h4v16h-4z\"/></svg></button><a class=\"ds-login\" href=\"/ingresar\">Ingresar</a></div></nav>",
+      "css": ".ds-nav{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1rem;background:color-mix(in srgb,var(--fondo) 86%,transparent);backdrop-filter:blur(18px);color:var(--texto);border-bottom:1px solid var(--linea);font-family:var(--font-nunito),sans-serif}.ds-brand{font-size:.92rem;font-weight:800;line-height:1.25}.ds-brand span{display:block;color:var(--color-navidad-dorado-claro)}.ds-nav a{color:inherit;text-decoration:none}.ds-actions{display:flex;align-items:center;gap:.5rem}.ds-how{font-size:.85rem;color:var(--texto-suave)!important}.ds-icon{display:inline-flex;align-items:center;justify-content:center;min-width:44px;min-height:44px;border:1px solid transparent;border-radius:.75rem;color:var(--texto-suave);background:transparent;cursor:pointer}.ds-login{display:inline-flex;align-items:center;min-height:44px;padding:.55rem .9rem;border:1px solid var(--linea);border-radius:.6rem;font-size:.85rem;font-weight:800}.ds-icon:hover,.ds-nav a:hover{color:var(--color-navidad-dorado-claro)!important}.ds-icon:hover{background:color-mix(in srgb,var(--color-navidad-nieve) 7%,transparent)}.ds-nav a:focus-visible,.ds-icon:focus-visible{outline:2px solid var(--color-navidad-dorado-claro);outline-offset:5px;}@media(max-width:767px){.ds-how{display:none}}"
+    },
+    {
+      "name": "Selección de persona",
+      "kind": "button",
+      "description": "Botón persona de la lista de ingreso. Avatar y hover extraídos; selección de paso React omitida.",
+      "html": "<button type=\"button\" class=\"ds-person\"><span class=\"ds-avatar\" aria-hidden=\"true\">A</span><span class=\"ds-person-name\">Tu familiar</span></button>",
+      "css": ".ds-person{display:flex;align-items:center;gap:.7rem;min-height:78px;padding:.85rem;min-width:0;text-align:left;font-family:var(--font-nunito),sans-serif;font-size:.9rem;font-weight:700;background:color-mix(in srgb,var(--superficie-clara) 45%,transparent);color:var(--texto);border:1px solid var(--linea);border-radius:.75rem;cursor:pointer}.ds-person:hover{border-color:var(--color-navidad-dorado);background:var(--superficie-clara)}.ds-person:focus-visible{outline:2px solid var(--color-navidad-dorado-claro);outline-offset:5px;}.ds-avatar{display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;width:37px;height:37px;border-radius:50%;background:var(--color-navidad-verde);color:var(--color-navidad-nieve);font-weight:800}.ds-person-name{overflow-wrap:anywhere}"
+    },
+    {
+      "name": "Contenedor modal",
+      "kind": "custom",
+      "refersTo": "modal",
+      "description": "Solo superficie de Modal.tsx. La muestra no abre dialog ni demuestra foco, Escape o top layer.",
+      "html": "<section class=\"ds-modal\" aria-labelledby=\"ds-modal-title\"><header class=\"ds-modal-head\"><h2 id=\"ds-modal-title\">Tu sorpresa</h2><button type=\"button\" class=\"ds-close\" aria-label=\"Cerrar ventana (muestra)\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" aria-hidden=\"true\"><path d=\"m18 6-12 12M6 6l12 12\"/></svg></button></header><p>Guarda el misterio hasta la revelación.</p></section>",
+      "css": ".ds-modal{width:min(480px,100%);box-sizing:border-box;padding:1.5rem;background:var(--superficie);color:var(--texto);border:1px solid var(--linea);border-radius:1rem;font-family:var(--font-nunito),sans-serif}.ds-modal-head{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:1rem}.ds-modal h2{font-size:1.25rem;margin:0}.ds-modal p{line-height:1.65}.ds-close{display:inline-flex;align-items:center;justify-content:center;min-width:44px;min-height:44px;border:1px solid transparent;border-radius:.75rem;background:transparent;color:var(--texto-suave);cursor:pointer}.ds-close:hover{color:var(--color-navidad-dorado-claro);background:color-mix(in srgb,var(--color-navidad-nieve) 7%,transparent)}.ds-close:focus-visible{outline:2px solid var(--color-navidad-dorado-claro);outline-offset:5px;}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Noche de regalos",
+    "overview": "Una Navidad íntima y mágica: superficies verdes oscuras, un regalo rojo propio y destellos dorados que guían hacia el juego. El lenguaje es familiar y está en español. La metáfora y las decisiones visuales recogen la especificación vinculante del usuario y la cabecera aprobada de `design-system/compartir-navidena/MASTER.md`; no constituyen una nueva elección estética.\n\nLa jerarquía combina títulos festivos con controles legibles. La ambientación ocupa el fondo y los márgenes; el acceso por nombre y PIN conserva el protagonismo funcional. La densidad es moderada, con grupos cortos, espacios fluidos y estados textuales claros.",
+    "keyCharacteristics": [
+      "Verde oscuro como base, rojo para acciones y dorado para énfasis y foco.",
+      "Mountains of Christmas en títulos; Nunito en cuerpo y controles.",
+      "Tarjetas y campos redondeados, bordes sutiles y profundidad contenida.",
+      "Regalo SVG propio, iconos Lucide y efectos con pausa explícita.",
+      "Composición adaptable a móvil desde 320 px, con teclado y movimiento reducido como requisitos."
+    ],
+    "rules": [
+      {
+        "name": "The Palette Rule",
+        "body": "Usar únicamente la paleta fijada y sus mezclas existentes. No adoptar los colores automáticos descartados de MASTER.md.",
+        "section": "colors"
+      },
+      {
+        "name": "The Font Rule",
+        "body": "Mantener Mountains of Christmas para títulos festivos y Nunito para lectura e interacción; no sustituirlas por las fuentes sugeridas automáticamente.",
+        "section": "typography"
+      }
+    ],
+    "dos": [
+      "**Do** mantener la paleta fijada, sus mezclas canónicas y las dos fuentes del usuario.",
+      "**Do** reutilizar controles, tarjetas y hooks existentes, con foco dorado y estados textuales.",
+      "**Do** respetar movimiento reducido, pausa explícita, navegación por teclado y área táctil mínima de 44 px en nuevas interfaces.",
+      "**Do** verificar contraste mínimo 4.5:1 en texto normal antes de aprobar nuevas combinaciones; este documento no acredita una auditoría de contraste.",
+      "**Do** conservar el regalo SVG propio y usar Lucide para iconos de interfaz."
+    ],
+    "donts": [
+      "**Don't** introducir rosa, paleta automática o fuentes de videojuegos de las recomendaciones descartadas.",
+      "**Don't** convertir el alias exportado de fondo misterio en el fondo efectivo de la página por accidente.",
+      "**Don't** comunicar error, selección, progreso o éxito únicamente mediante color, sonido o animación.",
+      "**Don't** añadir iconos emoji, confeti con movimiento reducido o inclinación en dispositivos táctiles.",
+      "**Don't** presentar inspección estática de código como validación visual, de contraste o de movimiento en navegador."
+    ]
+  }
+}

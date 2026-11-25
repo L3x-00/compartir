@@ -1,0 +1,41 @@
+/* Design Tokens - Auto-generated */
+/* Do not edit directly - modify tokens.json instead */
+
+/* === PRIMITIVES === */
+:root {
+  --primitive-color-rojo: #c1121f;
+  --primitive-color-rojo-oscuro: #8b0a14;
+  --primitive-color-verde: #165b33;
+  --primitive-color-verde-claro: #2a9d5c;
+  --primitive-color-dorado: #f4c430;
+  --primitive-color-dorado-claro: #ffd966;
+  --primitive-color-nieve: #f7f9fc;
+  --primitive-color-carbon: #1a1a1a;
+  --primitive-color-misterio: #2d1b3d;
+  --primitive-color-misterio-claro: #4a2d5e;
+}
+
+/* === SEMANTIC === */
+:root {
+  --color-primary: #c1121f;
+  --color-secondary: #165b33;
+  --color-accent: #f4c430;
+  --color-foreground: #f7f9fc;
+  --color-background: #2d1b3d;
+  --space-section: clamp(3.5rem, 7vw, 7rem);
+  --space-gutter: clamp(1.25rem, 4vw, 3rem);
+  --radius-control: 0.75rem;
+  --radius-card: 1rem;
+  --duration-feedback: 150ms;
+  --duration-state: 240ms;
+  --duration-entrance: 650ms;
+}
+
+/* === COMPONENTS === */
+:root {
+  --button-bg: #c1121f;
+  --button-fg: #f7f9fc;
+  --button-radius: 0.75rem;
+  --input-ring: #f4c430;
+  --input-radius: 0.75rem;
+}

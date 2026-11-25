@@ -1,0 +1,40 @@
+# Dependencias
+node_modules/
+.pnp
+.pnp.js
+
+# Next.js
+.next/
+out/
+build/
+dist/
+
+# Producción
+.env
+.env*.local
+
+# Prisma
+prisma/*.db
+prisma/*.db-journal
+
+# Fotos subidas por usuarios (NO se versionan, viven en Volume en producción)
+public/uploads/*
+!public/uploads/.gitkeep
+
+# Sistema
+.DS_Store
+Thumbs.db
+*.log
+npm-debug.log*
+
+# Editor
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.swp
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+# Skills instaladas como repositorios independientes
+dashboard-design-skill/

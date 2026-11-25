@@ -1,0 +1,176 @@
+/* Elección de regalo y ceremonia. Los valores de color vienen del sistema aprobado. */
+.regalo-etapa { position: relative; }
+.regalo-cabecera { display: flex; align-items: center; gap: .65rem 2rem; }
+.regalo-cabecera > div:first-child { min-width: 0; }
+.regalo-emblema { width: clamp(5rem, 17vw, 10rem); flex: 0 0 auto; margin-inline-start: auto; }
+.regalo-emblema svg { width: 100%; height: auto; }
+.regalo-opciones { min-width: 0; border: 0; margin: 0; padding: .3rem; }
+.opcion-regalo {
+  display: flex; flex-direction: column; align-items: start; gap: .65rem; min-width: 0;
+  padding: .9rem; background: var(--superficie); border: 1px solid var(--linea);
+  border-radius: var(--radius-card); cursor: pointer; transition: border-color var(--transicion), box-shadow var(--transicion);
+}
+.opcion-regalo:hover { border-color: color-mix(in srgb, var(--color-navidad-dorado) 50%, var(--linea)); }
+.opcion-regalo:has(input:focus-visible) { outline: 2px solid var(--color-navidad-dorado-claro); outline-offset: 4px; }
+.opcion-regalo-activa { border-color: var(--color-navidad-dorado); box-shadow: 0 0 1.1rem color-mix(in srgb, var(--color-navidad-dorado) 15%, transparent); }
+.opcion-regalo h2 { font-size: 1.5rem; margin: 0; }
+.opcion-regalo p { margin: 0; color: var(--texto-suave); white-space: pre-line; }
+.regalo-foto { align-self: stretch; }
+.foto-regalo-vacia {
+  height: 100%; display: grid; place-items: center; color: var(--color-navidad-dorado-claro);
+  background: radial-gradient(ellipse, var(--superficie-clara), var(--fondo));
+}
+.regalo-radio {
+  align-self: stretch; display: flex; align-items: center; justify-content: center; gap: .35rem;
+  min-height: 44px; margin-top: auto; padding: .45rem .7rem; cursor: pointer;
+  border: 1px solid var(--linea); border-radius: var(--radius-control); font-weight: 800;
+}
+.regalo-radio:has(:focus-visible) { outline: 2px solid var(--color-navidad-dorado-claro); outline-offset: 4px; }
+.regalo-radio:hover { border-color: var(--color-navidad-dorado); }
+.opcion-regalo-activa .regalo-radio { color: var(--color-navidad-dorado-claro); background: var(--fondo); border-color: var(--color-navidad-dorado); }
+.regalo-seleccion {
+  display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: .65rem 1rem;
+  position: sticky; inset-block-end: .75rem; z-index: 4; margin-top: 1.2rem;
+  padding: .65rem .85rem; background: var(--fondo); border: 1px solid var(--linea);
+  border-radius: var(--radius-card); box-shadow: var(--sombra-tarjeta);
+}
+.regalo-seleccion p { margin: 0; }
+.volver-regalo { margin-top: 1.1rem; }
+.regalo-confirmado h1 { color: var(--color-navidad-dorado-claro); font-size: clamp(2.4rem, 5vw, 3.7rem); margin: 0; }
+.caja-cierre { width: min(100%, 13.5rem); height: auto; }
+.regalo-envoltura { display: grid; grid-template-areas: "arte"; width: min(100%, 16rem); aspect-ratio: 1.35; place-items: center; }
+.regalo-papel, .regalo-caja-resultante { grid-area: arte; }
+.regalo-papel {
+  width: 86%; min-height: 72%; display: grid; place-content: center; justify-items: center; gap: .4rem;
+  position: relative; isolation: isolate; overflow: hidden; padding: .65rem;
+  border: 1px solid var(--color-navidad-dorado); border-radius: var(--radius-card); background: var(--superficie);
+}
+.regalo-papel > span:first-of-type { max-width: 18ch; overflow-wrap: anywhere; }
+.regalo-papel > svg { color: var(--color-navidad-dorado-claro); }
+.regalo-doblez { position: absolute; inset: 0 auto 0 0; width: 57%; z-index: 1; transform: translateX(-102%); }
+.regalo-doblez-izquierdo { clip-path: polygon(0 0, 76% 0, 100% 50%, 76% 100%, 0 100%); background: var(--color-navidad-rojo-oscuro); }
+.regalo-doblez-derecho {
+  inset-inline: auto 0; clip-path: polygon(24% 0, 100% 0, 100% 100%, 24% 100%, 0 50%);
+  transform: translateX(102%); background: var(--color-navidad-rojo);
+}
+.regalo-caja-resultante { width: 100%; display: grid; justify-items: center; }
+.regalo-recuerdo {
+  display: grid; grid-template-columns: minmax(3rem, 6.5rem) minmax(0, 1fr); align-items: center;
+  gap: .55rem; width: min(100%, 37rem); padding: .65rem; background: var(--fondo);
+  border: 1px solid var(--linea); border-radius: var(--radius-card);
+}
+.detalle-eleccion { display: flex; align-items: flex-start; flex-wrap: wrap; gap: .6rem 1.15rem; margin: 0; text-align: start; }
+.detalle-eleccion div { min-width: 0; flex: 1 1 8rem; }
+.detalle-eleccion dt { color: var(--texto-suave); }
+.detalle-eleccion dd { color: var(--color-navidad-dorado-claro); margin: 0; font-weight: 800; overflow-wrap: anywhere; }
+.regalo-confirmado .detalle-eleccion { width: min(100%, 32rem); }
+
+.espera-revelacion {
+  display: grid; justify-items: center; gap: 1.15rem; text-align: center;
+  padding-block: clamp(1.35rem, 5vw, 3.15rem); background: radial-gradient(ellipse at top, var(--superficie-clara), var(--fondo) 75%);
+}
+.espera-texto h1, .final-navidad h1 { color: var(--color-navidad-dorado-claro); font-size: clamp(2.4rem, 5vw, 3.7rem); margin-bottom: .5rem; }
+.espera-texto p { color: var(--texto-suave); max-width: 50ch; margin: 0; }
+.espera-ambiente { display: grid; align-items: center; justify-items: center; gap: .8rem; width: min(100%, 42rem); }
+.espera-reloj { width: 100%; display: grid; justify-items: center; gap: .5rem; }
+.espera-reloj p { margin: 0; font-size: .95rem; color: var(--texto-suave); }
+.esfera-espera { width: min(100%, 12.5rem); position: relative; }
+.esfera-boton {
+  width: 100%; min-height: 44px; padding: .25rem; border: 1px solid transparent; border-radius: var(--radius-card);
+  background: transparent; color: var(--color-navidad-dorado-claro);
+}
+.esfera-boton:hover { border-color: var(--linea); }
+.esfera-boton > svg { display: block; width: 100%; }
+.esfera-boton > span { display: flex; justify-content: center; align-items: center; gap: .3rem; font-weight: 750; line-height: 1.25; }
+.esfera-espera[data-agitada] .esfera-cristal { stroke: var(--color-navidad-dorado-claro); }
+.esfera-cristal { fill: color-mix(in srgb, var(--color-navidad-misterio) 52%, var(--superficie)); stroke: var(--color-navidad-dorado); stroke-width: 2; }
+.estrella-espera, .estrella-escena { position: absolute; color: var(--color-navidad-dorado-claro); }
+.estrella-espera { pointer-events: none; }
+.estrella-espera.izquierda { inset: 32% auto auto 7%; }
+.estrella-espera.derecha { inset: 18% 10% auto auto; }
+.espera-acciones { justify-content: center; }
+.espera-acciones:empty { display: none; }
+.cuenta-regresiva { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: .3rem; width: min(100%, 29rem); color: var(--texto); }
+.cuenta-unidad {
+  min-width: 0; padding: .5rem .2rem; display: grid; justify-items: center;
+  background: var(--fondo); border: 1px solid var(--linea); border-radius: var(--radius-control);
+  font-size: clamp(.73rem, 2.8vw, .95rem); color: var(--texto-suave); text-align: center;
+}
+.cuenta-numeros { display: flex; color: var(--color-navidad-dorado-claro); font-weight: 800; font-size: clamp(1.23rem, 6vw, 2.4rem); line-height: 1.15; font-variant-numeric: tabular-nums; }
+.cuenta-digito { display: inline-grid; position: relative; perspective: 180px; }
+.cuenta-digito > span { grid-area: 1 / 1; }
+.cuenta-compacta { max-width: 19rem; }
+.cuenta-compacta .cuenta-numeros { font-size: 1.25rem; }
+
+.revelacion-telon {
+  position: relative; isolation: isolate; display: grid; justify-items: center; align-content: center; gap: 1rem;
+  text-align: center; min-height: 59dvh; padding: 1rem; color: var(--color-navidad-dorado-claro);
+}
+.revelacion-telon::before {
+  content: ""; position: fixed; z-index: -1; inset: 0; pointer-events: none;
+  background: radial-gradient(circle at 50% 46%, var(--color-navidad-misterio-claro), var(--color-navidad-misterio) 40%, var(--color-navidad-carbon) 75%);
+}
+.revelacion-acercamiento { width: min(48vw, 16rem); }
+.revelacion-acercamiento svg { width: 100%; }
+.frase-revelacion, .revelacion-escena h1 { font-size: clamp(2.2rem, 6vw, 4rem); margin: 0; }
+.revelacion-escena {
+  position: relative; isolation: isolate; text-align: center;
+  display: grid; justify-items: center; gap: 1.05rem; padding: clamp(1rem, 4vw, 2.8rem) .2rem 1.2rem;
+  background: radial-gradient(ellipse at 50% 40%, var(--color-navidad-misterio), transparent 70%);
+}
+.revelacion-escena h1 { color: var(--color-navidad-dorado-claro); text-shadow: 0 0 1.8rem color-mix(in srgb, var(--color-navidad-dorado) 27%, transparent); }
+.estrella-escena.izquierda { inset: 25% auto auto 4%; }.estrella-escena.derecha { inset: 43% 4% auto auto; }
+.escenario-carta { width: min(100%, 28rem); display: grid; justify-items: center; min-width: 0; }
+.sobre-revelacion { display: block; width: min(88%, 19rem); height: auto; }
+.carta-revelacion {
+  z-index: 1; display: grid; justify-items: center; width: min(100%, 25rem);
+  margin-top: -3.7rem; padding: clamp(1rem, 4vw, 1.8rem); border: 1px solid var(--color-navidad-dorado);
+  border-radius: var(--radius-card); background: var(--superficie); box-shadow: var(--sombra-tarjeta);
+}
+.carta-revelacion h2 { margin: .45rem 0; color: var(--color-navidad-dorado-claro); font-size: clamp(1.3rem, 4.5vw, 1.7rem); line-height: 1.2; overflow-wrap: anywhere; }
+.carta-revelacion p { margin: .35rem 0 0; color: var(--texto-suave); }
+.detalle-regalo-revelado { width: 100%; max-width: 18rem; }
+.detalle-regalo-revelado .foto-necesidad { margin: .65rem 0; }
+.detalle-regalo-revelado p { display: flex; justify-content: center; align-items: center; gap: .4rem; }
+.carta-revelacion > svg { color: var(--color-navidad-dorado-claro); }
+.aviso-revelacion { margin: 0; color: var(--texto-suave); }
+.acciones-revelacion { justify-content: center; }
+.lista-parejas { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 21rem), 1fr)); gap: .85rem; margin: 0 0 1.25rem; padding: 0; list-style: none; }
+.pareja-revelada { padding: .8rem; }
+.pareja-nombres { display: grid; align-items: center; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: .45rem; }
+.pareja-nombres strong { display: flex; align-items: center; flex-wrap: wrap; gap: .4rem; min-width: 0; }
+.pareja-nombres > svg, .pareja-revelada p svg { color: var(--color-navidad-dorado-claro); }
+.pareja-revelada p { display: flex; align-items: center; gap: .4rem; margin: .55rem 0 0; color: var(--texto-suave); }
+.final-navidad { background: radial-gradient(ellipse at 50% 45%, var(--superficie-clara), var(--fondo) 66%); }
+.arbol-final { width: min(58vw, 12.5rem); height: auto; }
+
+.avatar-inicial {
+  display: inline-grid; place-items: center; width: 2rem; height: 2rem; flex: 0 0 auto;
+  border: 1px solid var(--linea); border-radius: 50%; line-height: 1; font-weight: 800; color: var(--texto);
+}
+.avatar-0 { background: var(--color-navidad-misterio-claro); }
+.avatar-1 { background: var(--color-navidad-verde); }
+.avatar-2 { background: var(--color-navidad-rojo-oscuro); }
+.avatar-grande { width: 3.75rem; height: 3.75rem; font-size: 1.5rem; border-color: var(--color-navidad-dorado); }
+.avatar-persona { position: relative; display: inline-block; width: 2rem; height: 2rem; flex: 0 0 auto; border: 1px solid var(--color-navidad-dorado); border-radius: 50%; overflow: hidden; }
+.avatar-persona img { object-fit: cover; }
+.avatar-persona.avatar-grande { width: 3.75rem; height: 3.75rem; }
+
+@media (max-width: 47.99rem) {
+  .regalo-seleccion { text-align: center; justify-content: stretch; display: grid; inset-block-end: 0; padding-bottom: max(.7rem, env(safe-area-inset-bottom)); }
+  html:has(.regalo-seleccion) { scroll-padding-bottom: 9rem; }
+}
+@media (max-width: 28rem) {
+  .regalo-cabecera h1 { font-size: 2.4rem; }
+  .regalo-emblema { width: 4.1rem; }
+  .pareja-nombres .avatar-inicial { width: 1.6rem; height: 1.6rem; }
+  .esfera-espera { width: min(100%, 9.5rem); }
+}
+@media (min-width: 42rem) {
+  .espera-con-reloj { grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  html:not([data-movimiento="pausado"]) .regalo-doblez { animation: envolver-regalo .36s .12s ease-out both; }
+  html:not([data-movimiento="pausado"]) .acciones-revelacion .boton:last-child { animation: pulso-participante 1.4s ease-out 2; }
+}
+@keyframes envolver-regalo { to { transform: translateX(0); } }
