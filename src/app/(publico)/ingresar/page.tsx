@@ -19,6 +19,7 @@ import { usarSonido } from "@/hooks/usarSonido";
 import { usarConfeti } from "@/hooks/usarConfeti";
 import { usarReducirMovimiento } from "@/hooks/usarReducirMovimiento";
 import { MENSAJES } from "@/lib/constantes";
+import { usarBorrador } from "@/hooks/usarBorrador";
 import "../participar/participante.css";
 
 function destino(admin: boolean, cerrado: boolean, regaloElegido: boolean) {
@@ -34,9 +35,10 @@ export default function PaginaIngreso() {
   const reducido = usarReducirMovimiento();
   const controles = useAnimationControls();
   const [admin, cambiarAdmin] = useState(false);
-  const [nombre, cambiarNombre] = useState("");
+  const [identidad, guardarIdentidad, limpiarIdentidad] = usarBorrador("cn:ingreso-identidad", { nombre: "", dni: "" });
+  const nombre = identidad.nombre;
+  const dni = identidad.dni;
   const [pin, cambiarPin] = useState("");
-  const [dni, cambiarDni] = useState("");
   const [foto, cambiarFoto] = useState<File | null>(null);
   const [reingreso, cambiarReingreso] = useState<{ existe: boolean; tieneFoto: boolean; esAdmin: boolean } | null>(null);
   const [errorFoto, cambiarErrorFoto] = useState("");
@@ -52,6 +54,9 @@ export default function PaginaIngreso() {
   const entradaDni = useRef<HTMLInputElement>(null);
   const entradaFoto = useRef<HTMLInputElement>(null);
   const peticion = useRef<AbortController | null>(null);
+
+  function cambiarNombre(valor: string) { guardarIdentidad({ ...identidad, nombre: valor }); }
+  function cambiarDni(valor: string) { guardarIdentidad({ ...identidad, dni: valor }); }
 
   useEffect(() => () => peticion.current?.abort(), []);
   useEffect(() => {
@@ -145,6 +150,7 @@ export default function PaginaIngreso() {
       );
       cambiarExito(true);
       cambiarEnvio(false);
+      limpiarIdentidad();
       reproducir("acierto");
       void lanzarConfeti({ particleCount: 30 });
       if (!admin && datos.esReingreso) cambiarIrAPanel(true);

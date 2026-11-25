@@ -156,6 +156,8 @@ La responsividad se apoya en breakpoints unificados (1024/768/375 px), grillas `
 
 `src/lib/reglas.ts`, `src/lib/firmaSesion.ts` y `DELETE /api/fotos/[archivo]` completan la robustez: reglas en servidor, formato de cookie compartido entre Node y Edge y limpieza de fotos huérfanas. Los enlaces se validan con protocolo `http/https` y los límites salen de `LIMITES`.
 
+`src/hooks/usarBorrador.ts` guarda en `localStorage` los borradores versionados de ingreso, necesidades, adivinanza y selección de regalo. La hidratación se hace en `useEffect` para evitar discrepancias SSR; los archivos `File` no se persisten porque el navegador no permite reconstruirlos.
+
 ### Audio
 - Seis efectos originales: `click`, `error`, `acierto`, `revelacion`, `whoosh`, `encaje` (WAV con alternativa MP3 del mismo nombre).
 - `usarSonido` usa Howler, carga solo archivos existentes y respeta la preferencia de silencio en `cn:silencio`; `usarSilencio` centraliza el estado con `useSyncExternalStore`, localStorage y el evento `cn:sonido`.

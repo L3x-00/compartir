@@ -17,6 +17,7 @@ import { Entrada } from "@/componentes/ui/Entrada";
 import { Modal } from "@/componentes/ui/Modal";
 import { Tarjeta } from "@/componentes/ui/Tarjeta";
 import { usarConfeti } from "@/hooks/usarConfeti";
+import { usarBorrador } from "@/hooks/usarBorrador";
 import { usarReducirMovimiento } from "@/hooks/usarReducirMovimiento";
 import { usarSonido } from "@/hooks/usarSonido";
 import { LIMITES } from "@/lib/constantes";
@@ -48,7 +49,8 @@ export function FormularioNecesidad({ iniciales }: { iniciales: NecesidadVista[]
   const [necesidades, cambiarNecesidades] = useState(iniciales);
   const [modal, cambiarModal] = useState<"editar" | "eliminar" | null>(null);
   const [seleccionada, seleccionar] = useState<NecesidadVista | null>(null);
-  const [borrador, cambiarBorrador] = useState(vacio);
+  const [borrador, guardarBorrador, limpiarBorrador] = usarBorrador("cn:necesidad-borrador", vacio);
+  const cambiarBorrador = guardarBorrador;
   const [archivo, cambiarArchivo] = useState<File | null>(null);
   const [nueva, marcarNueva] = useState("");
   const [ocupado, cambiarOcupado] = useState(false);
@@ -139,6 +141,7 @@ export function FormularioNecesidad({ iniciales }: { iniciales: NecesidadVista[]
       const ruta = seleccionada ? `/api/necesidades/${seleccionada.id}` : "/api/necesidades";
       const guardada = await pedir<NecesidadVista>(ruta, conJSON(seleccionada ? "PUT" : "POST", { ...validacion.data, fotoUrl }));
       borradores.current.delete(seleccionada?.id ?? "");
+      limpiarBorrador();
       // Refleja el resultado de inmediato mediante la respuesta, sin volver a consultar toda la lista.
       cambiarNecesidades((actuales) => seleccionada
         ? actuales.map((item) => item.id === guardada.id ? guardada : item) : [...actuales, guardada]);

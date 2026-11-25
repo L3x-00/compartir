@@ -14,6 +14,7 @@ import { Regalo } from "@/componentes/navideno/Regalo";
 import { AvanceAutomatico } from "@/componentes/ui/AvanceAutomatico";
 import { Boton } from "@/componentes/ui/Boton";
 import { Modal } from "@/componentes/ui/Modal";
+import { usarBorrador } from "@/hooks/usarBorrador";
 import { usarConfeti } from "@/hooks/usarConfeti";
 import { usarReducirMovimiento } from "@/hooks/usarReducirMovimiento";
 import { usarSonido } from "@/hooks/usarSonido";
@@ -32,7 +33,7 @@ export function FormularioRegalo({ necesidades, pendientes, fechaLimite }: {
   const { reproducir } = usarSonido();
   const { lanzarConfeti } = usarConfeti();
   const sacudir = useAnimationControls();
-  const [id, elegir] = useState("");
+  const [id, elegir, limpiarSeleccion] = usarBorrador("cn:regalo-seleccion", "");
   const [modal, abrir] = useState<"regalo" | "reintentar" | null>(null);
   const [guardando, cambiarGuardando] = useState(false);
   const [eleccion, guardarEleccion] = useState<EleccionRegalo | null>(null);
@@ -179,6 +180,7 @@ export function FormularioRegalo({ necesidades, pendientes, fechaLimite }: {
       alTerminarCierre={() => {
         if (!exito.current) return;
         guardarEleccion(exito.current);
+        limpiarSeleccion();
         exito.current = null;
         reproducir("acierto");
         void lanzarConfeti({ particleCount: 65 });

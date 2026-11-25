@@ -15,6 +15,7 @@ import { Boton } from "@/componentes/ui/Boton";
 import { ContadorAnimado } from "@/componentes/ui/ContadorAnimado";
 import { Modal } from "@/componentes/ui/Modal";
 import { Tarjeta } from "@/componentes/ui/Tarjeta";
+import { usarBorrador } from "@/hooks/usarBorrador";
 import { usarConfeti } from "@/hooks/usarConfeti";
 import { usarReducirMovimiento } from "@/hooks/usarReducirMovimiento";
 import { usarSonido } from "@/hooks/usarSonido";
@@ -33,7 +34,7 @@ export function FormularioAdivinanza({ cantidadInicial, fechaLimite }: { cantida
   const reducido = usarReducirMovimiento();
   const { reproducir } = usarSonido();
   const { lanzarConfeti } = usarConfeti();
-  const [valores, cambiarValores] = useState<BorradorPistas>({});
+  const [valores, cambiarValores, limpiarBorrador] = usarBorrador<BorradorPistas>("cn:adivinanza-borrador", {});
   const [cantidad, cambiarCantidad] = useState(cantidadInicial);
   const [resultados, cambiarResultados] = useState<ResultadoCoincidencia[] | null>(null);
   const [pasoInicial, cambiarPasoInicial] = useState(0);
@@ -115,6 +116,7 @@ export function FormularioAdivinanza({ cantidadInicial, fechaLimite }: { cantida
       );
       if (!montado.current) return;
       if (datos.personaSecreta) cambiarRevelado(datos.personaSecreta);
+      limpiarBorrador();
       confirmarEleccion(true);
       celebrarPareja.current = true;
       cambiarDialogo(null);

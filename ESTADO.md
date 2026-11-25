@@ -87,6 +87,7 @@ Seguridad avanzada, email/SMS, recordatorios, exportación de datos, pantalla p�
 - **Reglas en servidor**: adivinar, confirmar y elegir regalo exigen al menos tres necesidades y las 14 pistas completas, aunque se llame a la API directamente.
 - **Reasignación del organizador**: si el reparto libre deja personas sin candidato, el panel permite asignarlas manualmente.
 - **Seguridad mínima**: PIN del administrador y DNI del participante hasheados; revelación completa restringida al panel; cada participante ve solo su propia ceremonia.
+- **Persistencia al recargar**: nombre, DNI, pistas, borrador de necesidades y regalo seleccionado se guardan localmente y se restauran tras recargar. La foto del dispositivo no se puede conservar por seguridad del navegador y debe elegirse de nuevo si se recarga antes de guardar.
 - **Detalles visuales**: los renos del cierre desfilan en un carrusel continuo, el regalo grande suelta chispas navideñas al tocarlo y la persona secreta se revela con foto y animación suave al confirmarla. Todo respeta movimiento reducido.
 - **Responsividad**: diseño mobile-first de 320 px en adelante; tablas que se convierten en fichas, grillas adaptativas, controles táctiles de al menos 44 px y breakpoints unificados en 1024/768/375 px.
 - **Corrección de pistas en el panel**: el administrador ve y edita las 14 pistas de cada familiar con controles nativos y guarda el cambio sin salir del panel.
