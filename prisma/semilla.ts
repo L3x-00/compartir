@@ -1,7 +1,8 @@
 import { existsSync } from "node:fs";
 import { loadEnvFile } from "node:process";
 import { prisma } from "@/lib/prisma";
-import { esquemaRegistroParticipante } from "@/lib/validaciones/participante";
+import { esquemaNombreParticipante } from "@/lib/validaciones/participante";
+import { eliminarFoto } from "@/lib/archivos";
 import { esquemaNecesidad } from "@/lib/validaciones/necesidad";
 import { esquemaPistas } from "@/lib/validaciones/pistas";
 import type { Pistas } from "@/tipos/pistas";
@@ -92,6 +93,12 @@ async function sembrar() {
   const fechaLimite = new Date();
   fechaLimite.setDate(fechaLimite.getDate() + 7);
 
+  const fotosPrevias = await prisma.$transaction([
+    prisma.necesidad.findMany({ where: { fotoUrl: { not: null } }, select: { fotoUrl: true } }),
+    prisma.participante.findMany({ where: { fotoUrl: { not: null } }, select: { fotoUrl: true } }),
+  ]);
+  const urls = [...fotosPrevias[0], ...fotosPrevias[1]].map((registro) => registro.fotoUrl).filter((url): url is string => !!url);
+
   // Si falla una creación o validación, también se revierte el borrado.
   const resumen = await prisma.$transaction(async (transaccion) => {
     await transaccion.intentoAdivinanza.deleteMany();
@@ -110,7 +117,7 @@ async function sembrar() {
     for (const datos of participantesSemilla) {
       const participante = await transaccion.participante.create({
         data: {
-          ...esquemaRegistroParticipante.parse({ nombre: datos.nombre }),
+          ...esquemaNombreParticipante.parse({ nombre: datos.nombre }),
           pin: "",
           eventoId: evento.id,
           necesidades: { create: datos.necesidades.map((necesidad) => esquemaNecesidad.parse(necesidad)) },
@@ -124,6 +131,9 @@ async function sembrar() {
     return { eventoId: evento.id, fechaLimite, participantes };
   });
 
+  await Promise.all(urls.map((url) => eliminarFoto(url).catch((error: unknown) => {
+    console.error("No se pudo limpiar una foto de la semilla anterior:", error);
+  })));
   console.log("Semilla completada: 1 evento, 5 participantes, 15 necesidades y 5 formularios de pistas.");
   console.log("No se crearon emparejamientos, regalos seleccionados ni intentos.");
   console.log(JSON.stringify(resumen, null, 2));

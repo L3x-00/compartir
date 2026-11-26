@@ -17,14 +17,15 @@ export async function POST(peticion: Request) {
       const jugador = await transaccion.participante.findUniqueOrThrow({ where: { id: sesion.participanteId } });
       // Repetir la misma confirmación no duplica intentos; cambiarla exige reintentar.
       if (jugador.personaSecretaId === candidatoId) {
-        const yaElegido = await transaccion.participante.findUniqueOrThrow({
-          where: { id: candidatoId }, select: { nombre: true, fotoUrl: true },
+        const yaElegido = await transaccion.participante.findFirst({
+          where: { id: candidatoId, eventoId: sesion.eventoId, esAdmin: false }, select: { nombre: true, fotoUrl: true },
         });
+        if (!yaElegido) throw NextResponse.json({ ok: false, error: "No encontramos a ese participante en el evento." }, { status: 404 });
         return { personaSecretaId: candidatoId, personaSecreta: { id: candidatoId, ...yaElegido } };
       }
       if (jugador.personaSecretaId) throw NextResponse.json({ ok: false, error: "Ya confirmaste una persona secreta. Usa Reintentar para cambiarla." }, { status: 409 });
       const candidato = await transaccion.participante.findFirst({
-        where: { id: candidatoId, eventoId: sesion.eventoId },
+        where: { id: candidatoId, eventoId: sesion.eventoId, esAdmin: false },
         select: { nombre: true, fotoUrl: true, pistas: { select: { datos: true } } },
       });
       if (!candidato?.pistas || !leerPistasCompletas(candidato.pistas.datos)) throw NextResponse.json({ ok: false, error: "No encontramos a ese participante con pistas completas." }, { status: 404 });

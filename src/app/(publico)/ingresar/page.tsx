@@ -35,12 +35,12 @@ export default function PaginaIngreso() {
   const reducido = usarReducirMovimiento();
   const controles = useAnimationControls();
   const [admin, cambiarAdmin] = useState(false);
-  const [identidad, guardarIdentidad, limpiarIdentidad] = usarBorrador("cn:ingreso-identidad", { nombre: "", dni: "" });
+  const [identidad, guardarIdentidad, limpiarIdentidad] = usarBorrador("cn:ingreso-identidad", { nombre: "" });
   const nombre = identidad.nombre;
-  const dni = identidad.dni;
+  const [dni, cambiarDni] = useState("");
   const [pin, cambiarPin] = useState("");
   const [foto, cambiarFoto] = useState<File | null>(null);
-  const [reingreso, cambiarReingreso] = useState<{ existe: boolean; tieneFoto: boolean; esAdmin: boolean } | null>(null);
+  const [reingreso, cambiarReingreso] = useState<{ existe: boolean; tieneFoto: boolean; fotoOpcional: boolean } | null>(null);
   const [errorFoto, cambiarErrorFoto] = useState("");
   const [errorNombre, cambiarErrorNombre] = useState("");
   const [errorPin, cambiarErrorPin] = useState("");
@@ -56,8 +56,7 @@ export default function PaginaIngreso() {
   const peticion = useRef<AbortController | null>(null);
   const navegado = useRef(false);
 
-  function cambiarNombre(valor: string) { guardarIdentidad({ ...identidad, nombre: valor }); }
-  function cambiarDni(valor: string) { guardarIdentidad({ ...identidad, dni: valor }); }
+  function cambiarNombre(valor: string) { guardarIdentidad({ nombre: valor }); }
 
   useEffect(() => () => peticion.current?.abort(), []);
   useEffect(() => {
@@ -74,7 +73,7 @@ export default function PaginaIngreso() {
     const reloj = window.setTimeout(() => {
       void fetch(`/api/participantes/existe?nombre=${encodeURIComponent(nombre.trim())}`, { signal: control.signal })
         .then((respuesta) => respuesta.ok ? respuesta.json() : null)
-        .then((datos: { ok?: boolean; datos?: { existe: boolean; tieneFoto: boolean; esAdmin: boolean } } | null) => {
+        .then((datos: { ok?: boolean; datos?: { existe: boolean; tieneFoto: boolean; fotoOpcional: boolean } } | null) => {
           if (datos?.ok && datos.datos) cambiarReingreso(datos.datos);
         })
         .catch(() => undefined);
@@ -86,6 +85,7 @@ export default function PaginaIngreso() {
     cambiarAdmin(!admin);
     cambiarPin("");
     cambiarDni("");
+    limpiarIdentidad();
     cambiarFoto(null);
     cambiarReingreso(null);
     cambiarIrAPanel(false);
@@ -125,7 +125,7 @@ export default function PaginaIngreso() {
       reproducir("error");
       return;
     }
-    const fotoOpcional = !!reingreso?.existe && reingreso.tieneFoto && !reingreso.esAdmin;
+    const fotoOpcional = !!reingreso?.existe && reingreso.fotoOpcional;
     if (!admin && !foto && !fotoOpcional) {
       cambiarErrorFoto("Agrega una foto tuya para registrar tu nombre.");
       entradaFoto.current?.focus();
@@ -168,6 +168,7 @@ export default function PaginaIngreso() {
         cambiarErrorPin("Revisa el nombre del administrador y su PIN.");
       } else if (!admin && fallo instanceof ErrorParticipante && fallo.estado === 401) {
         cambiarErrorDni(fallo.message);
+        cambiarDni("");
         entradaDni.current?.focus();
         entradaDni.current?.select();
       } else if (!admin && fallo instanceof ErrorParticipante && fallo.estado === 403 && fallo.message === MENSAJES.EVENTO_CERRADO) {
@@ -189,7 +190,7 @@ export default function PaginaIngreso() {
     if (errorDni && !enviando) { entradaDni.current?.focus(); entradaDni.current?.select(); }
   }, [errorDni, enviando]);
 
-  const fotoOpcional = !admin && !!reingreso?.existe && reingreso.tieneFoto && !reingreso.esAdmin;
+  const fotoOpcional = !admin && !!reingreso?.existe && reingreso.fotoOpcional;
   return <><Encabezado /><main id="contenido" className="pagina-ingreso"><div className="contenedor ingreso-rejilla">
     <div className="ingreso-ambiente">
       <p className="display">Aquí empieza<br /><span className="texto-dorado">tu secreto.</span></p>
@@ -203,11 +204,11 @@ export default function PaginaIngreso() {
         : "Escribe tu nombre, tu DNI de 8 números y agrega una foto tuya. El DNI será tu clave para volver a entrar."}</p>
       {!enviando && (sesion || exito) ? <div className="estado-ingreso" role="status">
         <Cargador tamano="lg" etiqueta="Preparando tu ingreso" />
-        {exito && <Link className="boton boton-dorado" href={irAPanel ? "/participar/mi-panel"
+        <Link className="boton boton-dorado" href={irAPanel ? "/participar/mi-panel"
           : admin ? "/panel"
             : sesion?.evento.cerrado || sesion?.tieneRegaloSeleccionado ? "/participar/revelacion" : "/participar/necesidades"}>
           Continuar <ArrowRight size={18} aria-hidden="true" />
-        </Link>}
+        </Link>
       </div> :
         <form className="ingreso-formulario" onSubmit={(formulario) => void ingresar(formulario)} noValidate>
           <Entrada ref={entradaNombre} etiqueta={admin ? "Nombre del administrador" : "Tu nombre completo"} name="nombre"

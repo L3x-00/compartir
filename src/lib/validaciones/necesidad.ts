@@ -24,6 +24,7 @@ export const esquemaNecesidad = z.object({
   fotoUrl: z.string({ invalid_type_error: "La ruta de la foto debe ser un texto." })
     .trim()
     .transform((valor) => valor || null)
+    .refine((valor) => valor === null || /^\/uploads\/\d+-[a-f0-9]{8}\.(jpg|png|webp)$/.test(valor), "La ruta de la foto no es válida.")
     .optional(),
 }, { required_error: "Completa los datos del regalo.", invalid_type_error: "Revisa los datos del regalo." });
 

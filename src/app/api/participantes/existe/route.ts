@@ -18,7 +18,9 @@ export async function GET(peticion: Request) {
     });
     const encontrado = participantes.find((p) => normalizarNombre(p.nombre).toLocaleLowerCase("es") === buscado);
     return NextResponse.json({ ok: true, datos: {
-      existe: !!encontrado, tieneFoto: !!encontrado?.fotoUrl, esAdmin: !!encontrado?.esAdmin,
+      existe: !!encontrado,
+      tieneFoto: !!encontrado?.fotoUrl,
+      fotoOpcional: !!encontrado?.fotoUrl && !encontrado?.esAdmin,
     } });
   } catch (error) {
     return responderError(error);

@@ -73,7 +73,8 @@ export function FormularioEvento({ evento }: { evento: EventoVista }) {
         ...(limpio === evento.nombre ? {} : { nombre: limpio }), ...(nuevaFecha ? { fechaLimite: iso } : {}),
       }));
       cambiarGuardado(true);
-      limpiarConfig();
+      guardarConfig({ nombre: limpio, fecha });
+      router.refresh();
       toast.success("Cambios guardados.");
       reproducir("acierto");
       void lanzarConfeti({ particleCount: 27 });

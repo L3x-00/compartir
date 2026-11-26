@@ -44,7 +44,14 @@ function aValores(pistas: Pistas | null): Record<string, string> {
   return Object.fromEntries(Object.entries(plano).map(([campo, valor]) => [campo, campo === "lentes" ? (valor ? "Sí" : "No") : String(valor)]));
 }
 
+function camposFaltantes(valores: Record<string, string>): string[] {
+  const nombres = new Map(grupos.flatMap((grupo) => grupo.campos.map(({ campo, etiqueta }) => [campo, etiqueta] as const)));
+  nombres.set("datoCurioso", "Dato curioso");
+  return [...nombres].filter(([campo]) => !valores[campo]?.trim()).map(([, etiqueta]) => etiqueta);
+}
+
 function aPistas(valores: Record<string, string>): Pistas | null {
+  if (camposFaltantes(valores).length) return null;
   const resultado = esquemaPistas.safeParse({
     fisico: {
       altura: valores.altura, complexion: valores.complexion, cabello: valores.cabello,
@@ -109,7 +116,8 @@ export function PanelPistasAdmin({ alGuardar }: { alGuardar?: () => void }) {
     if (guardando || !persona) return;
     const pistas = aPistas(valores);
     if (!pistas) {
-      cambiarError("Completa las 14 pistas con una opción válida antes de guardar.");
+      const faltantes = camposFaltantes(valores);
+      cambiarError(faltantes.length ? `Faltan: ${faltantes.join(", ")}.` : "Revisa las pistas antes de guardar.");
       toast.error("Faltan pistas por corregir.");
       return;
     }
@@ -141,7 +149,9 @@ export function PanelPistasAdmin({ alGuardar }: { alGuardar?: () => void }) {
       <Boton variante="fantasma" icono={RefreshCw} cargando={cargando} onClick={() => void cargar()}>Recargar</Boton>
     </div>
 
-    {!personas?.length ? <p className="admin-vacio">Aún no hay participantes en el evento.</p> : <>
+    {error && !personas ? <div className="admin-vacio" role="alert">
+      <p>{error}</p><Boton variante="fantasma" icono={RefreshCw} onClick={() => void cargar()}>Reintentar</Boton>
+    </div> : !personas?.length ? <p className="admin-vacio">Aún no hay participantes en el evento.</p> : <>
       <label className="admin-pistas-seleccion">
         <span>Participante</span>
         <select value={seleccion} onChange={(evento) => elegir(evento.target.value)} disabled={guardando}>
@@ -173,7 +183,7 @@ export function PanelPistasAdmin({ alGuardar }: { alGuardar?: () => void }) {
       </div>
       {error && <p className="error-participante" role="alert">{error}</p>}
       <div className="acciones-participante admin-pistas-acciones">
-        <Boton variante="dorado" icono={guardado ? Check : Save} cargando={guardando} disabled={!persona} onClick={() => void guardar()}>
+        <Boton variante="dorado" icono={guardado ? Check : Save} cargando={guardando} disabled={!persona || guardado} onClick={() => void guardar()}>
           {guardado ? "Corrección guardada" : "Guardar corrección"}
         </Boton>
       </div>

@@ -1,12 +1,12 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
-import { leerJSON, requiereAdmin, responderError } from "@/lib/auth";
+import { leerJSON, requiereAdmin, requiereEventoAbierto, responderError } from "@/lib/auth";
 import { esquemaPistas } from "@/lib/validaciones/pistas";
 import type { Pistas } from "@/tipos/pistas";
 
 const esquemaCorreccion = z.object({
-  participanteId: z.string().min(1, "Selecciona un participante."),
+  participanteId: z.string().cuid("Selecciona un participante válido."),
   pistas: esquemaPistas,
 });
 
@@ -36,9 +36,10 @@ export async function GET() {
 export async function POST(peticion: Request) {
   try {
     const sesion = await requiereAdmin();
+    await requiereEventoAbierto(sesion.eventoId);
     const { participanteId, pistas } = esquemaCorreccion.parse(await leerJSON(peticion));
     const participante = await prisma.participante.findFirst({
-      where: { id: participanteId, eventoId: sesion.eventoId }, select: { id: true },
+      where: { id: participanteId, eventoId: sesion.eventoId, esAdmin: false }, select: { id: true },
     });
     if (!participante) return NextResponse.json({ ok: false, error: "No encontramos a ese participante en el evento." }, { status: 404 });
     const datos = JSON.stringify(pistas);

@@ -247,7 +247,7 @@ export function FormularioPistas({ iniciales, version, claveBorrador }: { inicia
       <h1>Tus pistas</h1>
       <p>Elige lo que mejor te describe. Tus respuestas ayudarán a que alguien de la familia te encuentre.</p>
     </header>
-    {guardadas ? <div className="panel-participante estado-participante" role="status">
+    {guardadas ? <div className="panel-participante estado-participante" role="status" tabIndex={-1} ref={(nodo) => nodo?.focus()}>
       <svg width="68" height="68" viewBox="0 0 40 40" fill="none" aria-hidden="true">
         <circle cx="20" cy="20" r="18" stroke="currentColor" strokeWidth="2" />
         <motion.path d="m11 20 6 6 12-12" stroke="currentColor" strokeWidth="3" strokeLinecap="round"

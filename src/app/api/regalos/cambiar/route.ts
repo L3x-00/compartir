@@ -17,14 +17,16 @@ export async function POST(peticion: Request) {
     if (!await participacionCompleta(sesion)) return NextResponse.json({ ok: false, error: MENSAJES.JUEGO_INCOMPLETO }, { status: 403 });
     const { necesidadId } = esquema.parse(await leerJSON(peticion));
     const datos = await prisma.$transaction(async (transaccion) => {
-      const jugador = await transaccion.participante.findUniqueOrThrow({
-        where: { id: sesion.participanteId }, select: { personaSecretaId: true },
+      const jugador = await transaccion.participante.findFirst({
+        where: { id: sesion.participanteId, eventoId: sesion.eventoId, evento: { cerrado: false, fechaLimite: { gt: new Date() } } },
+        select: { personaSecretaId: true },
       });
+      if (!jugador) throw NextResponse.json({ ok: false, error: MENSAJES.EVENTO_CERRADO }, { status: 403 });
       if (!jugador.personaSecretaId) {
         throw NextResponse.json({ ok: false, error: "Aún no has adivinado a tu persona secreta." }, { status: 403 });
       }
       const necesidad = await transaccion.necesidad.findFirst({
-        where: { id: necesidadId, participanteId: jugador.personaSecretaId }, select: { nombre: true },
+        where: { id: necesidadId, participanteId: jugador.personaSecretaId, participante: { eventoId: sesion.eventoId } }, select: { nombre: true },
       });
       if (!necesidad) {
         throw NextResponse.json({ ok: false, error: "Elige una necesidad de tu persona secreta." }, { status: 403 });

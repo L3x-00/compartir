@@ -52,7 +52,11 @@ export async function DELETE(_peticion: Request, { params }: ContextoRuta) {
 async function limpiarFotoSinUso(url: string) {
   try {
     // Una foto compartida por otra necesidad no debe borrarse del disco.
-    if (await prisma.necesidad.count({ where: { fotoUrl: url } }) === 0) await eliminarFoto(url);
+    const [enNecesidades, enPerfiles] = await Promise.all([
+      prisma.necesidad.count({ where: { fotoUrl: url } }),
+      prisma.participante.count({ where: { fotoUrl: url } }),
+    ]);
+    if (enNecesidades === 0 && enPerfiles === 0) await eliminarFoto(url);
   } catch (error) {
     // La necesidad ya se guardó; una limpieza fallida no debe informar lo contrario.
     console.error("No se pudo limpiar la foto anterior:", error);

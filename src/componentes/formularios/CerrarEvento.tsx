@@ -65,6 +65,7 @@ export function CerrarEvento({ doble = false, pendientes }: { doble?: boolean; p
         if (!celebrar.current) return;
         celebrar.current = false;
         cambiarCerrado(true);
+        router.refresh();
         toast.success("Evento cerrado. Ya puedes consultar los emparejamientos.");
         reproducir("acierto");
         void lanzarConfeti({ preset: "revelacion" });

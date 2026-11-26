@@ -8,7 +8,7 @@ export async function GET() {
     const sesion = await requiereSesion();
     await requiereEventoAbierto(sesion.eventoId);
     const participantes = await prisma.participante.findMany({
-      where: { eventoId: sesion.eventoId, id: { not: sesion.participanteId }, pistas: { isNot: null }, esPersonaSecretaDe: { is: null } },
+      where: { eventoId: sesion.eventoId, esAdmin: false, id: { not: sesion.participanteId }, pistas: { isNot: null }, esPersonaSecretaDe: { is: null } },
       select: { id: true, pistas: { select: { datos: true } } }, orderBy: [{ creadoEn: "asc" }, { id: "asc" }],
     });
     const candidatos = participantes.filter((persona) => persona.pistas && leerPistasCompletas(persona.pistas.datos))

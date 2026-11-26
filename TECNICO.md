@@ -160,6 +160,8 @@ La responsividad se apoya en breakpoints unificados (1024/768/375 px), grillas `
 
 El guardado de pistas usa `finally` para liberar banderas y lock; `usarSesion` limpia `cargando` también en peticiones abortadas; `/ingresar` tiene un único punto de navegación con `navegado.current`; y `consultar()` solo redirige a revelación cuando el error es realmente `EVENTO_CERRADO`, enviando otros motivos a `/participar/mi-panel?motivo=…`.
 
+Auditoría por capas: la reasignación admin exige evento abierto y usa `updateMany` con `personaSecretaId: null` dentro de transacción; se eliminó `GET /api/pistas/[participanteId]` porque exponía pistas reales; las fotos requieren sesión; los candidatos excluyen al administrador; `/api/fotos/[archivo]` y el borrado de necesidades comprueban también fotos de perfil; la semilla limpia fotos huérfanas y usa el esquema de nombre sin DNI; el DNI ya no se persiste en `localStorage` y el cierre de sesión purga los borradores `cn:*` excepto preferencias de audio.
+
 ### Audio
 - Seis efectos originales: `click`, `error`, `acierto`, `revelacion`, `whoosh`, `encaje` (WAV con alternativa MP3 del mismo nombre).
 - `usarSonido` usa Howler, carga solo archivos existentes y respeta la preferencia de silencio en `cn:silencio`; `usarSilencio` centraliza el estado con `useSyncExternalStore`, localStorage y el evento `cn:sonido`.

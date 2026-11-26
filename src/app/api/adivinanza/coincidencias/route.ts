@@ -15,7 +15,7 @@ export async function POST(peticion: Request) {
     const jugador = await prisma.participante.findUniqueOrThrow({ where: { id: sesion.participanteId } });
     if (jugador.personaSecretaId) return NextResponse.json({ ok: true, datos: { yaConfirmado: true, personaSecretaId: jugador.personaSecretaId } });
     const participantes = await prisma.participante.findMany({
-      where: { eventoId: sesion.eventoId, id: { not: sesion.participanteId }, pistas: { isNot: null }, esPersonaSecretaDe: { is: null } },
+      where: { eventoId: sesion.eventoId, esAdmin: false, id: { not: sesion.participanteId }, pistas: { isNot: null }, esPersonaSecretaDe: { is: null } },
       select: { id: true, pistas: { select: { datos: true } } }, orderBy: [{ creadoEn: "asc" }, { id: "asc" }],
     });
     const candidatos = participantes.flatMap((persona) => {

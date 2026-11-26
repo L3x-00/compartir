@@ -47,6 +47,12 @@ export function ProveedorSesion({ children, archivosSonido = sinAudio }: { child
   const cerrar = useCallback(async () => {
     const respuesta = await fetch("/api/auth/salir", { method: "POST" });
     if (!respuesta.ok) throw new Error("No pudimos cerrar la sesión. Intenta otra vez.");
+    try {
+      const conservar = new Set(["cn:silencio", "cn:volumen-musica"]);
+      for (const clave of Object.keys(localStorage)) {
+        if (clave.startsWith("cn:") && !conservar.has(clave)) localStorage.removeItem(clave);
+      }
+    } catch { /* Dispositivo compartido sin almacenamiento: no hay borradores que limpiar. */ }
     cambiarSesion(null); router.replace("/"); router.refresh();
   }, [router]);
   // createElement conserva el archivo .ts y evita un proveedor adicional por pantalla.
