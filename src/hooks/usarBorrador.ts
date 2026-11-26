@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 type Actualizacion<T> = T | ((actual: T) => T);
 
 /** Borrador local versionado: se restaura tras recargar y se limpia al guardar. */
-export function usarBorrador<T>(clave: string, inicial: T, version = 1) {
+export function usarBorrador<T>(clave: string, inicial: T, version: string | number = 1) {
   const [valor, cambiarValor] = useState<T>(inicial);
   const actual = useRef<T>(inicial);
 

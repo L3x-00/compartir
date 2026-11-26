@@ -156,7 +156,9 @@ La responsividad se apoya en breakpoints unificados (1024/768/375 px), grillas `
 
 `src/lib/reglas.ts`, `src/lib/firmaSesion.ts` y `DELETE /api/fotos/[archivo]` completan la robustez: reglas en servidor, formato de cookie compartido entre Node y Edge y limpieza de fotos huérfanas. Los enlaces se validan con protocolo `http/https` y los límites salen de `LIMITES`.
 
-`src/hooks/usarBorrador.ts` guarda en `localStorage` los borradores versionados de ingreso, necesidades, adivinanza y selección de regalo. La hidratación se hace en `useEffect` para evitar discrepancias SSR; los archivos `File` no se persisten porque el navegador no permite reconstruirlos.
+`src/hooks/usarBorrador.ts` guarda en `localStorage` los borradores versionados de ingreso, necesidades (incluidas las ediciones de varias tarjetas), adivinanza (pistas, paso y ocupados), selección de regalo, configuración del evento, reasignaciones y vista/filtro del panel. La hidratación se hace en `useEffect` para evitar discrepancias SSR; los archivos `File` no se persisten porque el navegador no permite reconstruirlos.
+
+El guardado de pistas usa `finally` para liberar banderas y lock; `usarSesion` limpia `cargando` también en peticiones abortadas; `/ingresar` tiene un único punto de navegación con `navegado.current`; y `consultar()` solo redirige a revelación cuando el error es realmente `EVENTO_CERRADO`, enviando otros motivos a `/participar/mi-panel?motivo=…`.
 
 ### Audio
 - Seis efectos originales: `click`, `error`, `acierto`, `revelacion`, `whoosh`, `encaje` (WAV con alternativa MP3 del mismo nombre).

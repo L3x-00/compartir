@@ -58,20 +58,21 @@ export function FormularioNecesidad({ iniciales }: { iniciales: NecesidadVista[]
   const [error, cambiarError] = useState("");
   const [errores, cambiarErrores] = useState<Partial<Record<keyof Borrador, string>>>({});
   const bloqueo = useRef(false);
-  const borradores = useRef(new Map<string, { campos: Borrador; foto: File | null }>());
+  const [borradoresGuardados, guardarBorradores] = usarBorrador<Record<string, Borrador>>("cn:necesidades-borradores", {});
+  const borradores = useRef(new Map<string, File | null>());
   const botonAgregar = useRef<HTMLButtonElement>(null);
   const recuperarFoco = useRef(false);
   const faltan = Math.max(0, minimo - necesidades.length);
   const limiteAlcanzado = necesidades.length >= MAX_NECESIDADES;
 
   function abrir(tipo: "editar" | "eliminar", necesidad: NecesidadVista | null = null) {
-    const guardado = borradores.current.get(necesidad?.id ?? "");
+    const clave = necesidad?.id ?? "";
     seleccionar(necesidad);
-    cambiarBorrador(guardado?.campos ?? (necesidad ? {
+    cambiarBorrador(borradoresGuardados[clave] ?? (necesidad ? {
       nombre: necesidad.nombre, descripcion: necesidad.descripcion ?? "", linkReferencia: necesidad.linkReferencia ?? "",
       fotoUrl: rutaFoto(necesidad.fotoUrl) ?? "",
     } : vacio));
-    cambiarArchivo(guardado?.foto ?? null);
+    cambiarArchivo(borradores.current.get(clave) ?? null);
     cambiarErrores({});
     cambiarError("");
     cambiarModal(tipo);
@@ -81,7 +82,9 @@ export function FormularioNecesidad({ iniciales }: { iniciales: NecesidadVista[]
   function cerrar() {
     if (bloqueo.current) return;
     if (modal === "editar") {
-      borradores.current.set(seleccionada?.id ?? "", { campos: borrador, foto: archivo });
+      const clave = seleccionada?.id ?? "";
+      guardarBorradores({ ...borradoresGuardados, [clave]: borrador });
+      if (archivo) borradores.current.set(clave, archivo);
     }
     cambiarModal(null);
   }
@@ -140,7 +143,10 @@ export function FormularioNecesidad({ iniciales }: { iniciales: NecesidadVista[]
       }
       const ruta = seleccionada ? `/api/necesidades/${seleccionada.id}` : "/api/necesidades";
       const guardada = await pedir<NecesidadVista>(ruta, conJSON(seleccionada ? "PUT" : "POST", { ...validacion.data, fotoUrl }));
-      borradores.current.delete(seleccionada?.id ?? "");
+      const claveGuardada = seleccionada?.id ?? "";
+      borradores.current.delete(claveGuardada);
+      const { [claveGuardada]: _guardado, ...restoBorradores } = borradoresGuardados;
+      guardarBorradores(restoBorradores);
       limpiarBorrador();
       // Refleja el resultado de inmediato mediante la respuesta, sin volver a consultar toda la lista.
       cambiarNecesidades((actuales) => seleccionada
@@ -188,6 +194,8 @@ export function FormularioNecesidad({ iniciales }: { iniciales: NecesidadVista[]
     }
     cambiarNecesidades((actuales) => actuales.filter((item) => item.id !== eliminada.id));
     borradores.current.delete(eliminada.id);
+    const { [eliminada.id]: _eliminado, ...restoEliminados } = borradoresGuardados;
+    guardarBorradores(restoEliminados);
     recuperarFoco.current = true;
     cambiarModal(null);
     toast.success("Necesidad eliminada.");

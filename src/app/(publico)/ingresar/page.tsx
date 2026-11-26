@@ -54,16 +54,19 @@ export default function PaginaIngreso() {
   const entradaDni = useRef<HTMLInputElement>(null);
   const entradaFoto = useRef<HTMLInputElement>(null);
   const peticion = useRef<AbortController | null>(null);
+  const navegado = useRef(false);
 
   function cambiarNombre(valor: string) { guardarIdentidad({ ...identidad, nombre: valor }); }
   function cambiarDni(valor: string) { guardarIdentidad({ ...identidad, dni: valor }); }
 
   useEffect(() => () => peticion.current?.abort(), []);
   useEffect(() => {
-    if (sesion && !cargando && !enviando) {
-      router.replace(irAPanel ? "/participar/mi-panel" : destino(sesion.esAdmin, sesion.evento.cerrado, sesion.tieneRegaloSeleccionado));
+    if (navegado.current || exito || enviando) return;
+    if (sesion && !cargando) {
+      navegado.current = true;
+      router.replace(destino(sesion.esAdmin, sesion.evento.cerrado, sesion.tieneRegaloSeleccionado));
     }
-  }, [sesion, cargando, enviando, router, irAPanel]);
+  }, [sesion, cargando, enviando, exito, router]);
 
   useEffect(() => {
     if (admin || nombre.trim().length < 2) { cambiarReingreso(null); return; }
@@ -156,6 +159,7 @@ export default function PaginaIngreso() {
       if (!admin && datos.esReingreso) cambiarIrAPanel(true);
       await refrescar();
       if (!solicitud.signal.aborted) {
+        navegado.current = true;
         router.replace(!admin && datos.esReingreso ? "/participar/mi-panel" : destino(admin, !!datos.cerrado, !!datos.tieneRegaloSeleccionado));
       }
     } catch (fallo) {
@@ -199,7 +203,9 @@ export default function PaginaIngreso() {
         : "Escribe tu nombre, tu DNI de 8 números y agrega una foto tuya. El DNI será tu clave para volver a entrar."}</p>
       {!enviando && (sesion || exito) ? <div className="estado-ingreso" role="status">
         <Cargador tamano="lg" etiqueta="Preparando tu ingreso" />
-        {exito && <Link className="boton boton-dorado" href={irAPanel ? "/participar/mi-panel" : admin ? "/panel" : "/participar/necesidades"}>
+        {exito && <Link className="boton boton-dorado" href={irAPanel ? "/participar/mi-panel"
+          : admin ? "/panel"
+            : sesion?.evento.cerrado || sesion?.tieneRegaloSeleccionado ? "/participar/revelacion" : "/participar/necesidades"}>
           Continuar <ArrowRight size={18} aria-hidden="true" />
         </Link>}
       </div> :

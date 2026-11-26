@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { ArrowRight, UserRoundCheck } from "lucide-react";
 import { toast } from "sonner";
+import { usarBorrador } from "@/hooks/usarBorrador";
 import { Boton } from "@/componentes/ui/Boton";
 import { AvatarPersona } from "@/componentes/ui/AvatarPersona";
 import type { ParticipantePanel } from "@/tipos/final";
@@ -12,7 +13,7 @@ import { conJSON, ErrorParticipante, pedir } from "./peticionesParticipante";
 export function ReasignarPendientes({ participantes, alAsignar }: {
   participantes: ParticipantePanel[]; alAsignar: () => void;
 }) {
-  const [elecciones, cambiarElecciones] = useState<Record<string, string>>({});
+  const [elecciones, guardarElecciones] = usarBorrador<Record<string, string>>("cn:reasignar", {});
   const [guardando, cambiarGuardando] = useState("");
   const pendientes = participantes.filter((p) => !p.personaSecretaId);
   const disponibles = participantes.filter((p) => !p.esPersonaSecretaDe);
@@ -25,6 +26,8 @@ export function ReasignarPendientes({ participantes, alAsignar }: {
     cambiarGuardando(participanteId);
     try {
       await pedir("/api/admin/reasignar", conJSON("POST", { participanteId, candidatoId }));
+      const { [participanteId]: _asignado, ...resto } = elecciones;
+      guardarElecciones(resto);
       toast.success("Asignación guardada.");
       alAsignar();
     } catch (fallo) {
@@ -44,7 +47,7 @@ export function ReasignarPendientes({ participantes, alAsignar }: {
           <span className="admin-nombre"><AvatarPersona nombre={persona.nombre} fotoUrl={persona.fotoUrl} />{persona.nombre}</span>
           <ArrowRight size={16} aria-hidden="true" />
           <select aria-label={`Persona secreta para ${persona.nombre}`} value={elecciones[persona.id] ?? ""}
-            onChange={(e) => cambiarElecciones((actual) => ({ ...actual, [persona.id]: e.target.value }))}>
+            onChange={(e) => guardarElecciones({ ...elecciones, [persona.id]: e.target.value })}>
             <option value="">Selecciona candidato</option>
             {opciones.map((p) => <option key={p.id} value={p.id}>{p.nombre}</option>)}
           </select>

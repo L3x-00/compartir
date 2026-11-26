@@ -12,7 +12,8 @@ import { sesionParticipante } from "../datos";
 export const metadata: Metadata = { title: "Mi panel" };
 
 /** Resumen personal con todo lo que el participante subió y puede corregir. */
-export default async function PaginaMiPanel() {
+export default async function PaginaMiPanel({ searchParams }: { searchParams: Promise<{ motivo?: string }> }) {
+  const { motivo } = await searchParams;
   const sesion = await sesionParticipante(true);
   const persona = await prisma.participante.findUnique({
     where: { id: sesion.participanteId },
@@ -43,6 +44,7 @@ export default async function PaginaMiPanel() {
   const recibe = sesion.evento.cerrado ? persona.esPersonaSecretaDe : null;
 
   return <section className="escena-participante">
+    {motivo && <p className="error-participante" role="alert">{motivo}</p>}
     <header className="titulo-participante">
       <h1>Mi panel</h1>
       <p>Todos tus datos en un solo lugar. Puedes corregirlos antes de que cierre la elección de regalos.</p>

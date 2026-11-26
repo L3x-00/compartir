@@ -37,7 +37,7 @@ export function FormularioAdivinanza({ cantidadInicial, fechaLimite }: { cantida
   const [valores, cambiarValores, limpiarBorrador] = usarBorrador<BorradorPistas>("cn:adivinanza-borrador", {});
   const [cantidad, cambiarCantidad] = useState(cantidadInicial);
   const [resultados, cambiarResultados] = useState<ResultadoCoincidencia[] | null>(null);
-  const [pasoInicial, cambiarPasoInicial] = useState(0);
+  const [pasoInicial, cambiarPasoInicial, limpiarPaso] = usarBorrador<number>("cn:adivinanza-paso", 0);
   const [dialogo, cambiarDialogo] = useState<"confirmar" | "reintentar" | null>(null);
   const [seleccionado, elegir] = useState<ResultadoCoincidencia | null>(null);
   const [confirmado, confirmarEleccion] = useState(false);
@@ -46,7 +46,7 @@ export function FormularioAdivinanza({ cantidadInicial, fechaLimite }: { cantida
   const [confirmando, cambiarConfirmacion] = useState(false);
   const [error, cambiarError] = useState("");
   const [errorDialogo, cambiarErrorDialogo] = useState("");
-  const [ocupados, cambiarOcupados] = useState<string[]>([]);
+  const [ocupados, cambiarOcupados, limpiarOcupados] = usarBorrador<string[]>("cn:adivinanza-ocupados", []);
   const bloqueo = useRef(false);
   const celebrarPareja = useRef(false);
   const restaurarEditor = useRef(false);
@@ -117,6 +117,8 @@ export function FormularioAdivinanza({ cantidadInicial, fechaLimite }: { cantida
       if (!montado.current) return;
       if (datos.personaSecreta) cambiarRevelado(datos.personaSecreta);
       limpiarBorrador();
+      limpiarPaso();
+      limpiarOcupados();
       confirmarEleccion(true);
       celebrarPareja.current = true;
       cambiarDialogo(null);

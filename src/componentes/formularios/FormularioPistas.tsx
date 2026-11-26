@@ -235,6 +235,7 @@ export function FormularioPistas({ iniciales, version, claveBorrador }: { inicia
       toast.error(mensaje);
       reproducir("error");
       if (!reducido) void sacudir.start({ x: [0, -5, 5, 0], transition: { duration: .27 } });
+    } finally {
       cambiarGuardado(false);
       bloqueo.current = false;
     }

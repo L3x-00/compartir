@@ -11,6 +11,7 @@ import { Boton } from "@/componentes/ui/Boton";
 import { CuentaRegresiva } from "@/componentes/ui/CuentaRegresiva";
 import { Entrada } from "@/componentes/ui/Entrada";
 import type { EventoVista } from "@/hooks/usarSesion";
+import { usarBorrador } from "@/hooks/usarBorrador";
 import { usarConfeti } from "@/hooks/usarConfeti";
 import { usarReducirMovimiento } from "@/hooks/usarReducirMovimiento";
 import { usarSonido } from "@/hooks/usarSonido";
@@ -27,8 +28,15 @@ export function FormularioEvento({ evento }: { evento: EventoVista }) {
   const { lanzarConfeti } = usarConfeti();
   const { reproducir } = usarSonido();
   const sacudir = useAnimationControls();
-  const [nombre, cambiarNombre] = useState(evento.nombre);
-  const [fecha, cambiarFecha] = useState(() => aFechaLocal(evento.fechaLimite));
+  const [config, guardarConfig, limpiarConfig] = usarBorrador(
+    `cn:evento-config:${evento.id}`,
+    { nombre: evento.nombre, fecha: aFechaLocal(evento.fechaLimite) },
+    `${evento.nombre}|${evento.fechaLimite}`,
+  );
+  const nombre = config.nombre;
+  const fecha = config.fecha;
+  function cambiarNombre(valor: string) { guardarConfig({ ...config, nombre: valor }); }
+  function cambiarFecha(valor: string) { guardarConfig({ ...config, fecha: valor }); }
   const [guardando, cambiarGuardando] = useState(false);
   const [guardado, cambiarGuardado] = useState(false);
   const [error, cambiarError] = useState("");
@@ -65,6 +73,7 @@ export function FormularioEvento({ evento }: { evento: EventoVista }) {
         ...(limpio === evento.nombre ? {} : { nombre: limpio }), ...(nuevaFecha ? { fechaLimite: iso } : {}),
       }));
       cambiarGuardado(true);
+      limpiarConfig();
       toast.success("Cambios guardados.");
       reproducir("acierto");
       void lanzarConfeti({ particleCount: 27 });

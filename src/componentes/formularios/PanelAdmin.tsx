@@ -11,6 +11,7 @@ import { CuentaRegresiva } from "@/componentes/ui/CuentaRegresiva";
 import { AvatarInicial } from "@/componentes/ui/AvatarInicial";
 import { AvatarPersona } from "@/componentes/ui/AvatarPersona";
 import { Entrada } from "@/componentes/ui/Entrada";
+import { usarBorrador } from "@/hooks/usarBorrador";
 import { usarReducirMovimiento } from "@/hooks/usarReducirMovimiento";
 import { mostrarFechaEvento, nombreZonaEvento } from "@/lib/fechasEvento";
 import type { ParticipantePanel, ResumenAdmin } from "@/tipos/final";
@@ -41,8 +42,8 @@ export function PanelAdmin({ resumen }: { resumen: ResumenAdmin | null }) {
   const router = useRouter();
   const ruta = usePathname();
   const reducido = usarReducirMovimiento();
-  const [vista, cambiarVista] = useState<"resumen" | "participantes" | "pistas">("resumen");
-  const [filtro, cambiarFiltro] = useState<Filtro>("Todos");
+  const [vista, cambiarVista] = usarBorrador<"resumen" | "participantes" | "pistas">("cn:panel-vista", "resumen");
+  const [filtro, cambiarFiltro] = usarBorrador<Filtro>("cn:panel-filtro", "Todos");
   const [busqueda, cambiarBusqueda] = useState("");
   const [consulta, cambiarConsulta] = useState("");
   const [actualizando, actualizar] = useTransition();

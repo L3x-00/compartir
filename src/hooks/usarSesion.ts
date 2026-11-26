@@ -39,7 +39,8 @@ export function ProveedorSesion({ children, archivosSonido = sinAudio }: { child
       if (!actual.signal.aborted) cambiarSesion(null);
       return null;
     } finally {
-      if (!actual.signal.aborted) cambiarCarga(false);
+      // Si otra petición aborta esta, su propio finally deja el loader en false.
+      cambiarCarga(false);
     }
   }, []);
   useEffect(() => { void refrescar(); return () => controlador.current?.abort(); }, [refrescar]);
