@@ -7,6 +7,20 @@
       "sourceType": "github",
       "skillPath": "SKILL.md",
       "computedHash": "a9a04fcc6d8e5e8229657523b02779954821b31d630617cdb6457dfd34cd0993"
+    },
+    "open-code-review": {
+      "source": "alibaba/open-code-review",
+      "commit": "d4f568f71d3a9d5c5ec972791b1509e40cd31ad1",
+      "sourceType": "github",
+      "skillPath": "skills/open-code-review/SKILL.md",
+      "computedHash": "5cc51a2b01a4f3f0444bfe21ee46d01289e90c4d745497c2967e78a4ba6638e8"
+    },
+    "open-code-review-delegate": {
+      "source": "alibaba/open-code-review",
+      "commit": "d4f568f71d3a9d5c5ec972791b1509e40cd31ad1",
+      "sourceType": "github",
+      "skillPath": "skills/open-code-review-delegate/SKILL.md",
+      "computedHash": "d3e445be2d49015039f3f03a304baa2816f6d8ed83afff635e240b0ba8b68861"
     }
   }
 }

@@ -18,7 +18,7 @@ export const esquemaNecesidad = z.object({
     .trim().max(500, "La descripción puede tener hasta 500 caracteres.").optional(),
   // Un campo opcional vacío equivale a no haber agregado un enlace.
   linkReferencia: z.string({ invalid_type_error: "El enlace debe ser un texto." })
-    .trim()
+    .trim().max(2048, "El enlace puede tener hasta 2048 caracteres.")
     .refine(enlaceSeguro, "Usa un enlace http:// o https://.")
     .optional(),
   fotoUrl: z.string({ invalid_type_error: "La ruta de la foto debe ser un texto." })

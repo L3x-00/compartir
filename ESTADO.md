@@ -160,3 +160,14 @@ La verificación visual real en navegador y el despliegue siguen pendientes en [
 | Emparejamiento | Relación «X regala a Y» resultante de la adivinanza. |
 | Revelación | Momento final en que se muestra quién regaló a quién. |
 | Evento | Instancia activa del juego con nombre, fecha límite y estado. |
+
+## Reglas de uso familiar y correcciones de backend
+
+- El enlace se comparte dentro de la familia; el registro sigue disponible sin invitaciones individuales. Los intentos de PIN permanecen ilimitados por decisión del organizador.
+- Conviene registrar a todos los familiares antes de empezar a elegir: cada elección comprueba que el reparto restante tenga solución. Una incorporación que dejaría a alguien sin destinatario se rechaza con un mensaje para el organizador. No se alteran regalos ya confirmados.
+- Las mutaciones y el cierre se serializan en SQLite. Una operación que cruza la fecha límite se revierte. El reingreso sin cambios sigue permitido tras cerrar.
+- Las sesiones expiran a los siete días en el servidor y se invalidan al salir o cambiar el PIN administrativo.
+- Las 14 pistas son de catálogo cerrado también en la API y en el panel. Un dato curioso antiguo escrito libremente se conserva en la base, pero se debe volver a elegir entre las opciones para seguir jugando; los otros trece campos se recuperan en el editor.
+- Las fotos tienen propietario y referencias registradas. Solo se asocian subidas propias; el borrado respeta imágenes compartidas y las necesidades elegidas como regalo.
+- Máximo tres fotos pendientes por participante, quince archivos registrados y 100 MB por participante. Las imágenes huérfanas de más de 24 horas se limpian en la siguiente subida o preparación del evento, sin cron.
+- Los cuerpos JSON y multipart están acotados; los datos inválidos devuelven 400 y los cuerpos excesivos 413.

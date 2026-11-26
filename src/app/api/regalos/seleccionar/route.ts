@@ -1,7 +1,7 @@
+import { conEventoAbierto } from "@/lib/evento";
 import { Prisma } from "@prisma/client";
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { prisma } from "@/lib/prisma";
 import { leerJSON, requiereSesion, requiereEventoAbierto, responderError } from "@/lib/auth";
 import { MENSAJES } from "@/lib/constantes";
 import { participacionCompleta } from "@/lib/reglas";
@@ -16,7 +16,8 @@ export async function POST(peticion: Request) {
     await requiereEventoAbierto(sesion.eventoId);
     if (!await participacionCompleta(sesion)) return NextResponse.json({ ok: false, error: MENSAJES.JUEGO_INCOMPLETO }, { status: 403 });
     const { necesidadId } = esquemaRegalo.parse(await leerJSON(peticion));
-    const eleccion = await prisma.$transaction(async (transaccion) => {
+    const eleccion = await conEventoAbierto(sesion.eventoId, async (transaccion) => {
+      if (!await participacionCompleta(sesion, transaccion)) throw NextResponse.json({ ok: false, error: MENSAJES.JUEGO_INCOMPLETO }, { status: 403 });
       const jugador = await transaccion.participante.findUniqueOrThrow({ where: { id: sesion.participanteId }, include: { regaloSeleccionado: true, evento: true } });
       if (jugador.evento.cerrado || jugador.evento.fechaLimite.getTime() <= Date.now()) throw NextResponse.json({ ok: false, error: MENSAJES.EVENTO_CERRADO }, { status: 403 });
       if (!jugador.personaSecretaId) throw NextResponse.json({ ok: false, error: "Aún no has adivinado a tu persona secreta." }, { status: 403 });

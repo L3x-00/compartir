@@ -114,7 +114,7 @@ Cada handler verifica sesión, valida el cuerpo con Zod y delega la lógica a `s
 - Sin email: el participante se registra con nombre, **DNI de 8 dígitos** y foto; el DNI se guarda hasheado en el campo `pin` y se pide al reingresar. El admin usa nombre y PIN de 4 dígitos (`PIN_ADMIN`).
 - El PIN del administrador se guarda como `sal:hash` con `scrypt` (`src/lib/pin.ts`); la comparación usa `timingSafeEqual`. Si existe un PIN antiguo en texto, el primer ingreso lo acepta y lo migra a hash automáticamente.
 - `/api/revelacion` exige administrador: los participantes reciben su ceremonia personal desde `/api/regalos/mi-regalo` y nunca el listado completo.
-- La cookie firmada con `SECRETO_SESION` es `HttpOnly`, `SameSite=Lax` y `Secure` en producción; contiene el id del participante o el rol de administrador.
+- La cookie firmada con `SECRETO_SESION` es `HttpOnly`, `SameSite=Lax` y `Secure` en producción. Incluye expiración de siete días y versión de sesión comprobadas por el servidor. Salir invalida las sesiones anteriores del participante.
 - `middleware.ts` intercepta `(administrador)/*` y `api/admin/*`; las rutas de participación validan la sesión dentro de la página con `cookies()`.
 - Ciclo del evento: `CREADO → ABIERTO → CERRADO → REVELADO`. No hay cron: cada petición comprueba si `Date.now() > fechaLimite` y cierra/revela. El cierre manual pide escribir `CERRAR` como segunda confirmación.
 - Las fechas se muestran y editan en hora de Lima (`America/Lima`) y se guardan en ISO con zona horaria.
@@ -129,9 +129,9 @@ Cada handler verifica sesión, valida el cuerpo con Zod y delega la lógica a `s
 
 ## 7. Archivos e imágenes
 
-- Subida por `FormData` a `/public/uploads` (o `CARPETA_FOTOS` en producción).
+- Subida por `FormData` a `datos/fotos` (o `CARPETA_FOTOS` en producción), fuera del directorio público. `db:preparar` registra la propiedad de fotos anteriores y conserva sus referencias.
 - Se aceptan `image/jpeg`, `image/png`, `image/webp`; máximo 10 MB; nombre generado con timestamp y aleatorio.
-- La API valida MIME y tamaño; las fotos se sirven por `/api/fotos/[archivo]`.
+- La API limita el cuerpo antes de procesarlo, decodifica la imagen con Sharp, limita a 25 megapíxeles y normaliza a WebP de hasta 2400 px, sin metadatos. Las fotos se sirven por `/api/fotos/[archivo]` con autorización y sin caché.
 - El registro de participantes usa el mismo `guardarFoto`: recibe `FormData`, exige la foto y, al reingresar con el mismo nombre, reemplaza y borra la foto anterior. Si la transacción falla, la imagen recién subida se elimina.
 - `AvatarPersona` muestra la foto del registrado y cae a la inicial cuando no hay imagen (participantes de la semilla).
 - En Railway se monta un volumen persistente; sin él, los archivos se pierden en cada deploy.
@@ -216,7 +216,7 @@ Para una demo con datos de ejemplo, usa una base separada (por ejemplo `DATABASE
 2. Volumen montado en `/app/data`; `DATABASE_URL=file:/app/data/compartir.db` y `CARPETA_FOTOS=/app/data/fotos`.
 3. Variables de entorno: `RAILPACK_NODE_VERSION=22`, `RAILPACK_PRUNE_DEPS=false`, `SECRETO_SESION`, `NOMBRE_ADMIN`, `PIN_ADMIN`, `NOMBRE_EVENTO`, `FECHA_LIMITE`, `PARTICIPANTES_JSON` y `NEXT_PUBLIC_URL`.
 4. Build: `npm run build`. Start: `npm run db:push && npm run db:preparar && npm run start -- --hostname 0.0.0.0`.
-5. La preparación es idempotente y conserva registros existentes. Probar primero en un servicio y volumen separados antes de compartir el enlace definitivo.
+5. La preparación conserva registros existentes. Si cambia `PIN_ADMIN` para el mismo `NOMBRE_ADMIN`, rota el hash e invalida las sesiones anteriores; si no cambió, conserva las sesiones. Probar primero en un servicio y volumen separados antes de compartir el enlace definitivo.
 
 ---
 
@@ -246,3 +246,9 @@ Convenciones: carpetas kebab/camelCase, componentes en PascalCase, lógica en ca
 - Prueba de integración sobre SQLite con datos reales: sesiones, roles, fotos, pistas, coincidencias, reintentos, regalo único, cierre automático y manual, revelación y resumen posterior al cierre.
 - Servidor de producción local: `/` 200 con los controles de música y volumen, `/sonidos/navidad.mp3` 200 `audio/mpeg` (5.647.601 bytes).
 - Auditoría estática: etiquetas, foco visible, temporizadores limpiados, carga diferida, consultas de contenedor y seis combinaciones de texto con contraste de tokens superior a 4.5:1.
+
+## Verificación de las correcciones de backend
+
+`npm test` ejecuta las pruebas del algoritmo, búsqueda exhaustiva de repartos parciales y regresiones de handlers con SQLite y fotos temporales. Nunca utiliza la base familiar. Se cubren permisos, registro familiar, catálogo, fotos falsas, cuotas y propiedad, limpieza, confirmaciones simultáneas, reparto sin bloqueos, cierre durante una petición, expiración, salida y rotación de PIN.
+
+Al actualizar una instalación existente: `npm ci`, `npm run db:push`, `npm run db:preparar` y reiniciar Next.js. El esquema añade `versionSesion` con valor inicial cero y la tabla `Foto`; no requiere ejecutar SQL manual. Las cookies anteriores al cambio requieren volver a ingresar. En Railway se mantiene una sola réplica y el mismo volumen para SQLite y fotos.

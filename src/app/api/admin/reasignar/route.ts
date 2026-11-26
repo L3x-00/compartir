@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { prisma } from "@/lib/prisma";
 import { leerJSON, requiereAdmin, requiereEventoAbierto, responderError } from "@/lib/auth";
+import { conEventoAbierto } from "@/lib/evento";
+import { repartoCompletable } from "@/lib/reparto";
 
 const esquema = z.object({
   participanteId: z.string().cuid(),
@@ -17,7 +18,7 @@ export async function POST(peticion: Request) {
     if (participanteId === candidatoId) {
       return NextResponse.json({ ok: false, error: "No puedes asignar a alguien consigo mismo." }, { status: 400 });
     }
-    await prisma.$transaction(async (transaccion) => {
+    await conEventoAbierto(sesion.eventoId, async (transaccion) => {
       const [participante, candidato] = await Promise.all([
         transaccion.participante.findFirst({ where: { id: participanteId, eventoId: sesion.eventoId, esAdmin: false }, select: { id: true, personaSecretaId: true } }),
         transaccion.participante.findFirst({ where: { id: candidatoId, eventoId: sesion.eventoId, esAdmin: false }, select: { id: true } }),
@@ -26,6 +27,8 @@ export async function POST(peticion: Request) {
       if (participante.personaSecretaId) throw NextResponse.json({ ok: false, error: "Ese participante ya tiene una asignación confirmada." }, { status: 409 });
       const ocupado = await transaccion.participante.findFirst({ where: { eventoId: sesion.eventoId, personaSecretaId: candidatoId } });
       if (ocupado) throw NextResponse.json({ ok: false, error: "Esa persona ya fue elegida por otro participante." }, { status: 409 });
+      const personas = await transaccion.participante.findMany({ where: { eventoId: sesion.eventoId, esAdmin: false }, select: { id: true, personaSecretaId: true } });
+      if (!repartoCompletable(personas, { participanteId, candidatoId })) throw NextResponse.json({ ok: false, error: "Esa asignación dejaría a alguien sin destinatario. Elige otra persona." }, { status: 409 });
       const actualizado = await transaccion.participante.updateMany({
         where: { id: participanteId, eventoId: sesion.eventoId, personaSecretaId: null, evento: { cerrado: false } },
         data: { personaSecretaId: candidatoId },

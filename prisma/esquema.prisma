@@ -25,11 +25,13 @@ model Participante {
   pin           String
   fotoUrl       String?
   esAdmin       Boolean  @default(false)
+  versionSesion Int      @default(0)
   creadoEn      DateTime @default(now())
   actualizadoEn DateTime @updatedAt
 
   evento                Evento              @relation(fields: [eventoId], references: [id], onDelete: Cascade)
   necesidades           Necesidad[]
+  fotos                 Foto[]
   pistas                Pistas?
   personaSecretaId      String?             @unique
   personaSecreta        Participante?       @relation("Emparejamiento", fields: [personaSecretaId], references: [id], onDelete: SetNull)
@@ -40,6 +42,16 @@ model Participante {
 
   @@unique([eventoId, nombre])
   @@index([eventoId])
+}
+
+model Foto {
+  url            String   @id
+  propietarioId  String
+  bytes          Int
+  creadoEn       DateTime @default(now())
+  propietario    Participante @relation(fields: [propietarioId], references: [id], onDelete: Cascade)
+
+  @@index([propietarioId, creadoEn])
 }
 
 model Necesidad {

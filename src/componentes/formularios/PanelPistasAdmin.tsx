@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import { Boton } from "@/componentes/ui/Boton";
 import { AvatarPersona } from "@/componentes/ui/AvatarPersona";
 import { Cargador } from "@/componentes/ui/Cargador";
-import { PISTAS_FISICO, PISTAS_GUSTOS, PISTAS_PERSONALIDAD } from "@/lib/constantes";
+import { PISTAS_FISICO, PISTAS_GUSTOS, PISTAS_PERSONALIDAD, DATOS_CURIOSOS_SUGERIDOS } from "@/lib/constantes";
 import { esquemaPistas } from "@/lib/validaciones/pistas";
 import type { Pistas } from "@/tipos/pistas";
 import { conJSON, ErrorParticipante, pedir } from "./peticionesParticipante";
@@ -177,7 +177,10 @@ export function PanelPistasAdmin({ alGuardar }: { alGuardar?: () => void }) {
           <legend>Dato curioso</legend>
           <label className="admin-pistas-campo admin-pistas-texto">
             <span>Frase que lo describe</span>
-            <textarea rows={3} maxLength={200} value={valores.datoCurioso ?? ""} onChange={(evento) => editar("datoCurioso", evento.target.value)} />
+            <select value={valores.datoCurioso ?? ""} onChange={(evento) => editar("datoCurioso", evento.target.value)}>
+              <option value="">Sin definir</option>
+              {DATOS_CURIOSOS_SUGERIDOS.map((opcion) => <option key={opcion} value={opcion}>{opcion}</option>)}
+            </select>
           </label>
         </fieldset>
       </div>

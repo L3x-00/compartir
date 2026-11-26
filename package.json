@@ -11,7 +11,8 @@
     "db:seed": "tsx prisma/semilla.ts",
     "db:preparar": "tsx prisma/preparar-evento.ts",
     "db:studio": "prisma studio",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "test": "tsx --test src/lib/*.test.ts"
   },
   "prisma": {
     "schema": "prisma/esquema.prisma",
@@ -27,7 +28,8 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "sonner": "^1.7.2",
-    "zod": "^3.24.1"
+    "zod": "^3.24.1",
+    "sharp": "0.35.5"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.0.0",

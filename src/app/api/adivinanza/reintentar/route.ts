@@ -1,5 +1,5 @@
+import { conEventoAbierto } from "@/lib/evento";
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
 import { requiereSesion, requiereEventoAbierto, responderError } from "@/lib/auth";
 import { MENSAJES } from "@/lib/constantes";
 
@@ -7,7 +7,7 @@ export async function POST() {
   try {
     const sesion = await requiereSesion();
     await requiereEventoAbierto(sesion.eventoId);
-    await prisma.$transaction(async (transaccion) => {
+    await conEventoAbierto(sesion.eventoId, async (transaccion) => {
       const regalo = await transaccion.regaloSeleccionado.findUnique({ where: { participanteId: sesion.participanteId } });
       if (regalo) throw NextResponse.json({ ok: false, error: "Ya elegiste tu regalo, no puedes reintentar." }, { status: 409 });
       const actualizado = await transaccion.participante.updateMany({

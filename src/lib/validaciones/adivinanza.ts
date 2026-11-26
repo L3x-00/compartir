@@ -25,3 +25,15 @@ export function leerPistasCompletas(datos: string) {
     return null;
   }
 }
+
+// Las pistas antiguas se pueden editar sin perder los otros trece campos.
+// Un dato libre nunca se convierte silenciosamente en una opción del catálogo.
+export function leerPistasParaEditar(datos: string) {
+  try {
+    const entrada: unknown = JSON.parse(datos);
+    const completas = esquemaPistas.safeParse(entrada);
+    if (completas.success) return completas.data;
+    const anteriores = esquemaPistas.omit({ datoCurioso: true }).safeParse(entrada);
+    return anteriores.success ? { ...anteriores.data, datoCurioso: "" } : null;
+  } catch { return null; }
+}

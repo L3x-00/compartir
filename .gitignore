@@ -38,3 +38,6 @@ npm-debug.log*
 next-env.d.ts
 # Skills instaladas como repositorios independientes
 dashboard-design-skill/
+
+# Fotos privadas locales
+datos/

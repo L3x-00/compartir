@@ -4,6 +4,8 @@ import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { esquemaIngresoAdmin, esquemaNombreParticipante, normalizarNombre } from "@/lib/validaciones/participante";
 import { hashPin } from "@/lib/pin";
+import { sincronizarPinAdmin } from "@/lib/admin";
+import { registrarFotosExistentes } from "@/lib/archivos";
 
 if (existsSync(".env")) loadEnvFile(".env");
 
@@ -32,7 +34,7 @@ async function preparar() {
     }
     const evento = actual ?? await tx.evento.create({ data: { nombre, fechaLimite } });
     const participantes = await tx.participante.findMany({
-      where: { eventoId: evento.id }, select: { nombre: true, esAdmin: true },
+      where: { eventoId: evento.id }, select: { id: true, nombre: true, esAdmin: true },
     });
     const hayAdmin = participantes.some((p) => p.esAdmin);
     const clave = claveNombre(admin.nombre);
@@ -48,8 +50,12 @@ async function preparar() {
       throw new Error("El evento terminó. Retira de PARTICIPANTES_JSON los nombres aún no registrados.");
     }
     if (!hayAdmin) await tx.participante.create({ data: { ...admin, pin: hashPin(pin), eventoId: evento.id, esAdmin: true } });
+    const existente = participantes.find((p) => p.esAdmin && claveNombre(p.nombre) === clave);
+    if (existente) await sincronizarPinAdmin(tx, existente.id, pin);
+    else if (hayAdmin) throw new Error("NOMBRE_ADMIN debe coincidir con el administrador existente para actualizar su PIN.");
     if (nuevos.length) await tx.participante.createMany({ data: nuevos.map((p) => ({ ...p, eventoId: evento.id, pin: "" })) });
   });
+  await registrarFotosExistentes();
   console.log("Evento preparado. El organizador puede ingresar con su nombre y PIN.");
 }
 

@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { PISTAS_FISICO, PISTAS_PERSONALIDAD, PISTAS_GUSTOS } from "@/lib/constantes";
+import { PISTAS_FISICO, PISTAS_PERSONALIDAD, PISTAS_GUSTOS, DATOS_CURIOSOS_SUGERIDOS } from "@/lib/constantes";
 import type { Pistas } from "@/tipos/pistas";
 
 const mensajeOpcion = { errorMap: () => ({ message: "Elige una de las opciones disponibles." }) };
@@ -28,6 +28,5 @@ export const esquemaPistas = z.object({
     hobby: z.enum(PISTAS_GUSTOS.hobby, mensajeOpcion),
     lugar: z.enum(PISTAS_GUSTOS.lugar, mensajeOpcion),
   }, mensajeCategoria),
-  datoCurioso: z.string({ required_error: "Agrega tu dato curioso.", invalid_type_error: "El dato curioso debe ser un texto." })
-    .trim().min(1, "Agrega tu dato curioso.").max(200, "El dato curioso puede tener hasta 200 caracteres."),
+  datoCurioso: z.enum(DATOS_CURIOSOS_SUGERIDOS, mensajeOpcion),
 }, { required_error: "Completa tus pistas.", invalid_type_error: "Revisa los datos de tus pistas." }) satisfies z.ZodType<Pistas>;

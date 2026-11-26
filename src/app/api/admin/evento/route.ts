@@ -1,6 +1,6 @@
+import { conEventoAbierto } from "@/lib/evento";
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { prisma } from "@/lib/prisma";
 import { leerJSON, requiereAdmin, requiereEventoAbierto, responderError } from "@/lib/auth";
 import { MENSAJES } from "@/lib/constantes";
 
@@ -18,7 +18,7 @@ export async function PUT(peticion: Request) {
     const sesion = await requiereAdmin();
     await requiereEventoAbierto(sesion.eventoId);
     const datos = esquemaEvento.parse(await leerJSON(peticion));
-    const evento = await prisma.$transaction(async (transaccion) => {
+    const evento = await conEventoAbierto(sesion.eventoId, async (transaccion) => {
       const actualizado = await transaccion.evento.updateMany({
         where: { id: sesion.eventoId, cerrado: false, fechaLimite: { gt: new Date() } },
         data: { nombre: datos.nombre, fechaLimite: datos.fechaLimite ? new Date(datos.fechaLimite) : undefined },

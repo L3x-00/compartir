@@ -1,37 +1,39 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { eliminarFoto, leerFoto } from "@/lib/archivos";
-import { requiereEventoAbierto, requiereSesion, responderError } from "@/lib/auth";
+import { requiereSesion, responderError } from "@/lib/auth";
+import { conEventoAbierto } from "@/lib/evento";
 
-export async function GET(_peticion: Request, { params }: { params: Promise<{ archivo: string }> }) {
-  try {
-    await requiereSesion();
-    const foto = await leerFoto((await params).archivo);
-    if (!foto) return new Response(null, { status: 404 });
-    return new Response(new Uint8Array(foto.bytes), {
-      headers: { "Content-Type": foto.tipo, "Cache-Control": "private, max-age=600", "X-Content-Type-Options": "nosniff" },
-    });
-  } catch (error) {
-    return responderError(error);
-  }
-}
-
-/** Solo elimina imágenes que nadie referencia, para limpiar subidas fallidas. */
-export async function DELETE(_peticion: Request, { params }: { params: Promise<{ archivo: string }> }) {
+type Contexto = { params: Promise<{ archivo: string }> };
+export async function GET(_peticion: Request, { params }: Contexto) {
   try {
     const sesion = await requiereSesion();
-    await requiereEventoAbierto(sesion.eventoId);
     const nombre = (await params).archivo;
     const url = `/uploads/${nombre}`;
-    if (!await leerFoto(nombre)) return NextResponse.json({ ok: false, error: "No encontramos esa foto." }, { status: 404 });
-    const [necesidades, participantes] = await Promise.all([
-      prisma.necesidad.count({ where: { fotoUrl: url } }),
-      prisma.participante.count({ where: { fotoUrl: url } }),
+    const jugador = await prisma.participante.findUniqueOrThrow({ where: { id: sesion.participanteId }, select: { personaSecretaId: true } });
+    const [propia, perfil, necesidad] = await Promise.all([
+      prisma.foto.findFirst({ where: { url, propietarioId: sesion.participanteId } }),
+      prisma.participante.findFirst({ where: { eventoId: sesion.eventoId, fotoUrl: url }, select: { id: true } }),
+      prisma.necesidad.findFirst({ where: { fotoUrl: url, participante: { eventoId: sesion.eventoId }, ...(sesion.esAdmin ? {} : { participanteId: { in: [sesion.participanteId, jugador.personaSecretaId ?? sesion.participanteId] } }) }, select: { id: true } }),
     ]);
-    if (necesidades || participantes) return NextResponse.json({ ok: false, error: "Esa foto está en uso." }, { status: 409 });
+    if (!propia && !perfil && !necesidad) return new Response(null, { status: 404 });
+    const foto = await leerFoto(nombre);
+    if (!foto) return new Response(null, { status: 404 });
+    return new Response(new Uint8Array(foto.bytes), { headers: { "Content-Type": foto.tipo, "Cache-Control": "private, no-store", "X-Content-Type-Options": "nosniff" } });
+  } catch (error) { return responderError(error); }
+}
+
+export async function DELETE(_peticion: Request, { params }: Contexto) {
+  try {
+    const sesion = await requiereSesion();
+    const url = `/uploads/${(await params).archivo}`;
+    await conEventoAbierto(sesion.eventoId, async (tx) => {
+      const foto = await tx.foto.findFirst({ where: { url, propietarioId: sesion.participanteId } });
+      if (!foto) throw NextResponse.json({ ok: false, error: "No encontramos esa foto entre tus subidas." }, { status: 404 });
+      if (await tx.necesidad.count({ where: { fotoUrl: url } }) || await tx.participante.count({ where: { fotoUrl: url } })) throw NextResponse.json({ ok: false, error: "Esa foto está en uso." }, { status: 409 });
+      await tx.foto.delete({ where: { url } });
+    });
     await eliminarFoto(url);
     return NextResponse.json({ ok: true });
-  } catch (error) {
-    return responderError(error);
-  }
+  } catch (error) { return responderError(error); }
 }

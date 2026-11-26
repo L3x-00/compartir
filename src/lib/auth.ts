@@ -7,6 +7,7 @@ import { prisma } from "@/lib/prisma";
 import { MENSAJES } from "@/lib/constantes";
 import { obtenerEventoActivo, verificarCierreAutomatico } from "@/lib/evento";
 import { esSesionValida, NOMBRE_COOKIE, separarCookie } from "@/lib/firmaSesion";
+import { leerCuerpoLimitado } from "@/lib/cuerpos";
 
 export type SesionParticipante = {
   participanteId: string;
@@ -21,7 +22,8 @@ function firmar(contenido: string): string {
 }
 
 export async function crearSesion(participanteId: string, eventoId: string, esAdmin: boolean): Promise<void> {
-  const contenido = JSON.stringify({ participanteId, eventoId, esAdmin });
+  const participante = await prisma.participante.findUniqueOrThrow({ where: { id: participanteId, eventoId }, select: { versionSesion: true } });
+  const contenido = JSON.stringify({ participanteId, eventoId, esAdmin, exp: Date.now() + 7 * 86400_000, version: participante.versionSesion });
   (await cookies()).set(NOMBRE_COOKIE, `${contenido}.${firmar(contenido)}`, {
     httpOnly: true,
     sameSite: "lax",
@@ -41,13 +43,19 @@ export async function obtenerSesion(): Promise<SesionParticipante | null> {
     if (!timingSafeEqual(Buffer.from(partes.firma, "hex"), Buffer.from(firmar(partes.contenido), "hex"))) return null;
     const sesion: unknown = JSON.parse(partes.contenido);
     if (!esSesionValida(sesion)) return null;
-    return { participanteId: sesion.participanteId, eventoId: sesion.eventoId, esAdmin: sesion.esAdmin };
+    const persona = await prisma.participante.findFirst({
+      where: { id: sesion.participanteId, eventoId: sesion.eventoId, versionSesion: sesion.version }, select: { esAdmin: true },
+    });
+    if (!persona) return null;
+    return { participanteId: sesion.participanteId, eventoId: sesion.eventoId, esAdmin: persona.esAdmin };
   } catch {
     return null;
   }
 }
 
 export async function cerrarSesion(): Promise<void> {
+  const sesion = await obtenerSesion();
+  if (sesion) await prisma.participante.updateMany({ where: { id: sesion.participanteId, eventoId: sesion.eventoId }, data: { versionSesion: { increment: 1 } } });
   (await cookies()).delete(NOMBRE_COOKIE);
 }
 
@@ -83,8 +91,9 @@ export async function requiereEventoAbierto(eventoId?: string) {
 }
 
 export async function leerJSON(peticion: Request): Promise<unknown> {
+  const bytes = await leerCuerpoLimitado(peticion, 64 * 1024);
   try {
-    return await peticion.json();
+    return JSON.parse(new TextDecoder().decode(bytes));
   } catch {
     throw NextResponse.json({ ok: false, error: "No pudimos leer los datos. Envía un JSON válido." }, { status: 400 });
   }
@@ -100,6 +109,7 @@ export function responderError(error: unknown): NextResponse {
   if (error instanceof Prisma.PrismaClientKnownRequestError) {
     if (error.code === "P2002") return NextResponse.json({ ok: false, error: "Estos datos ya están registrados." }, { status: 409 });
     if (error.code === "P2025") return NextResponse.json({ ok: false, error: "No encontramos el registro solicitado." }, { status: 404 });
+    if (["P2034", "P2028", "P1008"].includes(error.code)) return NextResponse.json({ ok: false, error: "Otra acción se está guardando. Intenta de nuevo." }, { status: 409 });
   }
   console.error("Error al procesar la petición:", error);
   return NextResponse.json({ ok: false, error: MENSAJES.ERROR_GENERICO }, { status: 500 });

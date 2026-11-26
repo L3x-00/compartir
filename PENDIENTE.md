@@ -33,3 +33,7 @@
 No se hará: email/SMS, recordatorios automáticos, multi-evento, roles complejos, WebSockets, análisis externo, pagos, app nativa ni internacionalización. Cualquier cambio de alcance debe registrarse primero en [ESTADO.md](ESTADO.md).
 
 Los archivos `.md` dentro de `.agents/skills/` y `dashboard-design-skill/` se conservan por decisión del usuario: son definiciones de las skills instaladas, no documentación del proyecto.
+
+## Alcance familiar confirmado
+
+Los intentos de PIN sin límite y el acceso mediante el enlace compartido con la familia son decisiones aceptadas, no bloqueantes pendientes. Las correcciones de reparto, cierre, sesiones, archivos y validación se comprueban con `npm test`. Sigue pendiente probar el recorrido y la persistencia del volumen en Railway.

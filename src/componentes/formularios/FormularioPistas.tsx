@@ -13,8 +13,6 @@ import { BarraProgreso } from "@/componentes/ui/BarraProgreso";
 import { Boton } from "@/componentes/ui/Boton";
 import { Casilla } from "@/componentes/ui/Casilla";
 import { ChipSeleccion } from "@/componentes/ui/ChipSeleccion";
-import { ContadorAnimado } from "@/componentes/ui/ContadorAnimado";
-import { Entrada } from "@/componentes/ui/Entrada";
 import { usarConfeti } from "@/hooks/usarConfeti";
 import { usarReducirMovimiento } from "@/hooks/usarReducirMovimiento";
 import { usarSonido } from "@/hooks/usarSonido";
@@ -62,7 +60,7 @@ function limpiarBorrador(dato: unknown): BorradorPistas | null {
   const limpio: BorradorPistas = {};
   for (const seccion of secciones) for (const [campo, , opciones] of seccion.campos) {
     const valor = entrada[campo];
-    if (campo === "datoCurioso" && typeof valor === "string") limpio[campo] = valor.slice(0, 200);
+    if (campo === "datoCurioso" && DATOS_CURIOSOS_SUGERIDOS.some((opcion) => opcion === valor)) limpio[campo] = valor as string;
     else if (opciones.some((opcion) => opcion === valor)) limpio[campo] = valor as string | boolean;
   }
   return limpio;
@@ -147,11 +145,9 @@ export function EditorPistas({ valores, alEditar, alEnviar, ocupado, puzzle = fa
               if (nodo && enfocar.current) { enfocar.current = false; nodo.focus(); }
             }}><Icono size={25} aria-hidden="true" />{secciones[paso].titulo}</h2>
             {paso === 3 ? <LayoutGroup id={id}><div className="dato-curioso-pista">
-              <Entrada etiqueta="Dato curioso" ayuda={puzzle ? "Escribe algo que esa persona diría de sí misma." : "Cuenta algo breve que ayudaría a la familia a reconocerte."} maxLength={200}
-                value={dato} onChange={(evento) => { cambiarSugerencia(""); editar("datoCurioso", evento.target.value, false); }} />
+              <p>Elige una de las mismas opciones que ve toda la familia.</p>
               {sugerencia && !reducido && <motion.div aria-hidden="true" className="sugerencia-recibida" layoutId={sugerencia} />}
-              <p className="contador-participante"><ContadorAnimado valor={dato.length} /> / 200</p>
-              <p className="etiqueta-participante">Ideas para inspirarte</p>
+              <p className="etiqueta-participante">Dato curioso</p>
               <div className="chips-pistas">{DATOS_CURIOSOS_SUGERIDOS.map((texto) =>
                 <motion.div key={texto} layoutId={!reducido && sugerencia !== texto ? texto : undefined}>
                   <ChipSeleccion texto={texto} seleccionado={dato === texto} dorado={puzzle}
@@ -204,7 +200,7 @@ export function FormularioPistas({ iniciales, version, claveBorrador }: { inicia
       const borrador = JSON.parse(localStorage.getItem(claveBorrador) ?? "null");
       if (borrador?.version === version) {
         const limpio = limpiarBorrador(borrador.valores);
-        if (limpio) cambiarValores(limpio);
+        if (limpio && Object.keys(limpio).length) cambiarValores(limpio);
       }
     } catch { /* El editor sigue disponible si el navegador bloquea el almacenamiento. */ }
     return () => { montado.current = false; };

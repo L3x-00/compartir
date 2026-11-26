@@ -5,6 +5,8 @@ import { leerJSON, requiereSesion, requiereEventoAbierto, responderError } from 
 import { esquemaAdivinanzaConfirmar, leerPistasCompletas } from "@/lib/validaciones/adivinanza";
 import { MENSAJES } from "@/lib/constantes";
 import { participacionCompleta } from "@/lib/reglas";
+import { conEventoAbierto } from "@/lib/evento";
+import { repartoCompletable } from "@/lib/reparto";
 
 export async function POST(peticion: Request) {
   try {
@@ -13,7 +15,10 @@ export async function POST(peticion: Request) {
     if (!await participacionCompleta(sesion)) return NextResponse.json({ ok: false, error: MENSAJES.JUEGO_INCOMPLETO }, { status: 403 });
     const { candidatoId } = esquemaAdivinanzaConfirmar.parse(await leerJSON(peticion));
     if (candidatoId === sesion.participanteId) return NextResponse.json({ ok: false, error: "No puedes elegirte a ti mismo." }, { status: 400 });
-    const datos = await prisma.$transaction(async (transaccion) => {
+    const datos = await conEventoAbierto(sesion.eventoId, async (transaccion) => {
+      if (!await participacionCompleta(sesion, transaccion)) throw NextResponse.json({ ok: false, error: MENSAJES.JUEGO_INCOMPLETO }, { status: 403 });
+      const personas = await transaccion.participante.findMany({ where: { eventoId: sesion.eventoId, esAdmin: false }, select: { id: true, personaSecretaId: true } });
+      if (!personas.some((p) => p.id === sesion.participanteId)) throw NextResponse.json({ ok: false, error: "El administrador organiza el reparto, no participa en él." }, { status: 403 });
       const jugador = await transaccion.participante.findUniqueOrThrow({ where: { id: sesion.participanteId } });
       // Repetir la misma confirmación no duplica intentos; cambiarla exige reintentar.
       if (jugador.personaSecretaId === candidatoId) {
@@ -31,6 +36,7 @@ export async function POST(peticion: Request) {
       if (!candidato?.pistas || !leerPistasCompletas(candidato.pistas.datos)) throw NextResponse.json({ ok: false, error: "No encontramos a ese participante con pistas completas." }, { status: 404 });
       const elegido = await transaccion.participante.findFirst({ where: { eventoId: sesion.eventoId, personaSecretaId: candidatoId } });
       if (elegido) throw NextResponse.json({ ok: false, error: "Esa persona ya fue elegida por otro participante. Intenta con otra." }, { status: 409 });
+      if (!repartoCompletable(personas, { participanteId: sesion.participanteId, candidatoId })) throw NextResponse.json({ ok: false, error: "Esa elección dejaría a alguien sin destinatario. Elige otro candidato." }, { status: 409 });
       const actualizado = await transaccion.participante.updateMany({
         where: { id: sesion.participanteId, personaSecretaId: null, evento: { cerrado: false, fechaLimite: { gt: new Date() } } },
         data: { personaSecretaId: candidatoId },

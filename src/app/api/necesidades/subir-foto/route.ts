@@ -1,23 +1,23 @@
 import { NextResponse } from "next/server";
 import { requiereSesion, requiereEventoAbierto, responderError } from "@/lib/auth";
-import { guardarFoto } from "@/lib/archivos";
+import { guardarFoto, prepararFoto, limpiarFotosVencidas, limpiarFotoSinUso } from "@/lib/archivos";
+import { leerFormularioFoto } from "@/lib/cuerpos";
+import { conEventoAbierto } from "@/lib/evento";
 
 export async function POST(peticion: Request) {
+  let url: string | undefined;
   try {
     const sesion = await requiereSesion();
     await requiereEventoAbierto(sesion.eventoId);
-    let formulario: FormData;
-    try {
-      formulario = await peticion.formData();
-    } catch {
-      return NextResponse.json({ ok: false, error: "Envía la foto como un formulario de archivo." }, { status: 400 });
-    }
-    const archivo = formulario.get("foto");
-    if (!(archivo instanceof File)) return NextResponse.json({ ok: false, error: "Selecciona una foto para subir." }, { status: 400 });
-    const resultado = await guardarFoto(archivo);
-    if (!resultado.ok) return NextResponse.json(resultado, { status: 400 });
-    return NextResponse.json({ ok: true, datos: { url: resultado.url } });
+    const formulario = await leerFormularioFoto(peticion);
+    const archivos = formulario.getAll("foto");
+    if (archivos.length !== 1 || !(archivos[0] instanceof File)) return NextResponse.json({ ok: false, error: "Selecciona una sola foto para subir." }, { status: 400 });
+    const preparada = await prepararFoto(archivos[0]);
+    await limpiarFotosVencidas();
+    await conEventoAbierto(sesion.eventoId, async (tx) => { url = await guardarFoto(preparada, sesion.participanteId, tx); });
+    return NextResponse.json({ ok: true, datos: { url } });
   } catch (error) {
+    if (url) await limpiarFotoSinUso(url);
     return responderError(error);
   }
 }

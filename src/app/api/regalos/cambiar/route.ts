@@ -1,6 +1,6 @@
+import { conEventoAbierto } from "@/lib/evento";
 import { z } from "zod";
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
 import { leerJSON, requiereSesion, requiereEventoAbierto, responderError } from "@/lib/auth";
 import { MENSAJES } from "@/lib/constantes";
 import { participacionCompleta } from "@/lib/reglas";
@@ -16,7 +16,8 @@ export async function POST(peticion: Request) {
     await requiereEventoAbierto(sesion.eventoId);
     if (!await participacionCompleta(sesion)) return NextResponse.json({ ok: false, error: MENSAJES.JUEGO_INCOMPLETO }, { status: 403 });
     const { necesidadId } = esquema.parse(await leerJSON(peticion));
-    const datos = await prisma.$transaction(async (transaccion) => {
+    const datos = await conEventoAbierto(sesion.eventoId, async (transaccion) => {
+      if (!await participacionCompleta(sesion, transaccion)) throw NextResponse.json({ ok: false, error: MENSAJES.JUEGO_INCOMPLETO }, { status: 403 });
       const jugador = await transaccion.participante.findFirst({
         where: { id: sesion.participanteId, eventoId: sesion.eventoId, evento: { cerrado: false, fechaLimite: { gt: new Date() } } },
         select: { personaSecretaId: true },
@@ -56,7 +57,7 @@ export async function DELETE() {
   try {
     const sesion = await requiereSesion();
     await requiereEventoAbierto(sesion.eventoId);
-    await prisma.regaloSeleccionado.deleteMany({ where: { participanteId: sesion.participanteId } });
+    await conEventoAbierto(sesion.eventoId, (tx) => tx.regaloSeleccionado.deleteMany({ where: { participanteId: sesion.participanteId } }));
     return NextResponse.json({ ok: true });
   } catch (error) {
     return responderError(error);
