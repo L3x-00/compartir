@@ -128,10 +128,10 @@ h2{font-size:clamp(2.4rem,5vw,3.7rem);font-weight:700;margin-bottom:1.4rem}h3{li
 .renos-pista{display:flex;align-items:center;gap:3rem;width:max-content;will-change:transform}
 .renos{display:block;width:210px;height:60px;flex:0 0 auto;color:var(--color-navidad-dorado-claro);opacity:.6}
 /* Ingreso: selección y PIN, con estados vacíos, error y éxito. */
-.pagina-ingreso{min-height:calc(100dvh - 180px);display:grid;align-items:center;padding-block:3.5rem}.ingreso-rejilla{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
+.pagina-ingreso{min-height:calc(100dvh - 180px);display:grid;align-items:center;padding-block:2rem}.ingreso-rejilla{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
 .ingreso-ambiente>.display{font-size:clamp(3.2rem,5vw,4.7rem);line-height:1.15;max-width:11ch;margin-bottom:1rem}.ingreso-ambiente>p:not(.display){color:var(--texto-suave);max-width:35ch}.ingreso-ambiente .escena-regalo{width:min(100%,310px);margin:0}
-.ingreso-tarjeta{background:color-mix(in srgb,var(--superficie) 84%,transparent);backdrop-filter:blur(16px);border:1px solid color-mix(in srgb,var(--color-navidad-dorado) 30%,transparent);border-radius:1rem;padding:clamp(1.35rem,3vw,2.5rem);box-shadow:var(--sombra-tarjeta);min-width:0}
-.ingreso-tarjeta h1{font-size:clamp(2.6rem,4vw,3.6rem);margin:.5rem 0 .75rem}.ingreso-tarjeta p{color:var(--texto-suave)}
+.ingreso-tarjeta{background:color-mix(in srgb,var(--superficie) 84%,transparent);backdrop-filter:blur(16px);border:1px solid color-mix(in srgb,var(--color-navidad-dorado) 30%,transparent);border-radius:1rem;padding:clamp(1.15rem,2.4vw,2rem);box-shadow:var(--sombra-tarjeta);min-width:0}
+.ingreso-tarjeta h1{font-size:clamp(2.2rem,3.4vw,3rem);margin:.35rem 0 .55rem}.ingreso-tarjeta p{color:var(--texto-suave);font-size:.95rem}
 .ingreso-progreso{display:flex;align-items:center;gap:.55rem;color:var(--texto-suave);font-size:.75rem;margin-bottom:1.6rem}.ingreso-progreso span[aria-current="step"]{color:var(--color-navidad-dorado-claro)}.ingreso-progreso i{height:1px;width:25px;background:var(--linea)}
 .ingreso-busqueda{margin-block:1.5rem 1rem}.personas{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.7rem;max-height:310px;overflow-y:auto;padding:.35rem}
 .persona{display:flex;gap:.7rem;align-items:center;min-width:0;min-height:78px;text-align:left;padding:.85rem;border:1px solid var(--linea);border-radius:.75rem;background:color-mix(in srgb,var(--superficie-clara) 45%,transparent);color:var(--texto);font-size:.9rem;font-weight:700}
@@ -140,12 +140,15 @@ h2{font-size:clamp(2.4rem,5vw,3.7rem);font-weight:700;margin-bottom:1.4rem}h3{li
 .avatar-rojo{background:var(--color-navidad-rojo-oscuro)}.avatar-misterio{background:var(--color-navidad-misterio-claro)}
 .avatar-seleccionado{display:flex;justify-content:center;margin:1.5rem 0 1rem}.avatar-seleccionado .avatar{width:64px;height:64px;font-size:1.5rem;border:1px solid var(--color-navidad-dorado)}
 .ingreso-paso-pin{text-align:center}.ingreso-paso-pin h1{margin-bottom:.65rem;font-size:clamp(2.2rem,4vw,3rem);overflow-wrap:anywhere}
-.ingreso-formulario{margin-top:1.8rem}.ingreso-formulario .boton{width:100%;margin-top:1.3rem}.ingreso-ayuda{margin:1.3rem 0 0;font-size:.78rem;text-align:center}
-.ingreso-foto{margin-top:1rem}.ingreso-foto .zona-foto{gap:.5rem;padding:.6rem}.ingreso-foto .preview-foto{aspect-ratio:1/1;max-height:150px}.ingreso-foto .ayuda-participante{font-size:.72rem}
+.ingreso-formulario{margin-top:1rem}.ingreso-formulario .boton{width:100%;margin-top:.9rem}.ingreso-ayuda{margin:1rem 0 0;font-size:.78rem;text-align:center}
+.ingreso-formulario .campo input{min-height:52px;padding-top:1.1rem}
+.ingreso-formulario .campo label{top:.85rem}
+.ingreso-formulario .campo-ayuda{margin-top:.35rem;font-size:.78rem}
+.ingreso-foto{margin-top:.6rem}.ingreso-foto .zona-foto{gap:.4rem;padding:.5rem}.ingreso-foto .preview-foto{aspect-ratio:1/1;max-height:110px}.ingreso-foto .acciones-participante{gap:.4rem}.ingreso-foto .boton{min-height:44px}.ingreso-foto .ayuda-participante{font-size:.72rem}
 .avance-automatico{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:.35rem .6rem;margin:.35rem 0;color:var(--texto-suave);font-size:.85rem}
 .avance-automatico .boton{min-height:44px;padding:.35rem .65rem;font-size:.8rem}
-.ingreso-volver{margin-top:1.2rem;display:flex;align-items:center;justify-content:center}.ingreso-volver a,.ingreso-volver button{min-height:44px;display:inline-flex;align-items:center;gap:.4rem;color:var(--texto-suave);font-size:.85rem;border:0;background:transparent;padding:.4rem .8rem}
-.ingreso-formulario .campo + .campo{margin-top:1rem}.ingreso-enlaces{flex-wrap:wrap;gap:.15rem .5rem}
+.ingreso-volver{margin-top:.7rem;display:flex;align-items:center;justify-content:center}.ingreso-volver a,.ingreso-volver button{min-height:44px;display:inline-flex;align-items:center;gap:.4rem;color:var(--texto-suave);font-size:.85rem;border:0;background:transparent;padding:.4rem .8rem}
+.ingreso-formulario .campo + .campo{margin-top:.7rem}.ingreso-enlaces{flex-wrap:wrap;gap:.15rem .5rem}
 /* Modo operador: tarjeta centrada y compacta para evitar scroll en escritorio. */
 .ingreso-admin{padding-block:1rem}
 .ingreso-admin .ingreso-rejilla{grid-template-columns:minmax(0,32rem);max-width:32rem;gap:0}
