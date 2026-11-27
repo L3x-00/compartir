@@ -157,7 +157,7 @@ export default function PaginaIngreso() {
       reproducir("acierto");
       void lanzarConfeti({ particleCount: 30 });
       if (!admin && datos.esReingreso) cambiarIrAPanel(true);
-      await refrescar();
+      void refrescar();
       if (!solicitud.signal.aborted) {
         navegado.current = true;
         router.replace(!admin && datos.esReingreso ? "/participar/mi-panel" : destino(admin, !!datos.cerrado, !!datos.tieneRegaloSeleccionado));
@@ -203,12 +203,15 @@ export default function PaginaIngreso() {
         ? "Tu nombre ya está registrado y tienes una foto guardada. Ingresa con tu DNI para abrir tu panel del participante."
         : "Escribe tu nombre, tu DNI de 8 números y agrega una foto tuya. El DNI será tu clave para volver a entrar."}</p>
       {!enviando && (sesion || exito) ? <div className="estado-ingreso" role="status">
-        <Cargador tamano="lg" etiqueta="Preparando tu ingreso" />
-        <Link className="boton boton-dorado" href={irAPanel ? "/participar/mi-panel"
-          : admin ? "/panel"
-            : sesion?.evento.cerrado || sesion?.tieneRegaloSeleccionado ? "/participar/revelacion" : "/participar/necesidades"}>
-          Continuar <ArrowRight size={18} aria-hidden="true" />
-        </Link>
+        {exito ? <>
+          <Check size={64} strokeWidth={1.5} aria-hidden="true" />
+          <p>¡Listo! Abriendo tu {admin ? "panel" : "juego"}…</p>
+          <Link className="boton boton-dorado" href={irAPanel ? "/participar/mi-panel"
+            : admin ? "/panel"
+              : sesion?.evento.cerrado || sesion?.tieneRegaloSeleccionado ? "/participar/revelacion" : "/participar/necesidades"}>
+            Continuar <ArrowRight size={18} aria-hidden="true" />
+          </Link>
+        </> : <Cargador tamano="lg" etiqueta="Preparando tu ingreso" />}
       </div> :
         <form className="ingreso-formulario" onSubmit={(formulario) => void ingresar(formulario)} noValidate>
           <Entrada ref={entradaNombre} etiqueta={admin ? "Nombre del administrador" : "Tu nombre completo"} name="nombre"
