@@ -66,6 +66,7 @@ export const MENSAJES = {
   FOTO_TIPO_INVALIDO: "Solo se aceptan imágenes JPG, PNG o WebP.",
   EVENTO_CERRADO: "El evento ya se cerró. ¡Nos vemos en la revelación!",
   JUEGO_INCOMPLETO: "Completa tus necesidades y pistas antes de continuar.",
+  PISTAS_FALTANTES: "Completa tus pistas para que otros participantes puedan encontrarte.",
   ERROR_GENERICO: "Algo salió mal. Intenta de nuevo en un momento.",
 } as const;
 

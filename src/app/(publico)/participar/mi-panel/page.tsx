@@ -3,6 +3,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { ArrowRight, Check, Fingerprint, Gift, IdCard, PackageCheck, Puzzle, Sparkles, UserRound } from "lucide-react";
 import { GestionarRegalo } from "@/componentes/formularios/GestionarRegalo";
+import { SelectorSiguientePaso } from "@/componentes/navideno/SelectorSiguientePaso";
 import { AvatarPersona } from "@/componentes/ui/AvatarPersona";
 import { prisma } from "@/lib/prisma";
 import { leerPistasCompletas } from "@/lib/validaciones/adivinanza";
@@ -41,6 +42,8 @@ export default async function PaginaMiPanel({ searchParams }: { searchParams: Pr
     ["Comida", pistas.gustos.comida], ["Música", pistas.gustos.musica],
     ["Dato curioso", pistas.datoCurioso],
   ] : [];
+  const respondidas = pistas ? Object.values({ ...pistas.fisico, ...pistas.personalidad, ...pistas.gustos, datoCurioso: pistas.datoCurioso })
+    .filter((valor) => valor !== undefined && valor !== null && String(valor).trim() !== "").length : 0;
   const regalo = persona.regaloSeleccionado?.necesidad ?? null;
   const destinatario = sesion.tieneRegaloSeleccionado ? persona.personaSecreta?.nombre ?? null : null;
   const recibe = sesion.evento.cerrado ? persona.esPersonaSecretaDe : null;
@@ -51,6 +54,8 @@ export default async function PaginaMiPanel({ searchParams }: { searchParams: Pr
       <h1>Mi panel</h1>
       <p>Todos tus datos en un solo lugar. Puedes corregirlos antes de que cierre la elección de regalos.</p>
     </header>
+
+    <SelectorSiguientePaso pistasCompletas={respondidas === 14} respondidas={respondidas} />
 
     <div className="mi-panel-rejilla">
       <article className="panel-participante mi-panel-tarjeta">

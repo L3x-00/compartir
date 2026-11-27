@@ -19,7 +19,7 @@ export default async function PaginaAdivinar() {
   const necesidades = await consultar<{ id: string }[]>(await necesidadesActuales());
   if (necesidades.length < LIMITES.MIN_NECESIDADES) redirect("/participar/necesidades");
   const pistas = await consultar<unknown>(await pistasActuales());
-  if (!pistas) redirect("/participar/pistas");
+  if (!pistas) redirect(`/participar/pistas?motivo=${encodeURIComponent(MENSAJES.PISTAS_FALTANTES)}`);
   const candidatos = await consultar<{ participanteId: string }[]>(await candidatosActuales());
   return <FormularioAdivinanza cantidadInicial={candidatos.length} fechaLimite={sesion.evento.fechaLimite} />;
 }

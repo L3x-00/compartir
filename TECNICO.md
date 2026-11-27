@@ -162,6 +162,8 @@ El guardado de pistas usa `finally` para liberar banderas y lock; `usarSesion` l
 
 Auditoría por capas: la reasignación admin exige evento abierto y usa `updateMany` con `personaSecretaId: null` dentro de transacción; se eliminó `GET /api/pistas/[participanteId]` porque exponía pistas reales; las fotos requieren sesión; los candidatos excluyen al administrador; `/api/fotos/[archivo]` y el borrado de necesidades comprueban también fotos de perfil; la semilla limpia fotos huérfanas y usa el esquema de nombre sin DNI; el DNI ya no se persiste en `localStorage` y el cierre de sesión purga los borradores `cn:*` excepto preferencias de audio.
 
+`SelectorSiguientePaso` es un componente único reutilizado al terminar necesidades y en Mi panel; calcula el estado de las pistas y ofrece tres rutas. Si las pistas están incompletas, la ruta de adivinanza muestra un `Modal` guiado en lugar de navegar; `/participar/adivinar` redirige a `/participar/pistas?motivo=…` con `MENSAJES.PISTAS_FALTANTES`. La regla `participacionCompleta` sigue intacta en servidor.
+
 Catálogo configurable: el modelo `CatalogoPistas` guarda un único registro `principal` con las opciones vigentes; `src/lib/catalogo.ts` lo valida (2–20 opciones por campo, sin duplicados) y `crearEsquemaPistas(catalogo)` construye los `z.enum` en tiempo de ejecución. `GET /api/catalogo` sirve el catálogo a los formularios y `GET/PUT /api/admin/catalogo` permite editarlo y restablecerlo. Cambiar el catálogo invalida las respuestas antiguas que ya no estén en las opciones, conservando el resto de campos.
 
 ### Audio

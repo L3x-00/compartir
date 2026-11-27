@@ -2,7 +2,6 @@
 
 import dynamic from "next/dynamic";
 import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useRef, useState, type FormEvent } from "react";
 import { AnimatePresence, motion, useAnimationControls } from "framer-motion";
@@ -10,6 +9,7 @@ import { ArrowRight, Check, ChevronDown, ExternalLink, Gift, Pencil, Plus, Trash
 import { toast } from "sonner";
 import { Navegacion } from "@/componentes/layout/Navegacion";
 import { Regalo } from "@/componentes/navideno/Regalo";
+import { SelectorSiguientePaso } from "@/componentes/navideno/SelectorSiguientePaso";
 import { BarraProgreso } from "@/componentes/ui/BarraProgreso";
 import { Boton } from "@/componentes/ui/Boton";
 import { ContadorAnimado } from "@/componentes/ui/ContadorAnimado";
@@ -40,7 +40,9 @@ function enlaceWeb(valor: string | null): string | undefined {
 }
 
 /** El formulario conserva campos y foto si falla la conexión o la API rechaza un cambio. */
-export function FormularioNecesidad({ iniciales }: { iniciales: NecesidadVista[] }) {
+export function FormularioNecesidad({ iniciales, respondidas = 0, pistasCompletas = false }: {
+  iniciales: NecesidadVista[]; respondidas?: number; pistasCompletas?: boolean;
+}) {
   const router = useRouter();
   const reducido = usarReducirMovimiento();
   const { reproducir } = usarSonido();
@@ -261,7 +263,7 @@ export function FormularioNecesidad({ iniciales }: { iniciales: NecesidadVista[]
       {faltan ? <><p id="ayuda-continuar" className="ayuda-participante">Agrega {faltan === 1 ? "una necesidad más" : `${faltan} necesidades más`} para avanzar.</p>
         <Boton variante="dorado" icono={ArrowRight} aria-describedby="ayuda-continuar" aria-disabled
           onClick={() => { toast.error(`Agrega ${faltan === 1 ? "una necesidad más" : `${faltan} necesidades más`} para avanzar.`); reproducir("error"); }}>Continuar a pistas</Boton></>
-        : <Link className="boton boton-dorado pulso-participante" href="/participar/pistas" onClick={() => reproducir("whoosh")}>Continuar a pistas <ArrowRight size={18} aria-hidden="true" /></Link>}
+        : <SelectorSiguientePaso pistasCompletas={pistasCompletas} respondidas={respondidas} />}
     </div>
 
     <Modal abierto={modal === "editar"} titulo={seleccionada ? "Editar necesidad" : "Agregar necesidad"} alCerrar={cerrar} cerrable={!ocupado}

@@ -187,7 +187,9 @@ export function EditorPistas({ valores, alEditar, alEnviar, ocupado, puzzle = fa
 }
 
 /** Conserva el borrador de cada participante hasta el siguiente guardado confirmado. */
-export function FormularioPistas({ iniciales, version, claveBorrador }: { iniciales?: Pistas; version: string | null; claveBorrador: string }) {
+export function FormularioPistas({ iniciales, version, claveBorrador, motivo }: {
+  iniciales?: Pistas; version: string | null; claveBorrador: string; motivo?: string;
+}) {
   const router = useRouter();
   const reducido = usarReducirMovimiento();
   const { reproducir } = usarSonido();
@@ -254,6 +256,7 @@ export function FormularioPistas({ iniciales, version, claveBorrador }: { inicia
     <header className="titulo-participante">
       <h1>Tus pistas</h1>
       <p>Elige lo que mejor te describe. Tus respuestas ayudarán a que alguien de la familia te encuentre.</p>
+      {motivo && <p className="error-participante" role="status">{motivo}</p>}
     </header>
     {guardadas ? <div className="panel-participante estado-participante" role="status" tabIndex={-1} ref={(nodo) => nodo?.focus()}>
       <svg width="68" height="68" viewBox="0 0 40 40" fill="none" aria-hidden="true">
