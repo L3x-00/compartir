@@ -16,6 +16,7 @@ import { usarReducirMovimiento } from "@/hooks/usarReducirMovimiento";
 import { mostrarFechaEvento, nombreZonaEvento } from "@/lib/fechasEvento";
 import type { ParticipantePanel, ResumenAdmin } from "@/tipos/final";
 import { CerrarEvento } from "./CerrarEvento";
+import { CatalogoPistasAdmin } from "./CatalogoPistasAdmin";
 import { PanelPistasAdmin } from "./PanelPistasAdmin";
 import { ReasignarPendientes } from "./ReasignarPendientes";
 
@@ -42,7 +43,7 @@ export function PanelAdmin({ resumen }: { resumen: ResumenAdmin | null }) {
   const router = useRouter();
   const ruta = usePathname();
   const reducido = usarReducirMovimiento();
-  const [vista, cambiarVista] = usarBorrador<"resumen" | "participantes" | "pistas">("cn:panel-vista", "resumen");
+  const [vista, cambiarVista] = usarBorrador<"resumen" | "participantes" | "pistas" | "catalogo">("cn:panel-vista", "resumen");
   const [filtro, cambiarFiltro] = usarBorrador<Filtro>("cn:panel-filtro", "Todos");
   const [busqueda, cambiarBusqueda] = useState("");
   const [consulta, cambiarConsulta] = useState("");
@@ -94,6 +95,7 @@ export function PanelAdmin({ resumen }: { resumen: ResumenAdmin | null }) {
         <Link href="/panel/evento" aria-current={ruta === "/panel/evento" ? "page" : undefined}>Evento</Link>
         <button type="button" aria-pressed={vista === "participantes"} onClick={() => cambiarVista("participantes")}>Participantes</button>
         <button type="button" aria-pressed={vista === "pistas"} onClick={() => cambiarVista("pistas")}>Pistas</button>
+        <button type="button" aria-pressed={vista === "catalogo"} onClick={() => cambiarVista("catalogo")}>Catálogo</button>
       </nav>
       <Boton variante="fantasma" icono={RefreshCw} cargando={actualizando} onClick={() => actualizar(() => router.refresh())}>Actualizar datos</Boton>
     </div>
@@ -149,6 +151,7 @@ export function PanelAdmin({ resumen }: { resumen: ResumenAdmin | null }) {
     </section>
 
     {vista === "pistas" && <PanelPistasAdmin alGuardar={() => actualizar(() => router.refresh())} />}
+    {vista === "catalogo" && <CatalogoPistasAdmin alGuardar={() => actualizar(() => router.refresh())} />}
 
     {vista === "resumen" && <section className="panel-participante admin-emparejamientos" aria-labelledby="admin-parejas">
       <div className="admin-tabla-cabecera"><h2 id="admin-parejas">Emparejamientos</h2><strong>{emparejamientosCompletos} de {totalParticipantes} emparejados</strong></div>

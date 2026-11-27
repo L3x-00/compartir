@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useId, useRef, useState, type FormEvent } from "react";
 import { AnimatePresence, LayoutGroup, motion, useAnimationControls } from "framer-motion";
-import { ArrowLeft, ArrowRight, Check, Fingerprint, Glasses, Lightbulb, Puzzle, Sparkles, Star } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check, Fingerprint, Glasses, Lightbulb, Puzzle, Sparkles, Star, type LucideIcon } from "lucide-react";
 import { toast } from "sonner";
 import { Navegacion } from "@/componentes/layout/Navegacion";
 import { Rompecabezas } from "@/componentes/navideno/Rompecabezas";
@@ -16,37 +16,44 @@ import { ChipSeleccion } from "@/componentes/ui/ChipSeleccion";
 import { usarConfeti } from "@/hooks/usarConfeti";
 import { usarReducirMovimiento } from "@/hooks/usarReducirMovimiento";
 import { usarSonido } from "@/hooks/usarSonido";
-import { DATOS_CURIOSOS_SUGERIDOS, PISTAS_FISICO, PISTAS_GUSTOS, PISTAS_PERSONALIDAD } from "@/lib/constantes";
-import { esquemaPistas } from "@/lib/validaciones/pistas";
+import { CATALOGO_POR_DEFECTO } from "@/lib/constantes";
+import { crearEsquemaPistas } from "@/lib/validaciones/pistas";
+import type { CatalogoPistas } from "@/tipos/catalogo";
 import type { Pistas } from "@/tipos/pistas";
 import { conJSON, mensajeParticipante, pedir } from "./peticionesParticipante";
 
-const secciones = [
-  { titulo: "Rasgos físicos", icono: Glasses, campos: [
-    ["altura", "Altura", PISTAS_FISICO.altura], ["complexion", "Complexión", PISTAS_FISICO.complexion],
-    ["cabello", "Cabello", PISTAS_FISICO.cabello], ["lentes", "¿Usa lentes?", PISTAS_FISICO.lentes],
-    ["barba", "Barba o bigote", PISTAS_FISICO.barba],
-  ] },
-  { titulo: "Personalidad", icono: Fingerprint, campos: [
-    ["social", "Forma de socializar", PISTAS_PERSONALIDAD.social], ["humor", "Tipo de humor", PISTAS_PERSONALIDAD.humor],
-    ["puntualidad", "Puntualidad", PISTAS_PERSONALIDAD.puntualidad], ["energia", "Nivel de energía", PISTAS_PERSONALIDAD.energia],
-  ] },
-  { titulo: "Gustos", icono: Star, campos: [
-    ["comida", "Comida favorita", PISTAS_GUSTOS.comida], ["musica", "Música", PISTAS_GUSTOS.musica],
-    ["hobby", "Pasatiempo", PISTAS_GUSTOS.hobby], ["lugar", "Lugar favorito", PISTAS_GUSTOS.lugar],
-  ] },
-  { titulo: "Dato curioso", icono: Lightbulb, campos: [["datoCurioso", "Dato curioso", []]] },
-] as const;
-type Campo = (typeof secciones)[number]["campos"][number][0];
+type Campo = "altura" | "complexion" | "cabello" | "lentes" | "barba" | "social" | "humor" | "puntualidad" | "energia"
+  | "comida" | "musica" | "hobby" | "lugar" | "datoCurioso";
 export type BorradorPistas = Partial<Record<Campo, string | boolean>>;
+
+type SeccionEditor = { titulo: string; icono: LucideIcon; campos: [Campo, string, (string | boolean)[]][] };
+
+function seccionesPara(catalogo: CatalogoPistas): SeccionEditor[] {
+  return [
+    { titulo: "Rasgos físicos", icono: Glasses, campos: [
+      ["altura", "Altura", catalogo.fisico.altura], ["complexion", "Complexión", catalogo.fisico.complexion],
+      ["cabello", "Cabello", catalogo.fisico.cabello], ["lentes", "¿Usa lentes?", [true, false] as (string | boolean)[]],
+      ["barba", "Barba o bigote", catalogo.fisico.barba],
+    ] as [Campo, string, (string | boolean)[]][] },
+    { titulo: "Personalidad", icono: Fingerprint, campos: [
+      ["social", "Forma de socializar", catalogo.personalidad.social], ["humor", "Tipo de humor", catalogo.personalidad.humor],
+      ["puntualidad", "Puntualidad", catalogo.personalidad.puntualidad], ["energia", "Nivel de energía", catalogo.personalidad.energia],
+    ] as [Campo, string, (string | boolean)[]][] },
+    { titulo: "Gustos", icono: Star, campos: [
+      ["comida", "Comida favorita", catalogo.gustos.comida], ["musica", "Música", catalogo.gustos.musica],
+      ["hobby", "Pasatiempo", catalogo.gustos.hobby], ["lugar", "Lugar favorito", catalogo.gustos.lugar],
+    ] as [Campo, string, (string | boolean)[]][] },
+    { titulo: "Dato curioso", icono: Lightbulb, campos: [["datoCurioso", "Dato curioso", catalogo.datoCurioso] as [Campo, string, (string | boolean)[]]] },
+  ];
+}
 
 function respondida(valor: BorradorPistas[Campo]) {
   return typeof valor === "string" ? Boolean(valor.trim()) : valor !== undefined;
 }
 
-function aPistas(borrador: BorradorPistas) {
+function aPistas(borrador: BorradorPistas, catalogo: CatalogoPistas) {
   const { altura, complexion, cabello, lentes, barba, social, humor, puntualidad, energia, comida, musica, hobby, lugar, datoCurioso } = borrador;
-  return esquemaPistas.safeParse({
+  return crearEsquemaPistas(catalogo).safeParse({
     fisico: { altura, complexion, cabello, lentes, barba },
     personalidad: { social, humor, puntualidad, energia },
     gustos: { comida, musica, hobby, lugar },
@@ -54,23 +61,23 @@ function aPistas(borrador: BorradorPistas) {
   });
 }
 
-function limpiarBorrador(dato: unknown): BorradorPistas | null {
+function limpiarBorrador(dato: unknown, catalogo: CatalogoPistas): BorradorPistas | null {
   if (!dato || typeof dato !== "object") return null;
   const entrada = dato as Record<string, unknown>;
   const limpio: BorradorPistas = {};
-  for (const seccion of secciones) for (const [campo, , opciones] of seccion.campos) {
+  for (const seccion of seccionesPara(catalogo)) for (const [campo, , opciones] of seccion.campos) {
     const valor = entrada[campo];
-    if (campo === "datoCurioso" && DATOS_CURIOSOS_SUGERIDOS.some((opcion) => opcion === valor)) limpio[campo] = valor as string;
-    else if (opciones.some((opcion) => opcion === valor)) limpio[campo] = valor as string | boolean;
+    if (opciones.some((opcion) => opcion === valor)) limpio[campo] = valor as string | boolean;
   }
   return limpio;
 }
 
 /** El mismo editor se usa para describirse y para armar la hipótesis. */
-export function EditorPistas({ valores, alEditar, alEnviar, ocupado, puzzle = false, pasoInicial = 0, error }: {
+export function EditorPistas({ valores, alEditar, alEnviar, ocupado, puzzle = false, pasoInicial = 0, error, catalogo = CATALOGO_POR_DEFECTO }: {
   valores: BorradorPistas; alEditar: (valores: BorradorPistas) => void; alEnviar: (pistas: Pistas) => void;
-  ocupado: boolean; puzzle?: boolean; pasoInicial?: number; error?: string;
+  ocupado: boolean; puzzle?: boolean; pasoInicial?: number; error?: string; catalogo?: CatalogoPistas;
 }) {
+  const secciones = seccionesPara(catalogo);
   const [paso, cambiarPaso] = useState(pasoInicial);
   const [direccion, cambiarDireccion] = useState(1);
   const [sugerencia, cambiarSugerencia] = useState("");
@@ -100,7 +107,7 @@ export function EditorPistas({ valores, alEditar, alEnviar, ocupado, puzzle = fa
     const encaja = puzzle && !completas[paso] && secciones[paso].campos.every(([clave]) => respondida(siguiente[clave]));
     if (encaja) reproducir("encaje");
     else if (sonar) reproducir("click");
-    if (puzzle && !completa && !celebrada.current && aPistas(siguiente).success && String(siguiente.datoCurioso ?? "").trim()) {
+    if (puzzle && !completa && !celebrada.current && aPistas(siguiente, catalogo).success && String(siguiente.datoCurioso ?? "").trim()) {
       celebrada.current = true;
       void lanzarConfeti({ particleCount: 30 });
     }
@@ -117,7 +124,7 @@ export function EditorPistas({ valores, alEditar, alEnviar, ocupado, puzzle = fa
     evento.preventDefault();
     if (ocupado || !completas[paso]) return;
     if (paso < 3) { mover(paso + 1); return; }
-    const resultado = aPistas(valores);
+    const resultado = aPistas(valores, catalogo);
     if (resultado.success && completa) alEnviar(resultado.data);
   }
 
@@ -148,7 +155,7 @@ export function EditorPistas({ valores, alEditar, alEnviar, ocupado, puzzle = fa
               <p>Elige una de las mismas opciones que ve toda la familia.</p>
               {sugerencia && !reducido && <motion.div aria-hidden="true" className="sugerencia-recibida" layoutId={sugerencia} />}
               <p className="etiqueta-participante">Dato curioso</p>
-              <div className="chips-pistas">{DATOS_CURIOSOS_SUGERIDOS.map((texto) =>
+              <div className="chips-pistas">{catalogo.datoCurioso.map((texto) =>
                 <motion.div key={texto} layoutId={!reducido && sugerencia !== texto ? texto : undefined}>
                   <ChipSeleccion texto={texto} seleccionado={dato === texto} dorado={puzzle}
                     alElegir={() => { cambiarSugerencia(texto); editar("datoCurioso", texto); }} />
@@ -193,18 +200,23 @@ export function FormularioPistas({ iniciales, version, claveBorrador }: { inicia
   const [error, cambiarError] = useState("");
   const bloqueo = useRef(false);
   const montado = useRef(false);
+  const [catalogo, cambiarCatalogo] = useState<CatalogoPistas>(CATALOGO_POR_DEFECTO);
+
+  useEffect(() => {
+    void pedir<CatalogoPistas>("/api/catalogo").then(cambiarCatalogo).catch(() => undefined);
+  }, []);
 
   useEffect(() => {
     montado.current = true;
     try {
       const borrador = JSON.parse(localStorage.getItem(claveBorrador) ?? "null");
       if (borrador?.version === version) {
-        const limpio = limpiarBorrador(borrador.valores);
+        const limpio = limpiarBorrador(borrador.valores, catalogo);
         if (limpio && Object.keys(limpio).length) cambiarValores(limpio);
       }
     } catch { /* El editor sigue disponible si el navegador bloquea el almacenamiento. */ }
     return () => { montado.current = false; };
-  }, [claveBorrador, version]);
+  }, [claveBorrador, version, catalogo]);
 
   function editar(siguiente: BorradorPistas) {
     cambiarValores(siguiente);
@@ -254,7 +266,7 @@ export function FormularioPistas({ iniciales, version, claveBorrador }: { inicia
       <AvanceAutomatico mensaje="Continuando a la adivinanza" alAvanzar={() => router.push("/participar/adivinar")} />
       <Link className="boton boton-dorado" href="/participar/adivinar">Ir a adivinar <ArrowRight size={18} aria-hidden="true" /></Link>
     </div> : <motion.div initial={false} animate={sacudir}>
-      <EditorPistas valores={valores} alEditar={editar} alEnviar={(pistas) => void guardar(pistas)} ocupado={guardando} error={error} />
+      <EditorPistas valores={valores} alEditar={editar} alEnviar={(pistas) => void guardar(pistas)} ocupado={guardando} error={error} catalogo={catalogo} />
     </motion.div>}
     {!guardando && <Link className="volver-participante" href="/participar/necesidades"><ArrowLeft size={18} aria-hidden="true" /> Volver a necesidades</Link>}
   </motion.section>;

@@ -6,8 +6,9 @@ import { toast } from "sonner";
 import { Boton } from "@/componentes/ui/Boton";
 import { AvatarPersona } from "@/componentes/ui/AvatarPersona";
 import { Cargador } from "@/componentes/ui/Cargador";
-import { PISTAS_FISICO, PISTAS_GUSTOS, PISTAS_PERSONALIDAD, DATOS_CURIOSOS_SUGERIDOS } from "@/lib/constantes";
-import { esquemaPistas } from "@/lib/validaciones/pistas";
+import { CATALOGO_POR_DEFECTO } from "@/lib/constantes";
+import { crearEsquemaPistas } from "@/lib/validaciones/pistas";
+import type { CatalogoPistas } from "@/tipos/catalogo";
 import type { Pistas } from "@/tipos/pistas";
 import { conJSON, ErrorParticipante, pedir } from "./peticionesParticipante";
 
@@ -16,27 +17,29 @@ const CLAVE_SELECCION = "cn:admin-pistas-seleccion";
 type PersonaPistas = { id: string; nombre: string; fotoUrl: string | null; pistas: Pistas | null };
 type Grupo = { titulo: string; campos: { seccion: string; campo: string; etiqueta: string; opciones: readonly (string | boolean)[] }[] };
 
-const grupos: Grupo[] = [
-  { titulo: "Rasgos físicos", campos: [
-    { seccion: "fisico", campo: "altura", etiqueta: "Altura", opciones: PISTAS_FISICO.altura },
-    { seccion: "fisico", campo: "complexion", etiqueta: "Complexión", opciones: PISTAS_FISICO.complexion },
-    { seccion: "fisico", campo: "cabello", etiqueta: "Cabello", opciones: PISTAS_FISICO.cabello },
-    { seccion: "fisico", campo: "lentes", etiqueta: "Lentes", opciones: ["Sí", "No"] },
-    { seccion: "fisico", campo: "barba", etiqueta: "Barba", opciones: PISTAS_FISICO.barba },
-  ] },
-  { titulo: "Personalidad", campos: [
-    { seccion: "personalidad", campo: "social", etiqueta: "Social", opciones: PISTAS_PERSONALIDAD.social },
-    { seccion: "personalidad", campo: "humor", etiqueta: "Humor", opciones: PISTAS_PERSONALIDAD.humor },
-    { seccion: "personalidad", campo: "puntualidad", etiqueta: "Puntualidad", opciones: PISTAS_PERSONALIDAD.puntualidad },
-    { seccion: "personalidad", campo: "energia", etiqueta: "Energía", opciones: PISTAS_PERSONALIDAD.energia },
-  ] },
-  { titulo: "Gustos", campos: [
-    { seccion: "gustos", campo: "comida", etiqueta: "Comida", opciones: PISTAS_GUSTOS.comida },
-    { seccion: "gustos", campo: "musica", etiqueta: "Música", opciones: PISTAS_GUSTOS.musica },
-    { seccion: "gustos", campo: "hobby", etiqueta: "Hobby", opciones: PISTAS_GUSTOS.hobby },
-    { seccion: "gustos", campo: "lugar", etiqueta: "Lugar favorito", opciones: PISTAS_GUSTOS.lugar },
-  ] },
-];
+function gruposPara(catalogo: CatalogoPistas): Grupo[] {
+  return [
+    { titulo: "Rasgos físicos", campos: [
+      { seccion: "fisico", campo: "altura", etiqueta: "Altura", opciones: catalogo.fisico.altura },
+      { seccion: "fisico", campo: "complexion", etiqueta: "Complexión", opciones: catalogo.fisico.complexion },
+      { seccion: "fisico", campo: "cabello", etiqueta: "Cabello", opciones: catalogo.fisico.cabello },
+      { seccion: "fisico", campo: "lentes", etiqueta: "Lentes", opciones: ["Sí", "No"] },
+      { seccion: "fisico", campo: "barba", etiqueta: "Barba", opciones: catalogo.fisico.barba },
+    ] },
+    { titulo: "Personalidad", campos: [
+      { seccion: "personalidad", campo: "social", etiqueta: "Social", opciones: catalogo.personalidad.social },
+      { seccion: "personalidad", campo: "humor", etiqueta: "Humor", opciones: catalogo.personalidad.humor },
+      { seccion: "personalidad", campo: "puntualidad", etiqueta: "Puntualidad", opciones: catalogo.personalidad.puntualidad },
+      { seccion: "personalidad", campo: "energia", etiqueta: "Energía", opciones: catalogo.personalidad.energia },
+    ] },
+    { titulo: "Gustos", campos: [
+      { seccion: "gustos", campo: "comida", etiqueta: "Comida", opciones: catalogo.gustos.comida },
+      { seccion: "gustos", campo: "musica", etiqueta: "Música", opciones: catalogo.gustos.musica },
+      { seccion: "gustos", campo: "hobby", etiqueta: "Hobby", opciones: catalogo.gustos.hobby },
+      { seccion: "gustos", campo: "lugar", etiqueta: "Lugar favorito", opciones: catalogo.gustos.lugar },
+    ] },
+  ];
+}
 
 function aValores(pistas: Pistas | null): Record<string, string> {
   if (!pistas) return {};
@@ -44,15 +47,15 @@ function aValores(pistas: Pistas | null): Record<string, string> {
   return Object.fromEntries(Object.entries(plano).map(([campo, valor]) => [campo, campo === "lentes" ? (valor ? "Sí" : "No") : String(valor)]));
 }
 
-function camposFaltantes(valores: Record<string, string>): string[] {
-  const nombres = new Map(grupos.flatMap((grupo) => grupo.campos.map(({ campo, etiqueta }) => [campo, etiqueta] as const)));
+function camposFaltantes(valores: Record<string, string>, catalogo: CatalogoPistas): string[] {
+  const nombres = new Map(gruposPara(catalogo).flatMap((grupo) => grupo.campos.map(({ campo, etiqueta }) => [campo, etiqueta] as const)));
   nombres.set("datoCurioso", "Dato curioso");
   return [...nombres].filter(([campo]) => !valores[campo]?.trim()).map(([, etiqueta]) => etiqueta);
 }
 
-function aPistas(valores: Record<string, string>): Pistas | null {
-  if (camposFaltantes(valores).length) return null;
-  const resultado = esquemaPistas.safeParse({
+function aPistas(valores: Record<string, string>, catalogo: CatalogoPistas): Pistas | null {
+  if (camposFaltantes(valores, catalogo).length) return null;
+  const resultado = crearEsquemaPistas(catalogo).safeParse({
     fisico: {
       altura: valores.altura, complexion: valores.complexion, cabello: valores.cabello,
       lentes: valores.lentes === "Sí", barba: valores.barba,
@@ -75,6 +78,11 @@ export function PanelPistasAdmin({ alGuardar }: { alGuardar?: () => void }) {
   const [guardando, cambiarGuardando] = useState(false);
   const [guardado, cambiarGuardado] = useState(false);
   const [error, cambiarError] = useState("");
+  const [catalogo, cambiarCatalogo] = useState<CatalogoPistas>(CATALOGO_POR_DEFECTO);
+
+  useEffect(() => {
+    void pedir<CatalogoPistas>("/api/catalogo").then(cambiarCatalogo).catch(() => undefined);
+  }, []);
 
   async function cargar() {
     cambiarCarga(true);
@@ -97,6 +105,7 @@ export function PanelPistasAdmin({ alGuardar }: { alGuardar?: () => void }) {
   useEffect(() => { void cargar(); }, []);
 
   const persona = useMemo(() => personas?.find((p) => p.id === seleccion) ?? null, [personas, seleccion]);
+  const grupos = gruposPara(catalogo);
 
   function elegir(id: string) {
     cambiarSeleccion(id);
@@ -114,9 +123,9 @@ export function PanelPistasAdmin({ alGuardar }: { alGuardar?: () => void }) {
 
   async function guardar() {
     if (guardando || !persona) return;
-    const pistas = aPistas(valores);
+    const pistas = aPistas(valores, catalogo);
     if (!pistas) {
-      const faltantes = camposFaltantes(valores);
+      const faltantes = camposFaltantes(valores, catalogo);
       cambiarError(faltantes.length ? `Faltan: ${faltantes.join(", ")}.` : "Revisa las pistas antes de guardar.");
       toast.error("Faltan pistas por corregir.");
       return;
@@ -179,7 +188,7 @@ export function PanelPistasAdmin({ alGuardar }: { alGuardar?: () => void }) {
             <span>Frase que lo describe</span>
             <select value={valores.datoCurioso ?? ""} onChange={(evento) => editar("datoCurioso", evento.target.value)}>
               <option value="">Sin definir</option>
-              {DATOS_CURIOSOS_SUGERIDOS.map((opcion) => <option key={opcion} value={opcion}>{opcion}</option>)}
+              {catalogo.datoCurioso.map((opcion) => <option key={opcion} value={opcion}>{opcion}</option>)}
             </select>
           </label>
         </fieldset>

@@ -3,12 +3,14 @@ import { prisma } from "@/lib/prisma";
 import { requiereAdmin, responderError } from "@/lib/auth";
 import { verificarCierreAutomatico } from "@/lib/evento";
 import { leerPistasCompletas } from "@/lib/validaciones/adivinanza";
+import { leerCatalogo } from "@/lib/catalogo";
 import { LIMITES } from "@/lib/constantes";
 
 export async function GET() {
   try {
     const sesion = await requiereAdmin();
     const actual = await verificarCierreAutomatico(await prisma.evento.findUniqueOrThrow({ where: { id: sesion.eventoId } }));
+    const catalogo = await leerCatalogo();
     const registros = await prisma.participante.findMany({
       where: { eventoId: sesion.eventoId, esAdmin: false }, orderBy: { nombre: "asc" },
       select: { id: true, nombre: true, fotoUrl: true, esAdmin: true, personaSecretaId: true, pistas: { select: { datos: true } }, regaloSeleccionado: { select: { necesidad: { select: { nombre: true } } } }, esPersonaSecretaDe: { select: { id: true } }, _count: { select: { necesidades: true } } },
@@ -17,7 +19,7 @@ export async function GET() {
       id: persona.id, nombre: persona.nombre, fotoUrl: persona.fotoUrl, esAdmin: persona.esAdmin,
       tieneNecesidades: persona._count.necesidades >= LIMITES.MIN_NECESIDADES,
       cantidadNecesidades: persona._count.necesidades,
-      tienePistas: !!persona.pistas && !!leerPistasCompletas(persona.pistas.datos),
+      tienePistas: !!persona.pistas && !!leerPistasCompletas(persona.pistas.datos, catalogo),
       personaSecretaId: persona.personaSecretaId,
       tieneRegaloSeleccionado: !!persona.regaloSeleccionado,
       nombreRegalo: persona.regaloSeleccionado?.necesidad.nombre ?? null,

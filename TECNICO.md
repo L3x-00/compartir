@@ -162,6 +162,8 @@ El guardado de pistas usa `finally` para liberar banderas y lock; `usarSesion` l
 
 Auditoría por capas: la reasignación admin exige evento abierto y usa `updateMany` con `personaSecretaId: null` dentro de transacción; se eliminó `GET /api/pistas/[participanteId]` porque exponía pistas reales; las fotos requieren sesión; los candidatos excluyen al administrador; `/api/fotos/[archivo]` y el borrado de necesidades comprueban también fotos de perfil; la semilla limpia fotos huérfanas y usa el esquema de nombre sin DNI; el DNI ya no se persiste en `localStorage` y el cierre de sesión purga los borradores `cn:*` excepto preferencias de audio.
 
+Catálogo configurable: el modelo `CatalogoPistas` guarda un único registro `principal` con las opciones vigentes; `src/lib/catalogo.ts` lo valida (2–20 opciones por campo, sin duplicados) y `crearEsquemaPistas(catalogo)` construye los `z.enum` en tiempo de ejecución. `GET /api/catalogo` sirve el catálogo a los formularios y `GET/PUT /api/admin/catalogo` permite editarlo y restablecerlo. Cambiar el catálogo invalida las respuestas antiguas que ya no estén en las opciones, conservando el resto de campos.
+
 ### Audio
 - Seis efectos originales: `click`, `error`, `acierto`, `revelacion`, `whoosh`, `encaje` (WAV con alternativa MP3 del mismo nombre).
 - `usarSonido` usa Howler, carga solo archivos existentes y respeta la preferencia de silencio en `cn:silencio`; `usarSilencio` centraliza el estado con `useSyncExternalStore`, localStorage y el evento `cn:sonido`.

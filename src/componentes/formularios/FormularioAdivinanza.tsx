@@ -16,6 +16,8 @@ import { ContadorAnimado } from "@/componentes/ui/ContadorAnimado";
 import { Modal } from "@/componentes/ui/Modal";
 import { Tarjeta } from "@/componentes/ui/Tarjeta";
 import { usarBorrador } from "@/hooks/usarBorrador";
+import { CATALOGO_POR_DEFECTO } from "@/lib/constantes";
+import type { CatalogoPistas } from "@/tipos/catalogo";
 import { usarConfeti } from "@/hooks/usarConfeti";
 import { usarReducirMovimiento } from "@/hooks/usarReducirMovimiento";
 import { usarSonido } from "@/hooks/usarSonido";
@@ -35,6 +37,7 @@ export function FormularioAdivinanza({ cantidadInicial, fechaLimite }: { cantida
   const { reproducir } = usarSonido();
   const { lanzarConfeti } = usarConfeti();
   const [valores, cambiarValores, limpiarBorrador] = usarBorrador<BorradorPistas>("cn:adivinanza-borrador", {});
+  const [catalogo, cambiarCatalogo] = useState<CatalogoPistas>(CATALOGO_POR_DEFECTO);
   const [cantidad, cambiarCantidad] = useState(cantidadInicial);
   const [resultados, cambiarResultados] = useState<ResultadoCoincidencia[] | null>(null);
   const [pasoInicial, cambiarPasoInicial, limpiarPaso] = usarBorrador<number>("cn:adivinanza-paso", 0);
@@ -54,6 +57,10 @@ export function FormularioAdivinanza({ cantidadInicial, fechaLimite }: { cantida
   const solicitud = useRef<AbortController | null>(null);
   const montado = useRef(false);
   const conflicto = !!seleccionado && ocupados.includes(seleccionado.participanteId);
+  useEffect(() => {
+    void pedir<CatalogoPistas>("/api/catalogo").then(cambiarCatalogo).catch(() => undefined);
+  }, []);
+
   useEffect(() => {
     montado.current = true;
     return () => {
@@ -242,7 +249,7 @@ export function FormularioAdivinanza({ cantidadInicial, fechaLimite }: { cantida
         if (nodo && restaurarEditor.current) { restaurarEditor.current = false; nodo.focus(); }
       }} tabIndex={-1} aria-label="Arma el rompecabezas" exit={{ opacity: reducido ? 1 : 0 }}>
         <EditorPistas valores={valores} alEditar={(siguiente) => { cambiarValores(siguiente); cambiarError(""); }}
-          alEnviar={(pistas) => void buscar(pistas)} ocupado={buscando} pasoInicial={pasoInicial} puzzle error={error} />
+          alEnviar={(pistas) => void buscar(pistas)} ocupado={buscando} pasoInicial={pasoInicial} puzzle error={error} catalogo={catalogo} />
       </motion.div>}
     </AnimatePresence>
 

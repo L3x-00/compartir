@@ -5,6 +5,7 @@ import { leerJSON, requiereSesion, requiereEventoAbierto, responderError } from 
 import { esquemaAdivinanzaConfirmar, leerPistasCompletas } from "@/lib/validaciones/adivinanza";
 import { MENSAJES } from "@/lib/constantes";
 import { participacionCompleta } from "@/lib/reglas";
+import { leerCatalogo } from "@/lib/catalogo";
 import { conEventoAbierto } from "@/lib/evento";
 import { repartoCompletable } from "@/lib/reparto";
 
@@ -14,6 +15,7 @@ export async function POST(peticion: Request) {
     await requiereEventoAbierto(sesion.eventoId);
     if (!await participacionCompleta(sesion)) return NextResponse.json({ ok: false, error: MENSAJES.JUEGO_INCOMPLETO }, { status: 403 });
     const { candidatoId } = esquemaAdivinanzaConfirmar.parse(await leerJSON(peticion));
+    const catalogo = await leerCatalogo();
     if (candidatoId === sesion.participanteId) return NextResponse.json({ ok: false, error: "No puedes elegirte a ti mismo." }, { status: 400 });
     const datos = await conEventoAbierto(sesion.eventoId, async (transaccion) => {
       if (!await participacionCompleta(sesion, transaccion)) throw NextResponse.json({ ok: false, error: MENSAJES.JUEGO_INCOMPLETO }, { status: 403 });
@@ -33,7 +35,7 @@ export async function POST(peticion: Request) {
         where: { id: candidatoId, eventoId: sesion.eventoId, esAdmin: false },
         select: { nombre: true, fotoUrl: true, pistas: { select: { datos: true } } },
       });
-      if (!candidato?.pistas || !leerPistasCompletas(candidato.pistas.datos)) throw NextResponse.json({ ok: false, error: "No encontramos a ese participante con pistas completas." }, { status: 404 });
+      if (!candidato?.pistas || !leerPistasCompletas(candidato.pistas.datos, catalogo)) throw NextResponse.json({ ok: false, error: "No encontramos a ese participante con pistas completas." }, { status: 404 });
       const elegido = await transaccion.participante.findFirst({ where: { eventoId: sesion.eventoId, personaSecretaId: candidatoId } });
       if (elegido) throw NextResponse.json({ ok: false, error: "Esa persona ya fue elegida por otro participante. Intenta con otra." }, { status: 409 });
       if (!repartoCompletable(personas, { participanteId: sesion.participanteId, candidatoId })) throw NextResponse.json({ ok: false, error: "Esa elección dejaría a alguien sin destinatario. Elige otro candidato." }, { status: 409 });

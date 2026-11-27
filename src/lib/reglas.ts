@@ -1,6 +1,7 @@
 import type { SesionParticipante } from "@/lib/auth";
 import type { Prisma } from "@prisma/client";
-import { LIMITES } from "@/lib/constantes";
+import { CATALOGO_POR_DEFECTO, LIMITES } from "@/lib/constantes";
+import { validarCatalogo } from "@/lib/catalogo";
 import { prisma } from "@/lib/prisma";
 import { leerPistasCompletas } from "@/lib/validaciones/adivinanza";
 
@@ -11,5 +12,10 @@ export async function participacionCompleta(sesion: SesionParticipante, cliente:
     select: { _count: { select: { necesidades: true } }, pistas: { select: { datos: true } } },
   });
   if (!participante || participante._count.necesidades < LIMITES.MIN_NECESIDADES || !participante.pistas) return false;
-  return Boolean(leerPistasCompletas(participante.pistas.datos));
+  let catalogo = CATALOGO_POR_DEFECTO;
+  try {
+    const fila = await cliente.catalogoPistas.findUnique({ where: { id: "principal" }, select: { datos: true } });
+    if (fila) catalogo = validarCatalogo(JSON.parse(fila.datos));
+  } catch { /* Sin catálogo guardado se usa el por defecto. */ }
+  return Boolean(leerPistasCompletas(participante.pistas.datos, catalogo));
 }

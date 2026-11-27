@@ -1,25 +1,24 @@
-import type { PISTAS_FISICO, PISTAS_PERSONALIDAD, PISTAS_GUSTOS } from "@/lib/constantes";
-
+/** Las opciones salen del catálogo configurable, así que se tipan como texto. */
 export type PistasFisico = {
-  altura: (typeof PISTAS_FISICO.altura)[number];
-  complexion: (typeof PISTAS_FISICO.complexion)[number];
-  cabello: (typeof PISTAS_FISICO.cabello)[number];
+  altura: string;
+  complexion: string;
+  cabello: string;
   lentes: boolean;
-  barba: (typeof PISTAS_FISICO.barba)[number];
+  barba: string;
 };
 
 export type PistasPersonalidad = {
-  social: (typeof PISTAS_PERSONALIDAD.social)[number];
-  humor: (typeof PISTAS_PERSONALIDAD.humor)[number];
-  puntualidad: (typeof PISTAS_PERSONALIDAD.puntualidad)[number];
-  energia: (typeof PISTAS_PERSONALIDAD.energia)[number];
+  social: string;
+  humor: string;
+  puntualidad: string;
+  energia: string;
 };
 
 export type PistasGustos = {
-  comida: (typeof PISTAS_GUSTOS.comida)[number];
-  musica: (typeof PISTAS_GUSTOS.musica)[number];
-  hobby: (typeof PISTAS_GUSTOS.hobby)[number];
-  lugar: (typeof PISTAS_GUSTOS.lugar)[number];
+  comida: string;
+  musica: string;
+  hobby: string;
+  lugar: string;
 };
 
 export type Pistas = {

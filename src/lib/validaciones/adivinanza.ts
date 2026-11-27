@@ -1,9 +1,15 @@
 import { z } from "zod";
-import { esquemaPistas } from "./pistas";
+import { CATALOGO_POR_DEFECTO } from "@/lib/constantes";
+import type { CatalogoPistas } from "@/tipos/catalogo";
+import { crearEsquemaPistas } from "./pistas";
 
-export const esquemaAdivinanza = z.object({
-  seleccion: esquemaPistas,
-}, { required_error: "Completa tu selección de pistas.", invalid_type_error: "Revisa tu selección de pistas." });
+export function crearEsquemaAdivinanza(catalogo: CatalogoPistas = CATALOGO_POR_DEFECTO) {
+  return z.object({
+    seleccion: crearEsquemaPistas(catalogo),
+  }, { required_error: "Completa tu selección de pistas.", invalid_type_error: "Revisa tu selección de pistas." });
+}
+
+export const esquemaAdivinanza = crearEsquemaAdivinanza();
 
 export const esquemaConfirmacion = z.object({
   candidatoId: z.string({ required_error: "Elige una persona antes de confirmar.", invalid_type_error: "Selecciona una persona válida." })
@@ -13,27 +19,26 @@ export const esquemaConfirmacion = z.object({
 export type DatosAdivinanza = z.infer<typeof esquemaAdivinanza>;
 export type DatosConfirmacion = z.infer<typeof esquemaConfirmacion>;
 
-// Nombres usados por las rutas del juego; mantiene los exports del prompt anterior.
 export const esquemaAdivinanzaSeleccion = esquemaAdivinanza;
 export const esquemaAdivinanzaConfirmar = esquemaConfirmacion;
 
-export function leerPistasCompletas(datos: string) {
+export function leerPistasCompletas(datos: string, catalogo: CatalogoPistas = CATALOGO_POR_DEFECTO) {
   try {
-    const resultado = esquemaPistas.safeParse(JSON.parse(datos));
+    const resultado = crearEsquemaPistas(catalogo).safeParse(JSON.parse(datos));
     return resultado.success ? resultado.data : null;
   } catch {
     return null;
   }
 }
 
-// Las pistas antiguas se pueden editar sin perder los otros trece campos.
-// Un dato libre nunca se convierte silenciosamente en una opción del catálogo.
-export function leerPistasParaEditar(datos: string) {
+/** Las pistas antiguas se pueden editar sin perder los otros trece campos. */
+export function leerPistasParaEditar(datos: string, catalogo: CatalogoPistas = CATALOGO_POR_DEFECTO) {
   try {
     const entrada: unknown = JSON.parse(datos);
-    const completas = esquemaPistas.safeParse(entrada);
+    const esquema = crearEsquemaPistas(catalogo);
+    const completas = esquema.safeParse(entrada);
     if (completas.success) return completas.data;
-    const anteriores = esquemaPistas.omit({ datoCurioso: true }).safeParse(entrada);
+    const anteriores = esquema.omit({ datoCurioso: true }).safeParse(entrada);
     return anteriores.success ? { ...anteriores.data, datoCurioso: "" } : null;
   } catch { return null; }
 }

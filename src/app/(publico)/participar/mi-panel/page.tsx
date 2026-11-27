@@ -6,6 +6,7 @@ import { GestionarRegalo } from "@/componentes/formularios/GestionarRegalo";
 import { AvatarPersona } from "@/componentes/ui/AvatarPersona";
 import { prisma } from "@/lib/prisma";
 import { leerPistasCompletas } from "@/lib/validaciones/adivinanza";
+import { leerCatalogo } from "@/lib/catalogo";
 import { LIMITES } from "@/lib/constantes";
 import { sesionParticipante } from "../datos";
 
@@ -32,7 +33,8 @@ export default async function PaginaMiPanel({ searchParams }: { searchParams: Pr
   const necesidadesDestino = persona.personaSecretaId ? await prisma.necesidad.findMany({
     where: { participanteId: persona.personaSecretaId }, orderBy: { creadoEn: "asc" }, select: { id: true, nombre: true },
   }) : [];
-  const pistas = persona.pistas ? leerPistasCompletas(persona.pistas.datos) : null;
+  const catalogo = await leerCatalogo();
+  const pistas = persona.pistas ? leerPistasCompletas(persona.pistas.datos, catalogo) : null;
   const rasgos = pistas ? [
     ["Altura", pistas.fisico.altura], ["Cabello", pistas.fisico.cabello],
     ["Social", pistas.personalidad.social], ["Humor", pistas.personalidad.humor],

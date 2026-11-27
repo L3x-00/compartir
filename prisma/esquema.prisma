@@ -90,6 +90,12 @@ model RegaloSeleccionado {
   necesidad    Necesidad    @relation(fields: [necesidadId], references: [id], onDelete: Cascade)
 }
 
+model CatalogoPistas {
+  id            String   @id @default("principal")
+  datos         String
+  actualizadoEn DateTime @updatedAt
+}
+
 model IntentoAdivinanza {
   id             String   @id @default(cuid())
   participanteId String

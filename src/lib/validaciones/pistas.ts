@@ -1,5 +1,6 @@
 import { z } from "zod";
-import { PISTAS_FISICO, PISTAS_PERSONALIDAD, PISTAS_GUSTOS, DATOS_CURIOSOS_SUGERIDOS } from "@/lib/constantes";
+import { CATALOGO_POR_DEFECTO } from "@/lib/constantes";
+import type { CatalogoPistas } from "@/tipos/catalogo";
 import type { Pistas } from "@/tipos/pistas";
 
 const mensajeOpcion = { errorMap: () => ({ message: "Elige una de las opciones disponibles." }) };
@@ -8,25 +9,28 @@ const mensajeCategoria = {
   invalid_type_error: "Revisa las opciones de esta categoría.",
 };
 
-export const esquemaPistas = z.object({
-  fisico: z.object({
-    altura: z.enum(PISTAS_FISICO.altura, mensajeOpcion),
-    complexion: z.enum(PISTAS_FISICO.complexion, mensajeOpcion),
-    cabello: z.enum(PISTAS_FISICO.cabello, mensajeOpcion),
-    lentes: z.boolean({ required_error: "Indica si usas lentes.", invalid_type_error: "Elige sí o no para el uso de lentes." }),
-    barba: z.enum(PISTAS_FISICO.barba, mensajeOpcion),
-  }, mensajeCategoria),
-  personalidad: z.object({
-    social: z.enum(PISTAS_PERSONALIDAD.social, mensajeOpcion),
-    humor: z.enum(PISTAS_PERSONALIDAD.humor, mensajeOpcion),
-    puntualidad: z.enum(PISTAS_PERSONALIDAD.puntualidad, mensajeOpcion),
-    energia: z.enum(PISTAS_PERSONALIDAD.energia, mensajeOpcion),
-  }, mensajeCategoria),
-  gustos: z.object({
-    comida: z.enum(PISTAS_GUSTOS.comida, mensajeOpcion),
-    musica: z.enum(PISTAS_GUSTOS.musica, mensajeOpcion),
-    hobby: z.enum(PISTAS_GUSTOS.hobby, mensajeOpcion),
-    lugar: z.enum(PISTAS_GUSTOS.lugar, mensajeOpcion),
-  }, mensajeCategoria),
-  datoCurioso: z.enum(DATOS_CURIOSOS_SUGERIDOS, mensajeOpcion),
-}, { required_error: "Completa tus pistas.", invalid_type_error: "Revisa los datos de tus pistas." }) satisfies z.ZodType<Pistas>;
+function opciones(valores: string[]) {
+  return z.enum(valores as [string, ...string[]], mensajeOpcion);
+}
+
+/** El catálogo puede cambiar en el panel, así que el esquema se construye con él. */
+export function crearEsquemaPistas(catalogo: CatalogoPistas = CATALOGO_POR_DEFECTO) {
+  return z.object({
+    fisico: z.object({
+      altura: opciones(catalogo.fisico.altura), complexion: opciones(catalogo.fisico.complexion),
+      cabello: opciones(catalogo.fisico.cabello), lentes: z.boolean({ required_error: "Indica si usas lentes.", invalid_type_error: "Elige sí o no para el uso de lentes." }),
+      barba: opciones(catalogo.fisico.barba),
+    }, mensajeCategoria),
+    personalidad: z.object({
+      social: opciones(catalogo.personalidad.social), humor: opciones(catalogo.personalidad.humor),
+      puntualidad: opciones(catalogo.personalidad.puntualidad), energia: opciones(catalogo.personalidad.energia),
+    }, mensajeCategoria),
+    gustos: z.object({
+      comida: opciones(catalogo.gustos.comida), musica: opciones(catalogo.gustos.musica),
+      hobby: opciones(catalogo.gustos.hobby), lugar: opciones(catalogo.gustos.lugar),
+    }, mensajeCategoria),
+    datoCurioso: z.enum(catalogo.datoCurioso as [string, ...string[]], mensajeOpcion),
+  }, { required_error: "Completa tus pistas.", invalid_type_error: "Revisa los datos de tus pistas." }) satisfies z.ZodType<Pistas>;
+}
+
+export const esquemaPistas = crearEsquemaPistas();

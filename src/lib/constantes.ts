@@ -1,3 +1,5 @@
+import type { CatalogoPistas } from "@/tipos/catalogo";
+
 export const CATEGORIAS_PISTAS = {
   fisico: "Rasgos físicos",
   personalidad: "Personalidad",
@@ -39,6 +41,22 @@ export const DATOS_CURIOSOS_SUGERIDOS = [
   "Puedo pasar horas hablando de recetas.",
   "Decoro la casa apenas empieza diciembre.",
 ] as const;
+
+export const CATALOGO_POR_DEFECTO: CatalogoPistas = {
+  fisico: {
+    altura: [...PISTAS_FISICO.altura], complexion: [...PISTAS_FISICO.complexion],
+    cabello: [...PISTAS_FISICO.cabello], barba: [...PISTAS_FISICO.barba],
+  },
+  personalidad: {
+    social: [...PISTAS_PERSONALIDAD.social], humor: [...PISTAS_PERSONALIDAD.humor],
+    puntualidad: [...PISTAS_PERSONALIDAD.puntualidad], energia: [...PISTAS_PERSONALIDAD.energia],
+  },
+  gustos: {
+    comida: [...PISTAS_GUSTOS.comida], musica: [...PISTAS_GUSTOS.musica],
+    hobby: [...PISTAS_GUSTOS.hobby], lugar: [...PISTAS_GUSTOS.lugar],
+  },
+  datoCurioso: [...DATOS_CURIOSOS_SUGERIDOS],
+};
 
 export const MENSAJES = {
   SESION_EXPIRADA: "Tu sesión expiró. Vuelve a ingresar.",
