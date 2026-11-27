@@ -191,7 +191,7 @@ export default function PaginaIngreso() {
   }, [errorDni, enviando]);
 
   const fotoOpcional = !admin && !!reingreso?.existe && reingreso.fotoOpcional;
-  return <><Encabezado /><main id="contenido" className="pagina-ingreso"><div className="contenedor ingreso-rejilla">
+  return <><Encabezado /><main id="contenido" className={admin ? "pagina-ingreso ingreso-admin" : "pagina-ingreso"}><div className="contenedor ingreso-rejilla">
     <div className="ingreso-ambiente">
       <p className="display">Aquí empieza<br /><span className="texto-dorado">tu secreto.</span></p>
       <p>Comparte tus deseos y prepara una sorpresa para alguien de la familia.</p>

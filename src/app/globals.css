@@ -146,6 +146,20 @@ h2{font-size:clamp(2.4rem,5vw,3.7rem);font-weight:700;margin-bottom:1.4rem}h3{li
 .avance-automatico .boton{min-height:44px;padding:.35rem .65rem;font-size:.8rem}
 .ingreso-volver{margin-top:1.2rem;display:flex;align-items:center;justify-content:center}.ingreso-volver a,.ingreso-volver button{min-height:44px;display:inline-flex;align-items:center;gap:.4rem;color:var(--texto-suave);font-size:.85rem;border:0;background:transparent;padding:.4rem .8rem}
 .ingreso-formulario .campo + .campo{margin-top:1rem}.ingreso-enlaces{flex-wrap:wrap;gap:.15rem .5rem}
+/* Modo operador: tarjeta centrada y compacta para evitar scroll en escritorio. */
+.ingreso-admin{padding-block:1rem}
+.ingreso-admin .ingreso-rejilla{grid-template-columns:minmax(0,32rem);max-width:32rem;gap:0}
+.ingreso-admin .ingreso-ambiente{display:none}
+.ingreso-admin .ingreso-tarjeta{padding:clamp(1rem,2vw,1.5rem)}
+.ingreso-admin .ingreso-tarjeta h1{font-size:clamp(1.8rem,3vw,2.4rem);margin:.2rem 0 .5rem}
+.ingreso-admin .ingreso-tarjeta>p{margin-bottom:.6rem;font-size:.9rem}
+.ingreso-admin .ingreso-formulario{margin-top:.6rem}
+.ingreso-admin .ingreso-formulario .campo input{min-height:52px;padding-top:1.1rem}
+.ingreso-admin .ingreso-formulario .campo-pin input{min-height:56px;padding-block:1.1rem .4rem;font-size:1.5rem;letter-spacing:.8rem}
+.ingreso-admin .ingreso-formulario .campo label{top:.85rem}
+.ingreso-admin .ingreso-formulario .campo-error{margin-top:.35rem;font-size:.8rem}
+.ingreso-admin .ingreso-formulario .boton{margin-top:.7rem;min-height:46px}
+.ingreso-admin .ingreso-volver{margin-top:.6rem}
 .estado-ingreso{text-align:center;padding:2.5rem .5rem}.estado-ingreso>svg{color:var(--color-navidad-dorado-claro);margin:0 auto 1rem}.estado-ingreso p{margin-top:1rem}
 .ingreso-exito{display:flex;justify-content:center;align-items:center;gap:.55rem;margin-top:1rem;padding:.7rem;background:var(--color-navidad-verde);border-radius:.75rem;color:var(--color-navidad-nieve)}
 .pin-privado{display:inline-flex;align-items:center;gap:.4rem;margin-top:1rem;color:var(--texto-suave);font-size:.75rem}
@@ -169,7 +183,7 @@ html[data-movimiento="pausado"]{scroll-behavior:auto}html[data-oculto="true"] *{
 @media(max-width:768px){
  .hero{padding-top:2.5rem}.hero-rejilla{grid-template-columns:1fr;text-align:center;min-height:auto}.hero h1{font-size:clamp(3.7rem,12.5vw,5.5rem)}.hero-subtitulo{margin-inline:auto;max-width:30ch}.hero-confianza{justify-content:center;font-size:.75rem}
  .escena-regalo{max-width:370px;margin-top:1.5rem}.hero .escena-regalo{aspect-ratio:1.2/1}.hero .regalo{inset:-7% 0 0}.indicador-scroll{margin-top:1.8rem}
- .reglas-rejilla{grid-template-columns:1fr;gap:2rem}.reglas-intro h2{max-width:15ch}.ingreso-rejilla{grid-template-columns:1fr;max-width:480px}.ingreso-ambiente{display:none}.pagina-ingreso{padding-block:2rem}
+ .reglas-rejilla{grid-template-columns:1fr;gap:2rem}.reglas-intro h2{max-width:15ch}.ingreso-rejilla{grid-template-columns:1fr;max-width:480px}.ingreso-ambiente{display:none}.pagina-ingreso{padding-block:2rem}.ingreso-admin{padding-block:1rem}
  .enlace-como,.nombre-sesion{display:none}.enlace-ingresar{margin:0;padding-inline:.6rem}.encabezado-acciones{gap:.1rem}.marca{font-size:.8rem;gap:.45rem}.marca img{width:33px;height:33px}.control-icono{min-width:44px}
  .pie-interior{justify-content:center}.pie-interior>svg{display:none}.pie-marca{width:100%;justify-content:center}
 }
