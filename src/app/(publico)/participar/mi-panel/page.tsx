@@ -6,6 +6,7 @@ import { GestionarRegalo } from "@/componentes/formularios/GestionarRegalo";
 import { SelectorSiguientePaso } from "@/componentes/navideno/SelectorSiguientePaso";
 import { AvatarPersona } from "@/componentes/ui/AvatarPersona";
 import { prisma } from "@/lib/prisma";
+import { contarRespondidas } from "@/lib/progreso";
 import { leerPistasCompletas } from "@/lib/validaciones/adivinanza";
 import { leerCatalogo } from "@/lib/catalogo";
 import { LIMITES } from "@/lib/constantes";
@@ -42,8 +43,7 @@ export default async function PaginaMiPanel({ searchParams }: { searchParams: Pr
     ["Comida", pistas.gustos.comida], ["Música", pistas.gustos.musica],
     ["Dato curioso", pistas.datoCurioso],
   ] : [];
-  const respondidas = pistas ? Object.values({ ...pistas.fisico, ...pistas.personalidad, ...pistas.gustos, datoCurioso: pistas.datoCurioso })
-    .filter((valor) => valor !== undefined && valor !== null && String(valor).trim() !== "").length : 0;
+  const respondidas = contarRespondidas(pistas);
   const regalo = persona.regaloSeleccionado?.necesidad ?? null;
   const destinatario = sesion.tieneRegaloSeleccionado ? persona.personaSecreta?.nombre ?? null : null;
   const recibe = sesion.evento.cerrado ? persona.esPersonaSecretaDe : null;

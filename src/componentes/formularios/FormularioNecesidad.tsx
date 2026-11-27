@@ -259,12 +259,11 @@ export function FormularioNecesidad({ iniciales, respondidas = 0, pistasCompleta
       </div>
     </div>
 
-    <div className="continuar-necesidades">
-      {faltan ? <><p id="ayuda-continuar" className="ayuda-participante">Agrega {faltan === 1 ? "una necesidad más" : `${faltan} necesidades más`} para avanzar.</p>
-        <Boton variante="dorado" icono={ArrowRight} aria-describedby="ayuda-continuar" aria-disabled
-          onClick={() => { toast.error(`Agrega ${faltan === 1 ? "una necesidad más" : `${faltan} necesidades más`} para avanzar.`); reproducir("error"); }}>Continuar a pistas</Boton></>
-        : <SelectorSiguientePaso pistasCompletas={pistasCompletas} respondidas={respondidas} />}
-    </div>
+    {faltan ? <div className="continuar-necesidades">
+      <p id="ayuda-continuar" className="ayuda-participante">Agrega {faltan === 1 ? "una necesidad más" : `${faltan} necesidades más`} para avanzar.</p>
+      <Boton variante="dorado" icono={ArrowRight} aria-describedby="ayuda-continuar" aria-disabled
+        onClick={() => { toast.error(`Agrega ${faltan === 1 ? "una necesidad más" : `${faltan} necesidades más`} para avanzar.`); reproducir("error"); }}>Continuar a pistas</Boton>
+    </div> : <SelectorSiguientePaso pistasCompletas={pistasCompletas} respondidas={respondidas} />}
 
     <Modal abierto={modal === "editar"} titulo={seleccionada ? "Editar necesidad" : "Agregar necesidad"} alCerrar={cerrar} cerrable={!ocupado}
       alTerminarCierre={() => { if (recuperarFoco.current) { recuperarFoco.current = false; botonAgregar.current?.focus(); } }}>

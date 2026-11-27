@@ -106,6 +106,7 @@
 .selector-tarjeta-bloqueada .boton { width: 100%; margin-top: auto; }
 .selector-secundario { background: color-mix(in srgb, var(--superficie) 60%, transparent); }
 .selector-elegido { border-color: var(--color-navidad-dorado); }
+.selector-aviso { margin: .4rem 0; color: var(--color-navidad-dorado-claro); font-weight: 700; }
 .estado-participante p { color: var(--texto-suave); max-width: 54ch; }
 .estado-participante > svg { color: var(--color-navidad-dorado-claro); }
 .regalo-vacio { width: 8rem; margin-top: -1.5rem; }

@@ -256,7 +256,7 @@ export function FormularioPistas({ iniciales, version, claveBorrador, motivo }: 
     <header className="titulo-participante">
       <h1>Tus pistas</h1>
       <p>Elige lo que mejor te describe. Tus respuestas ayudarán a que alguien de la familia te encuentre.</p>
-      {motivo && <p className="error-participante" role="status">{motivo}</p>}
+      {motivo && <p className="selector-aviso" role="status">{motivo}</p>}
     </header>
     {guardadas ? <div className="panel-participante estado-participante" role="status" tabIndex={-1} ref={(nodo) => nodo?.focus()}>
       <svg width="68" height="68" viewBox="0 0 40 40" fill="none" aria-hidden="true">
