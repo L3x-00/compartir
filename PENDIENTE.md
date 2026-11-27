@@ -1,7 +1,7 @@
 # Compartir Navideño — Pendiente
 
 > Tareas abiertas y limitaciones conocidas. Estado funcional: [ESTADO.md](ESTADO.md) · Detalle técnico: [TECNICO.md](TECNICO.md)
-> Actualizado: 25 de noviembre de 2026.
+> Actualizado: 26 de noviembre de 2026.
 
 ---
 
@@ -10,8 +10,9 @@
 | Pendiente | Por qué importa | Cómo cerrarlo |
 |---|---|---|
 | **Revisión visual real en navegador** a 320, 375, 768, 1024 y 1440 px. | El Sprint A pasó validación funcional sobre base temporal, pero sigue sin acreditar contraste renderizado, solapamientos ni comportamiento táctil. | Abrir `npm run dev` en Chromium y revisar todas las rutas del [ESTADO.md](ESTADO.md) en esos anchos, con teclado y movimiento reducido. Incluir el registro con DNI, el error amigable de DNI incorrecto, el panel del participante, cambiar/quitar regalo, la revelación animada con foto al confirmar, el carrusel de renos, las chispas del regalo, el avance cancelable y la revelación personal. |
-| **Prueba del recorrido completo en el servicio de prueba** (ingreso, foto, pistas, adivinanza, regalo, cierre y revelación). | El recorrido se validó contra API y SQLite local, no en el entorno de despliegue. | Desplegar en Railway con volumen propio y ejecutar el guion de la sección «Guía rápida» que había en el antiguo reporte: preparar evento, entrar con participante, cerrar y comprobar carta y pendientes. |
-| **Persistencia real en Railway**. | El volumen y las variables aún no se han ejercitado con datos de la familia. | Verificar que las fotos sobreviven a un redeploy y que `db:preparar` conserva registros y credenciales. |
+| ✅ Despliegue en Railway y smoke test de producción | `https://compartir-production.up.railway.app` responde: `/` y `/ingresar` 200, API pública 200, assets 200, login admin 200 con PIN real, panel y revelación 200 con cookie, rutas protegidas sin sesión 307/401, fotos sin sesión 401 y con sesión 404, errores amigables y cookie `Secure; HttpOnly; SameSite=lax`. | — |
+| **Prueba del recorrido completo con datos de la familia** (registro con DNI, foto, pistas, adivinanza, regalo, cierre y revelación). | El smoke test no creó participantes en producción; el recorrido completo se validó contra API y SQLite local. | Ejecutar el guion con 3–5 familiares reales en la URL de Railway. |
+| **Persistencia real en Railway**. | El volumen y las variables están configurados, pero aún no se ha verificado con un redeploy y datos reales. | Subir una foto, hacer redeploy y comprobar que la foto y la base siguen ahí; verificar que `db:preparar` conserva registros y credenciales. |
 | ✅ Auditoría por capas | Permisos, backend, frontend y persistencia revisados. Corregidos reasignación sobre asignaciones confirmadas, exposición de pistas reales, fotos sin sesión, admin como candidato, valores obsoletos tras guardar, DNI en `localStorage` y limpieza de borradores al salir. Verificado con dev server, tipos y 7/7 pruebas. No se ejecutó build completo por estar el dev abierto. | — |
 
 ## Prioridad media
